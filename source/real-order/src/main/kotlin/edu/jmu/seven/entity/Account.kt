@@ -2,9 +2,6 @@ package edu.jmu.seven.entity
 
 import com.baomidou.mybatisplus.annotation.TableName
 import com.fasterxml.jackson.annotation.JsonIgnore
-import edu.jmu.seven.mapper.RoleMapper
-import net.sf.jsqlparser.statement.grant.Grant
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -12,11 +9,6 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 /**
- *
- *
- *
- *
- *
  * @author Seven
  * @since 2021-07-16
  */

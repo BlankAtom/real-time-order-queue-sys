@@ -2,9 +2,6 @@ package edu.jmu.seven.service
 
 import edu.jmu.seven.entity.Account
 import edu.jmu.seven.utils.ResponseUserToken
-import eu.bitwalker.useragentutils.UserAgent
-import org.springframework.stereotype.Repository
-import org.springframework.stereotype.Service
 
 /**
  * <p></p>

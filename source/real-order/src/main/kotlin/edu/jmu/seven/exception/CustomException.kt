@@ -1,8 +1,5 @@
 package edu.jmu.seven.exception
 
-import java.io.Serializable
-import java.lang.RuntimeException
-
 /**
  * <p></p>
  * @author github/blackswords

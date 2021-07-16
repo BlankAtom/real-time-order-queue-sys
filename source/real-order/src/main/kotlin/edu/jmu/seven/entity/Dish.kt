@@ -5,11 +5,6 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 /**
- *
- *
- *
- *
- *
  * @author Seven
  * @since 2021-07-16
  */

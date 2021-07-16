@@ -4,11 +4,6 @@ import com.baomidou.mybatisplus.annotation.TableName
 import java.io.Serializable
 
 /**
- *
- *
- *
- *
- *
  * @author Seven
  * @since 2021-07-16
  */
