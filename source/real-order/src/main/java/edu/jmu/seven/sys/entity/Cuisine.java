@@ -1,12 +1,14 @@
 package edu.jmu.seven.sys.entity;
 
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Seven
@@ -41,8 +43,8 @@ public class Cuisine implements Serializable {
     @Override
     public String toString() {
         return "Cuisine{" +
-        "code=" + code +
-        ", name=" + name +
-        "}";
+                "code=" + code +
+                ", name=" + name +
+                "}";
     }
 }

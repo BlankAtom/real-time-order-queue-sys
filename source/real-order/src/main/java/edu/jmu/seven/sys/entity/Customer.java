@@ -2,12 +2,14 @@ package edu.jmu.seven.sys.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author Seven
@@ -72,11 +74,11 @@ public class Customer implements Serializable {
     @Override
     public String toString() {
         return "Customer{" +
-        "c_id=" + c_id +
-        ", c_name=" + c_name +
-        ", c_phone=" + c_phone +
-        ", created_at=" + created_at +
-        ", updated_at=" + updated_at +
-        "}";
+                "c_id=" + c_id +
+                ", c_name=" + c_name +
+                ", c_phone=" + c_phone +
+                ", created_at=" + created_at +
+                ", updated_at=" + updated_at +
+                "}";
     }
 }

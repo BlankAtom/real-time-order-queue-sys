@@ -2,6 +2,8 @@ package edu.jmu.seven.sys.entity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

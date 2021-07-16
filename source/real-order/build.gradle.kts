@@ -45,6 +45,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
     implementation("com.baomidou:mybatis-plus-boot-starter:3.4.3.1")
+    implementation("io.swagger:swagger-annotations:1.6.2")
+    testImplementation("binaryage:devtools:1.0.3")
+
 }
 
 tasks.withType<KotlinCompile> {
