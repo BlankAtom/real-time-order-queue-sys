@@ -1,6 +1,6 @@
 package edu.jmu.seven.sys.mapper;
 
-import edu.jmu.seven.sys.entity.Cuisine;
+import edu.jmu.seven.entity.Cuisine;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 
