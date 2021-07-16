@@ -26,9 +26,18 @@ repositories {
 }
 
 dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
-    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
-    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+// https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations
+    implementation("io.swagger.core.v3:swagger-annotations:2.1.10")
+    // https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-generator
+    implementation("com.baomidou:mybatis-plus-generator:3.5.0")
+    // https://mvnrepository.com/artifact/org.mybatis/mybatis
+    implementation("org.mybatis:mybatis:3.5.7")
+// https://mvnrepository.com/artifact/org.apache.velocity/velocity-engine-core
+    implementation("org.apache.velocity:velocity-engine-core:2.3")
+
+//    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
+//    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+//    implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -36,7 +45,10 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0")
+    // https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter
+    implementation("com.baomidou:mybatis-plus-boot-starter:3.4.3.1")
+
+    implementation("org.projectlombok:lombok:1.18.18")
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
