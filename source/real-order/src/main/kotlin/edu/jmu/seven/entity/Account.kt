@@ -1,6 +1,6 @@
 package edu.jmu.seven.entity
 
-import com.baomidou.mybatisplus.annotation.TableName
+import com.baomidou.mybatisplus.annotation.*
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
@@ -15,12 +15,20 @@ import java.time.LocalDateTime
 
 @TableName("vocation.account")
 class Account(
-    private var username: String ,
-    private var password: String ,
-    var auth_id: Int ,
-    var created_at: LocalDateTime ,
-    var updated_at: LocalDateTime ,
+    @TableId("username")
+    private var username: String,
+    private var password: String,
+    var auth_id: Int,
 ) : Serializable, UserDetails {
+
+    @TableField(fill = FieldFill.INSERT)
+    var created_at: LocalDateTime = LocalDateTime.now()
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    var updated_at: LocalDateTime = LocalDateTime.now()
+    @TableLogic
+    var deleted: Int = 0
+    @Version
+    var version: Int = 1
 
     override fun toString(): String {
         return "Account{" +
