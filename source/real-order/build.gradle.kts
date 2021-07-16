@@ -26,11 +26,11 @@ repositories {
 dependencies {
 
     // https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-generator
-    implementation("com.baomidou:mybatis-plus-generator:3.5.0")
+//    implementation("com.baomidou:mybatis-plus-generator:3.5.0")
     // https://mvnrepository.com/artifact/org.mybatis/mybatis
     implementation("org.mybatis:mybatis:3.5.7")
     // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
-    implementation("org.springdoc:springdoc-openapi-ui:1.5.9")
+//    implementation("org.springdoc:springdoc-openapi-ui:1.5.9")
 
 //    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
 //    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
@@ -45,14 +45,24 @@ dependencies {
     // https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter
     implementation("com.baomidou:mybatis-plus-boot-starter:3.4.3.1")
 
+    // Lombok
     implementation("org.projectlombok:lombok:1.18.18")
     compileOnly("org.projectlombok:lombok")
-    developmentOnly("org.springframework.boot:spring-boot-devtools")
-    runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.springframework.security:spring-security-test")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+
+    runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
+
+//    developmentOnly("org.springframework.boot:spring-boot-devtools")
+    // https://mvnrepository.com/artifact/eu.bitwalker/UserAgentUtils
+    // 浏览器解析
+    implementation("eu.bitwalker:UserAgentUtils:1.21")
+    // FastJson
+    implementation("com.alibaba:fastjson:1.2.76")
+
+
 }
 
 tasks.withType<KotlinCompile> {
