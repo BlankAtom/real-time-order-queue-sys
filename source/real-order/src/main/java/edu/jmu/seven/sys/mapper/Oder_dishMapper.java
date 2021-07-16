@@ -1,7 +1,7 @@
 package edu.jmu.seven.sys.mapper;
 
-import edu.jmu.seven.sys.entity.Oder_dish;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import edu.jmu.seven.entity.OrderDish;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author Seven
  * @since 2021-07-16
  */
-public interface Oder_dishMapper extends BaseMapper<Oder_dish> {
+public interface Oder_dishMapper extends BaseMapper<OrderDish> {
 
 }

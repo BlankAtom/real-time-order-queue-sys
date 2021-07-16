@@ -1,6 +1,6 @@
 package edu.jmu.seven.sys.mapper;
 
-import edu.jmu.seven.sys.entity.Account;
+import edu.jmu.seven.entity.Account;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

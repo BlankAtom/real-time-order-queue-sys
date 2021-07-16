@@ -6,8 +6,6 @@ plugins {
     id("io.spring.dependency-management") version "1.0.11.RELEASE"
     kotlin("jvm") version "1.5.20"
     kotlin("plugin.spring") version "1.5.20"
-    id("org.springframework.experimental.aot") version "0.10.1"
-    id("org.graalvm.buildtools.native") version "0.9.1"
 }
 
 group = "edu.jmu.seven"
@@ -21,19 +19,18 @@ configurations {
 }
 
 repositories {
-    maven { url = uri("https://repo.spring.io/release") }
-    mavenCentral()
+    maven { url = uri("https://maven.aliyun.com/nexus/content/groups/public/") }
+    google()
 }
 
 dependencies {
-// https://mvnrepository.com/artifact/io.swagger.core.v3/swagger-annotations
-    implementation("io.swagger.core.v3:swagger-annotations:2.1.10")
+
     // https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-generator
     implementation("com.baomidou:mybatis-plus-generator:3.5.0")
     // https://mvnrepository.com/artifact/org.mybatis/mybatis
     implementation("org.mybatis:mybatis:3.5.7")
-// https://mvnrepository.com/artifact/org.apache.velocity/velocity-engine-core
-    implementation("org.apache.velocity:velocity-engine-core:2.3")
+    // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
+    implementation("org.springdoc:springdoc-openapi-ui:1.5.9")
 
 //    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
 //    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
