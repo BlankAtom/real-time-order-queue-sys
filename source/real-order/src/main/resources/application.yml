@@ -1,7 +1,7 @@
 spring:
   datasource:
-    username: root
-    password: woshih
+    username: seven
+    password: 12345678
     url: jdbc:mariadb://159.75.90.116:3306/s_t?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
     driver-class-name: org.mariadb.jdbc.Driver
 

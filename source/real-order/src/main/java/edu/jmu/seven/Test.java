@@ -1,3 +1,5 @@
+package edu.jmu.seven;
+
 /**
  * <p>测试类</p>
  * @author LQH
