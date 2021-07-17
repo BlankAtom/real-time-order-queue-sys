@@ -36,8 +36,6 @@ class OrderWebSecurity(
             .antMatchers("/hello", "/api/login", "/api/register", "/error/*")
             .permitAll()
             .anyRequest().authenticated()
-//            .and()
-
     }
 
     override fun configure(auth: AuthenticationManagerBuilder?) {
