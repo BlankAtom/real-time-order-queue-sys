@@ -51,7 +51,7 @@ const layoutMap = [
     {
         path: "player",
         name: "Player",
-        meta: { title: "视频播放", icon: "el-icon-video-camera-solid" },
+        meta: { title: "查看菜品", icon: "el-icon-video-camera-solid" },
         component: () => import("../views/common/XGPlayer.vue")
     },
     {
