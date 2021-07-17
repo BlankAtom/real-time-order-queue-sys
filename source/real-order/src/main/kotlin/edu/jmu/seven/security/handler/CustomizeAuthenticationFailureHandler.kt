@@ -1,4 +1,4 @@
-package edu.jmu.seven.handler
+package edu.jmu.seven.security.handler
 
 import com.alibaba.fastjson.JSON
 import edu.jmu.seven.config.ResultCode

@@ -1,9 +1,7 @@
-package edu.jmu.seven.handler
+package edu.jmu.seven.security.handler
 
 import com.alibaba.fastjson.JSON
-import edu.jmu.seven.entity.PermitUser
 import edu.jmu.seven.mapper.AccountMapper
-import edu.jmu.seven.service.impl.UserService
 import edu.jmu.seven.utils.ResultTool.success
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.Authentication
@@ -11,9 +9,6 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler
 import org.springframework.stereotype.Component
-import java.io.IOException
-import java.util.*
-import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 

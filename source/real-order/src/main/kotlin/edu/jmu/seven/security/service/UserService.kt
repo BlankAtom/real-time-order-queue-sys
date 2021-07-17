@@ -1,4 +1,4 @@
-package edu.jmu.seven.service.impl
+package edu.jmu.seven.security.service
 
 import edu.jmu.seven.entity.PermitUser
 import edu.jmu.seven.mapper.AccountMapper
@@ -27,6 +27,11 @@ class UserService : UserDetailsService{
         val uc = customerMapper.selectByName(username?:"")
         val pu = PermitUser(username!!, ua.password, uc.c_phone)
         pu.setAuthorities(ua.auth)
-        return User(ua.username, ua.password, pu.authorities)
+        val u = User(ua.username, ua.password, pu.authorities)
+        println(ua)
+        println(uc)
+        println(pu)
+        println(u)
+        return u
     }
 }
