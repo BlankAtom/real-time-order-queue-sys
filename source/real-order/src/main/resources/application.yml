@@ -9,3 +9,15 @@ spring:
     user:
       name: admin
       password: admin
+  redis:
+    database: 0
+    host: 159.75.90.116
+    password: 12345678
+    jedis:
+      pool:
+        max-active: 8
+        max-idle: 8
+        max-wait: -1
+        min-idle: 0
+    port: 56379
+    connect-timeout: 3000

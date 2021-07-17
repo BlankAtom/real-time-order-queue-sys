@@ -1,26 +1,30 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="app" v-cloak>
+        <router-view />
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { onMounted } from "vue";
+import { useStore } from "vuex";
+import { decode } from "js-base64";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
+    setup() {
+        const store = useStore();
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+        onMounted(() => {
+            let jwt = sessionStorage.getItem("jwt") || "";
+            if (jwt) {
+                let token = null;
+                try {
+                    token = JSON.parse(decode(jwt));
+                } catch (e) {
+                    console.log("%c The user's JWT is error", "color:red");
+                }
+                !!token && store.dispatch("setUser", token);
+            }
+        });
+    }
+};
+</script>
