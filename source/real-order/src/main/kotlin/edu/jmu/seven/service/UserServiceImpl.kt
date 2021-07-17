@@ -47,8 +47,7 @@ class UserServiceImpl : UserService{
         // 加密
         val encoder = BCryptPasswordEncoder()
         user.password = encoder.encode(user.password)
-        user.updated_at = LocalDateTime.now()
-        user.auth_id = 1
+        user.setAuth(1)
         accountMapper.insert(user)
 
     }

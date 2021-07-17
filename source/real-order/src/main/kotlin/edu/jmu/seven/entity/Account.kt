@@ -30,7 +30,8 @@ class Account(
     /**
      * auth_id: 字段，权限码，1、2、9，用户、商家、管理员
      */
-    private var auth_id: Int,
+    @TableField(value = "auth_id")
+    private var auth: Int,
 ) : Serializable, UserDetails {
 
 
@@ -71,7 +72,7 @@ class Account(
         return "Account{" +
                 "username=" + username +
                 ", password=" + password +
-                ", auth_id=" + auth_id +
+                ", auth_id=" + auth +
                 ", created_at=" + createTime +
                 ", updated_at=" + updateTime +
                 "}"
@@ -80,15 +81,17 @@ class Account(
     fun setUsername(s: String) { this.username = s }
     fun setPassword(s: String) { this.password = s }
 
+    fun setAuth(i: Int) { this.auth = i }
+    fun getAuth() : Int { return this.auth }
 
     /**
      * 获取权限表，因为本项目的设定是通过数字确定权限，故，返回只含有一个数字的权限集合即可
      * @return MutableCollection 权限表，可以直接当作List使用
      */
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        if( auth_id!=0 ) {
+        if( auth!=0 ) {
             val gens = ArrayList<GrantedAuthority>()
-            gens.add(SimpleGrantedAuthority(auth_id.toString()))
+            gens.add(SimpleGrantedAuthority(auth.toString()))
             return gens
         }
         return null!!
