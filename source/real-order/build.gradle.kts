@@ -20,7 +20,11 @@ configurations {
 
 repositories {
     maven { url = uri("https://maven.aliyun.com/nexus/content/groups/public/") }
-    google()
+    maven {
+        url = uri("https://maven.aliyun.com/repository/spring/")
+    }
+    mavenLocal()
+    mavenCentral()
 }
 
 dependencies {
@@ -34,7 +38,7 @@ dependencies {
 
 //    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
 //    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
-//    implementation("org.springframework.boot:spring-boot-starter-data-redis")
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-web")
