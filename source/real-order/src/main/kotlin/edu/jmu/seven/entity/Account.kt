@@ -19,20 +19,20 @@ class Account(
      * username: 字段，用户名，自动生成策略：user+电话号码
      */
     @TableId("username")
-    private var username: String,
+    var username: String,
 
     /**
      * password: 字段，密码（已加密），可以使用SHA512加密算法（128长度）
      * 加密算法可以调用 class： SHAUtil
      */
-    private var password: String,
+    var password: String,
 
     /**
      * auth_id: 字段，权限码，1、2、9，用户、商家、管理员
      */
     @TableField(value = "auth_id")
-    private var auth: Int,
-) : Serializable, UserDetails {
+    var auth: Int,
+) : Serializable {
 
 
     /**
@@ -78,50 +78,4 @@ class Account(
                 "}"
     }
 
-    fun setUsername(s: String) { this.username = s }
-    fun setPassword(s: String) { this.password = s }
-
-    fun setAuth(i: Int) { this.auth = i }
-    fun getAuth() : Int { return this.auth }
-
-    /**
-     * 获取权限表，因为本项目的设定是通过数字确定权限，故，返回只含有一个数字的权限集合即可
-     * @return MutableCollection 权限表，可以直接当作List使用
-     */
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        if( auth!=0 ) {
-            val gens = ArrayList<GrantedAuthority>()
-            gens.add(SimpleGrantedAuthority(auth.toString()))
-            return gens
-        }
-        return null!!
-    }
-
-    override fun getPassword(): String {
-        return password
-    }
-
-    override fun getUsername(): String {
-        return username
-    }
-
-    @JsonIgnore
-    override fun isAccountNonExpired(): Boolean {
-        return true
-    }
-
-    @JsonIgnore
-    override fun isAccountNonLocked(): Boolean {
-        return true
-    }
-
-    @JsonIgnore
-    override fun isCredentialsNonExpired(): Boolean {
-        return true
-    }
-
-    @JsonIgnore
-    override fun isEnabled(): Boolean {
-        return true
-    }
 }

@@ -1,6 +1,9 @@
 package edu.jmu.seven.controller
 
+import edu.jmu.seven.service.LoginService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 /**
@@ -12,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController
 @RequestMapping("/api")
 class UserController {
 
+    @Autowired
+    private lateinit var loginService: LoginService
     /**
      * 校验token和用户名
      */
@@ -23,8 +28,11 @@ class UserController {
     /**
      * 执行登录操作（调用顺序应该先调用check
      */
-    @RequestMapping("/login")
-    fun login() : String {
-        return "login"
+    fun login(@RequestParam("username") username: String,
+              @RequestParam("password") password: String
+    ) : String {
+        val token = loginService.login(username, password)
+
+        return token
     }
 }
