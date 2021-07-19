@@ -2,7 +2,7 @@
     <el-card shadow="never" class="index">
         <template #header>
             <div class="card_header">
-                <b>富文本编辑器</b>
+                <b>用户点单</b>
             </div>
         </template>
         <!-- 富文本 -->

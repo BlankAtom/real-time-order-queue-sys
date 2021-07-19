@@ -3,9 +3,9 @@
     <el-container style="height: 100%">
       <el-header height="200px">
         <div>
-          <div class="btn"><el-button type="primary" circle style="font-size: 40px" icon="el-icon-document">点单</el-button></div>
-          <div class="btn"><el-button type="primary" circle style="font-size: 40px" icon="el-icon-phone">叫号</el-button></div>
-          <div class="btn"><el-button type="primary" circle style="font-size: 60px" icon="el-icon-d-arrow-right"/></div>
+          <div class="btn"><el-button type="primary" circle style="font-size: 40px" icon="el-icon-document" @click.native="menu()">点单</el-button></div>
+          <div class="btn"><el-button type="primary" circle style="font-size: 40px" icon="el-icon-phone" @click.native="call()">叫号</el-button></div>
+          <div class="btn"><el-button type="primary" circle style="font-size: 60px" icon="el-icon-d-arrow-right" @click.native="next()"/></div>
         </div>
       </el-header>
       <el-main>
@@ -14,18 +14,24 @@
             stripe
             style="width: 100%">
           <el-table-column
-              prop="date"
-              label="日期"
-              width="180">
+              prop="o_id"
+              label="排队号">
           </el-table-column>
           <el-table-column
-              prop="name"
-              label="姓名"
-              width="180">
+              prop="c_id"
+              label="用户ID">
           </el-table-column>
           <el-table-column
-              prop="address"
-              label="地址">
+              prop="c_phone"
+              label="电话">
+          </el-table-column>
+          <el-table-column
+              prop="o_start_time"
+              label="开始排队时间">
+          </el-table-column>
+          <el-table-column
+              prop="wait_time"
+              label="等待时间(分钟)">
           </el-table-column>
         </el-table>
         <el-pagination
@@ -46,33 +52,53 @@
 <script>
 export default {
   methods: {
+    next(){
+      alert("下一位")
+    },
+    call(){
+      alert("叫号")
+    },
+    menu(){
+      this.$router.replace({name: 'Order'})
+    },
     page(currentPage){
       const _this = this
-      _this.total = 1000
       _this.tableData = [{
-        date: '2016-05-02',
-        name: '王小虎'+currentPage,
-        address: '上海市普陀区金沙江路 1518 弄'
+        o_id: '1',
+        c_id: '王小虎'+currentPage,
+        c_phone: '11111111111',
+        o_start_time: '04:00:00',
+        wait_time: '15'
       }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
+        o_id: '2',
+        c_id: '王小虎',
+        c_phone: '11111111111',
+        o_start_time: '04:00:00',
+        wait_time: '15'
       }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
+        o_id: '3',
+        c_id: '王小虎',
+        c_phone: '11111111111',
+        o_start_time: '04:00:00',
+        wait_time: '15'
       }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
+        o_id: '4',
+        c_id: '王小虎',
+        c_phone: '11111111111',
+        o_start_time: '04:00:00',
+        wait_time: '15'
       }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
+        o_id: '5',
+        c_id: '王小虎',
+        c_phone: '11111111111',
+        o_start_time: '04:00:00',
+        wait_time: '15'
       }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
+        o_id: '6',
+        c_id: '王小虎',
+        c_phone: '11111111111',
+        o_start_time: '04:00:00',
+        wait_time: '15'
       }]
     }
   },
@@ -80,29 +106,41 @@ export default {
     const _this = this
     _this.total = 1000
     _this.tableData = [{
-      date: '2016-05-02',
-      name: '王小虎',
-      address: '上海市普陀区金沙江路 1518 弄'
+      o_id: '1',
+      c_id: '王小虎',
+      c_phone: '11111111111',
+      o_start_time: '04:00:00',
+      wait_time: '15'
     }, {
-      date: '2016-05-04',
-      name: '王小虎',
-      address: '上海市普陀区金沙江路 1517 弄'
+      o_id: '2',
+      c_id: '王小虎',
+      c_phone: '11111111111',
+      o_start_time: '04:00:00',
+      wait_time: '15'
     }, {
-      date: '2016-05-01',
-      name: '王小虎',
-      address: '上海市普陀区金沙江路 1519 弄'
+      o_id: '3',
+      c_id: '王小虎',
+      c_phone: '11111111111',
+      o_start_time: '04:00:00',
+      wait_time: '15'
     }, {
-      date: '2016-05-03',
-      name: '王小虎',
-      address: '上海市普陀区金沙江路 1516 弄'
+      o_id: '4',
+      c_id: '王小虎',
+      c_phone: '11111111111',
+      o_start_time: '04:00:00',
+      wait_time: '15'
     }, {
-      date: '2016-05-01',
-      name: '王小虎',
-      address: '上海市普陀区金沙江路 1519 弄'
+      o_id: '5',
+      c_id: '王小虎',
+      c_phone: '11111111111',
+      o_start_time: '04:00:00',
+      wait_time: '15'
     }, {
-      date: '2016-05-01',
-      name: '王小虎',
-      address: '上海市普陀区金沙江路 1519 弄'
+      o_id: '6',
+      c_id: '王小虎',
+      c_phone: '11111111111',
+      o_start_time: '04:00:00',
+      wait_time: '15'
     }]
   },
   data() {
@@ -110,7 +148,7 @@ export default {
       total: null,
       tableData: null
     }
-  }
+  },
 };
 </script>
 <style lang="scss" scoped>

@@ -56,9 +56,9 @@ const layoutMap = [
     },
     {
         path: "editor",
-        name: "Editor",
-        meta: { title: "富文本编辑器", icon: "el-icon-s-comment" },
-        component: () => import("../views/common/Editor.vue")
+        name: "Order",
+        meta: { title: "点单", icon: "el-icon-document" },
+        component: () => import("../views/common/Order.vue")
     },
     {
         path: "user",
