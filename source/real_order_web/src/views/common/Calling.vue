@@ -3,9 +3,9 @@
     <el-container style="height: 100%">
       <el-header height="200px">
         <div>
-          <div class="btn"><el-button type="info" circle>信息按钮</el-button></div>
-          <div class="btn"><el-button type="info" circle style="text-align: center">信息按钮</el-button></div>
-          <div class="btn"><el-button type="info" circle>信息按钮</el-button></div>
+          <div class="btn"><el-button type="primary" circle style="font-size: 40px" icon="el-icon-document">点单</el-button></div>
+          <div class="btn"><el-button type="primary" circle style="font-size: 40px" icon="el-icon-phone">叫号</el-button></div>
+          <div class="btn"><el-button type="primary" circle style="font-size: 60px" icon="el-icon-d-arrow-right"/></div>
         </div>
       </el-header>
       <el-main>
@@ -28,6 +28,16 @@
               label="地址">
           </el-table-column>
         </el-table>
+        <el-pagination
+            background
+            layout="prev, pager, next"
+            page-size="6"
+            :total="total"
+            @current-change="page"
+            style="margin-left: 30%;"
+            hide-on-single-page = true
+        >
+        </el-pagination>
       </el-main>
     </el-container>
   </div>
@@ -35,11 +45,13 @@
 
 <script>
 export default {
-  data() {
-    return {
-      tableData: [{
+  methods: {
+    page(currentPage){
+      const _this = this
+      _this.total = 1000
+      _this.tableData = [{
         date: '2016-05-02',
-        name: '王小虎',
+        name: '王小虎'+currentPage,
         address: '上海市普陀区金沙江路 1518 弄'
       }, {
         date: '2016-05-04',
@@ -61,31 +73,42 @@ export default {
         date: '2016-05-01',
         name: '王小虎',
         address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      },]
+      }]
+    }
+  },
+  created() {
+    const _this = this
+    _this.total = 1000
+    _this.tableData = [{
+      date: '2016-05-02',
+      name: '王小虎',
+      address: '上海市普陀区金沙江路 1518 弄'
+    }, {
+      date: '2016-05-04',
+      name: '王小虎',
+      address: '上海市普陀区金沙江路 1517 弄'
+    }, {
+      date: '2016-05-01',
+      name: '王小虎',
+      address: '上海市普陀区金沙江路 1519 弄'
+    }, {
+      date: '2016-05-03',
+      name: '王小虎',
+      address: '上海市普陀区金沙江路 1516 弄'
+    }, {
+      date: '2016-05-01',
+      name: '王小虎',
+      address: '上海市普陀区金沙江路 1519 弄'
+    }, {
+      date: '2016-05-01',
+      name: '王小虎',
+      address: '上海市普陀区金沙江路 1519 弄'
+    }]
+  },
+  data() {
+    return {
+      total: null,
+      tableData: null
     }
   }
 };
@@ -102,6 +125,6 @@ export default {
 .btn{
   float: left;
   width: 33.33%;
-  text-align: left;
+  text-align: center;
 }
 </style>
