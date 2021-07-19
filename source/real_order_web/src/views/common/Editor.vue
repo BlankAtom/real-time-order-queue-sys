@@ -1,13 +1,36 @@
 <template>
-    <el-card shadow="never" class="index">
-        <template #header>
-            <div class="card_header">
-                <b>富文本编辑器</b>
-            </div>
-        </template>
-        <!-- 富文本 -->
-        <WEditor :defaultText="defaultText" @richHtml="getRichHtml" />
-    </el-card>
+<!--    <el-card shadow="never" class="index">-->
+<!--        <template #header>-->
+<!--            <div class="card_header">-->
+<!--                <b>富文本编辑器</b>-->
+<!--            </div>-->
+<!--        </template>-->
+<!--        &lt;!&ndash; 富文本 &ndash;&gt;-->
+<!--        <WEditor :defaultText="defaultText" @richHtml="getRichHtml" />-->
+<!--    </el-card>-->
+
+    <div>
+        <el-table @row-click="ClickInto"
+                :data="tableData"
+                style="width: 100%">
+            <el-table-column
+                    min-width="30%"
+                    label="图片"
+                    align="center"
+                    >
+                <img src="../../assets/img/admin.png" style="height: 80px;">
+            </el-table-column>
+            <el-table-column
+                    prop="name"
+                    label="商家名称"
+                    align="center"
+                    >
+            </el-table-column>
+        </el-table>
+    <p v-if="isPC">1111111</p>
+    <p v-else>1111111</p>
+      <p>{{isPC}}</p>
+  </div>
 </template>
 
 <script>
@@ -19,18 +42,45 @@ export default {
     setup() {
         const defaultText = ref("");
         const richText = ref("");
-
         onMounted(() => {
             // 初始化数据
             defaultText.value = "<h1>Editor</h1>";
         });
-
         const getRichHtml = nv => {
             richText.value = nv;
         };
 
         return { defaultText, getRichHtml };
-    }
+    },
+  data(){
+      return{
+        isPC:document.documentElement.clientWidth > 640,
+          tableData: [{
+              pic: '2016-05-02',
+              name: '王小虎',
+              address: '上海市普陀区金沙江路 1518 弄'
+          }, {
+              pic: '2016-05-04',
+              name: '461842154889787987978978978978989789',
+              address: '上海市普陀区金沙江路 1517 弄'
+          }, {
+              pic: '2016-05-01',
+              name: '王小虎',
+              address: '上海市普陀区金沙江路 1519 弄'
+          }, {
+              pic: '2016-05-03',
+              name: '王小虎',
+              address: '上海市普陀区金沙江路 1516 弄'
+          }]
+      }
+  },
+  methods:{
+      ClickInto(val){
+        let thisRowData=this
+          thisRowData =val
+          console.log(val.pic)
+      }
+  }
 };
 </script>
 

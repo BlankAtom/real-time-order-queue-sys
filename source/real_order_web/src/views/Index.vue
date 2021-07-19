@@ -2,6 +2,7 @@
     <el-card shadow="never" class="index">
         <template #header>
             <div class="card_header">
+              <h1>123</h1>
                 <b>控制台</b>
             </div>
         </template>
