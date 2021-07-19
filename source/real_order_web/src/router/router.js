@@ -1,5 +1,6 @@
 import Layout from "../layout/Index.vue";
 import RouteView from "../components/RouteView.vue";
+import Queue from "../views/common/Queue.vue";
 
 const layoutMap = [
     {
@@ -57,9 +58,12 @@ const layoutMap = [
     {
         path: "editor",
         name: "Editor",
-        meta: { title: "富文本编辑器", icon: "el-icon-s-comment" },
+        meta: { title: "介个先当做用户", icon: "el-icon-s-comment" },
         component: () => import("../views/common/Editor.vue")
     },
+
+
+
     {
         path: "user",
         name: "User",
@@ -83,6 +87,10 @@ const layoutMap = [
 
 const routes = [
     { path: "/login", name: "Login", meta: { title: "登录" }, component: () => import("../views/login/Login.vue") },
+    {
+        path: "/queue/:mId",
+        component:Queue
+    },
     { path: "/", name: "Layout", component: Layout, children: [...layoutMap] }
 ];
 

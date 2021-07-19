@@ -10,7 +10,7 @@
 <!--    </el-card>-->
 
     <div>
-        <el-table @row-click="ClickInto"
+        <el-table @row-click="clickInto"
                 :data="tableData"
                 style="width: 100%">
             <el-table-column
@@ -26,10 +26,15 @@
                     align="center"
                     >
             </el-table-column>
+            <el-table-column hidden
+                    prop="mId"
+                    align="center"
+            >
+            </el-table-column>
         </el-table>
-    <p v-if="isPC">1111111</p>
-    <p v-else>1111111</p>
-      <p>{{isPC}}</p>
+<!--    <p v-if="isPC">1111111</p>-->
+<!--    <p v-else>1111111</p>-->
+<!--      <p>{{isPC}}</p>-->
   </div>
 </template>
 
@@ -58,27 +63,33 @@ export default {
           tableData: [{
               pic: '2016-05-02',
               name: '王小虎',
-              address: '上海市普陀区金沙江路 1518 弄'
+              mId: '上海市普陀区金沙江路 1518 弄'
           }, {
               pic: '2016-05-04',
               name: '461842154889787987978978978978989789',
-              address: '上海市普陀区金沙江路 1517 弄'
+              mId: '上海市普陀区金沙江路 1517 弄'
           }, {
               pic: '2016-05-01',
               name: '王小虎',
-              address: '上海市普陀区金沙江路 1519 弄'
+              mId: '上海市普陀区金沙江路 1519 弄'
           }, {
               pic: '2016-05-03',
               name: '王小虎',
-              address: '上海市普陀区金沙江路 1516 弄'
+              mId: '上海市普陀区金沙江路 1516 弄'
           }]
       }
   },
   methods:{
-      ClickInto(val){
+      clickInto(val){
         let thisRowData=this
           thisRowData =val
+          let mId=val.mId
+          this.lineUp(mId)
           console.log(val.pic)
+      },
+      lineUp(mId){
+          console.log(mId)
+          this.$router.push("/queue/"+mId)
       }
   }
 };
