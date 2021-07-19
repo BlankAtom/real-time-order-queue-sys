@@ -15,6 +15,7 @@ import org.apache.ibatis.annotations.Select
 @Mapper
 interface AccountMapper : BaseMapper<Account> {
 
+    // 这里不能写limit
     @Select("select * from account where username = #{username,jdbcType=VARCHAR}")
     fun selectByName(@Param(value = "username") id: String) : Account?
 }

@@ -1,18 +1,49 @@
 import Layout from "../layout/Index.vue";
 import RouteView from "../components/RouteView.vue";
 
+
+// 普通用户导航
+// [个人信息、商家]
+const layoutMapCustomer = [
+    {
+        path: "",
+        name: "Index",
+        meta: {
+            title: "商家",
+            icon: "el-icon-location",
+            roles: ["customer"]
+        },
+        component: ()=> import("../views/custom/index.vue")
+    }
+]
+
+// 商家用户导航
+// [个人信息、商家]
+const layoutMapMerchant = [
+    {
+        path: "",
+        name: "Index",
+        meta: {
+            title: "主页",
+            icon: "el-icon-location",
+            roles: ["merchant"]
+        },
+        component: ()=> import("../views/merchant/index.vue")
+    }
+]
+// 管理员导航
 const layoutMap = [
     {
         path: "",
         name: "Index",
-        meta: { title: "控制台", icon: "el-icon-s-home" },
+        meta: { title: "控制台", icon: "el-icon-s-home", roles: ["admin"], },
         component: () => import("../views/Index.vue")
     },
     {
         path: "data",
         name: "Data",
         component: RouteView,
-        meta: { title: "数据管理", icon: "el-icon-s-help" },
+        meta: { title: "数据管理", icon: "el-icon-s-help" , roles: ["admin"],},
         children: [
             {
                 path: "",
@@ -51,13 +82,13 @@ const layoutMap = [
     {
         path: "player",
         name: "Player",
-        meta: { title: "视频播放", icon: "el-icon-video-camera-solid" },
+        meta: { title: "视频播放", icon: "el-icon-video-camera-solid" , roles: ["admin"],},
         component: () => import("../views/common/XGPlayer.vue")
     },
     {
         path: "editor",
         name: "Editor",
-        meta: { title: "富文本编辑器", icon: "el-icon-s-comment" },
+        meta: { title: "富文本编辑器", icon: "el-icon-s-comment" , roles: ["admin"],},
         component: () => import("../views/common/Editor.vue")
     },
     {
@@ -83,7 +114,9 @@ const layoutMap = [
 
 const routes = [
     { path: "/login", name: "Login", meta: { title: "登录" }, component: () => import("../views/login/Login.vue") },
-    { path: "/", name: "Layout", component: Layout, children: [...layoutMap] }
+    { path: "/", name: "Layout", meta: {title: "管理员", roles: ["admin"]},component: Layout, children: [...layoutMap] },
+    { path: "/", name: "Layout", meta: {title: "用户", roles: ["customer"]},component: Layout, children: [...layoutMapCustomer] },
+
 ];
 
-export { routes, layoutMap };
+export { routes, layoutMap, layoutMapCustomer, layoutMapMerchant };

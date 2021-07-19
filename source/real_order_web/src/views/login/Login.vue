@@ -41,6 +41,7 @@ import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { encode } from "js-base64";
 import {ElMessage} from "element-plus";
+import axios from "../../utils/axios";
 
 export default {
     setup() {
@@ -72,32 +73,38 @@ export default {
                 loginFormState.loading = true;
 
                 let params = { username: loginFormState.name, password: loginFormState.pwd };
-
-                setTimeout(() => {
-                    let users = { role: loginFormState.name === "admin" ? "admin" : "", username: loginFormState.name };
-                    Object.assign(params, users);
-                    sessionStorage.setItem("jwt", encode(JSON.stringify(params)));
-                    store.dispatch("setUser", params);
-                    loginFormState.loading = false;
-                    router.replace("/");
-                }, 1000);
+                var roleGet
 
                 proxy.$axios
                 	.post("/login", proxy.$qs.stringify(params))
                 	.then(res => {
-                		let { code, token, msg, success } = res.data;
-                    console.log(res.data)
-                		if (success === true) {
-                			console.log("login_success", code);
-                			ElMessage.success("登录成功");
-                		} else {
-                			ElMessage.error("登录失败：" + msg);
-                		}
+                	    let { code, data, msg, success } = res.data;
+                	    if( success === true ) {
+                	        store.dispatch("setToken", data)
+                        } else {
+                	        ElMessage.error("登陆失败"+msg)
+                        }
+
+                        console.log(res)
                 	})
                 	.catch(err => {
                 		console.log("login err", err);
                 		ElMessage.error("登录失败");
                 	});
+
+
+              setTimeout(() => {
+                let users = {
+                    role: loginFormState.name === "admin" ? "admin" : roleGet,
+                    username: loginFormState.name
+                };
+                Object.assign(params, users);
+                sessionStorage.setItem("jwt", encode(JSON.stringify(params)));
+                store.dispatch("setUser", params);
+                loginFormState.loading = false;
+                router.replace("/");
+              }, 1000);
+
             });
         };
 
