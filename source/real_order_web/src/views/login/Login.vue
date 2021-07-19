@@ -40,6 +40,7 @@ import { getCurrentInstance, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { encode } from "js-base64";
+import {ElMessage} from "element-plus";
 
 export default {
     setup() {
@@ -81,21 +82,21 @@ export default {
                     router.replace("/");
                 }, 1000);
 
-                // proxy.$axios
-                // 	.post("/user/login", proxy.$qs.stringify(params))
-                // 	.then(res => {
-                // 		let { code, result_data, message } = res.data;
-                // 		if (code == 1) {
-                // 			console.log("login_success", result_data);
-                // 			ElMessage.success("登录成功");
-                // 		} else {
-                // 			ElMessage.error("登录失败：" + message);
-                // 		}
-                // 	})
-                // 	.catch(err => {
-                // 		console.log("login err", err);
-                // 		ElMessage.error("登录失败");
-                // 	});
+                proxy.$axios
+                	.post("/login", proxy.$qs.stringify(params))
+                	.then(res => {
+                		let { code, result_data, message } = res.data;
+                		if (code === 200) {
+                			console.log("login_success", result_data);
+                			ElMessage.success("登录成功");
+                		} else {
+                			ElMessage.error("登录失败：" + message);
+                		}
+                	})
+                	.catch(err => {
+                		console.log("login err", err);
+                		ElMessage.error("登录失败");
+                	});
             });
         };
 

@@ -16,5 +16,5 @@ import org.apache.ibatis.annotations.Select
 interface AccountMapper : BaseMapper<Account> {
 
     @Select("select * from account where username = #{username,jdbcType=VARCHAR}")
-    fun selectByName(@Param(value = "username") id: String) : Account
+    fun selectByName(@Param(value = "username") id: String) : Account?
 }
