@@ -67,10 +67,10 @@ class OrderWebSecurity(
     fun corsFilter() : CorsFilter {
         val source = UrlBasedCorsConfigurationSource()
         val cors = CorsConfiguration()
-        cors.addAllowedOrigin("http://localhost:3000");
-        cors.addAllowedHeader("*");
-        cors.addAllowedMethod("*");
-        cors.allowCredentials = true;
+        cors.addAllowedOrigin("http://localhost:3000")
+        cors.addAllowedHeader("*")
+        cors.addAllowedMethod("*")
+        cors.allowCredentials = true
 
         source.registerCorsConfiguration("/**", cors)
         return CorsFilter(source)
