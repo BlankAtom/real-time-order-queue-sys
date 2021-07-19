@@ -1,12 +1,10 @@
 package edu.jmu.seven.security.service
 
-import edu.jmu.seven.entity.Merchant
 import edu.jmu.seven.entity.PermitUser
 import edu.jmu.seven.mapper.AccountMapper
 import edu.jmu.seven.mapper.CustomerMapper
 import edu.jmu.seven.mapper.MerchantMapper
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.authentication.BadCredentialsException
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService

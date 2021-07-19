@@ -71,7 +71,7 @@ export default {
 
                 loginFormState.loading = true;
 
-                let params = { name: loginFormState.name, pwd: loginFormState.pwd };
+                let params = { username: loginFormState.name, password: loginFormState.pwd };
 
                 setTimeout(() => {
                     let users = { role: loginFormState.name === "admin" ? "admin" : "", username: loginFormState.name };
@@ -85,12 +85,13 @@ export default {
                 proxy.$axios
                 	.post("/login", proxy.$qs.stringify(params))
                 	.then(res => {
-                		let { code, result_data, message } = res.data;
-                		if (code === 200) {
-                			console.log("login_success", result_data);
+                		let { code, token, msg, success } = res.data;
+                    console.log(res.data)
+                		if (success === true) {
+                			console.log("login_success", code);
                 			ElMessage.success("登录成功");
                 		} else {
-                			ElMessage.error("登录失败：" + message);
+                			ElMessage.error("登录失败：" + msg);
                 		}
                 	})
                 	.catch(err => {
