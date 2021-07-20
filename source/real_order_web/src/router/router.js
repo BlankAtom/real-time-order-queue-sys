@@ -6,15 +6,15 @@ import RouteView from "../components/RouteView.vue";
 // [个人信息、商家]
 const layoutMapCustomer = [
     {
-        path: "",
-        name: "Index",
+        path: "customer",
+        name: "Customer",
         meta: {
-            title: "商家",
+            title: "顾客-选择商家",
             icon: "el-icon-location",
             roles: ["customer"]
         },
         component: ()=> import("../views/custom/index.vue")
-    }
+    },
 ]
 
 // 商家用户导航
@@ -24,7 +24,7 @@ const layoutMapMerchant = [
         path: "",
         name: "Index",
         meta: {
-            title: "主页",
+            title: "商家主页",
             icon: "el-icon-location",
             roles: ["merchant"]
         },
@@ -48,7 +48,7 @@ const layoutMap = [
             {
                 path: "",
                 name: "DataList",
-                meta: { title: "数据列表" },
+                meta: { title: "数据列表" ,roles: ["admin"], },
                 component: () => import("../views/data/List.vue")
             },
             {
@@ -115,7 +115,8 @@ const layoutMap = [
 const routes = [
     { path: "/login", name: "Login", meta: { title: "登录" }, component: () => import("../views/login/Login.vue") },
     { path: "/", name: "Layout", meta: {title: "管理员", roles: ["admin"]},component: Layout, children: [...layoutMap] },
-    { path: "/", name: "Layout", meta: {title: "用户", roles: ["customer"]},component: Layout, children: [...layoutMapCustomer] },
+    { path: "/", name: "CustomerLayout", meta: {title: "用户", roles: ["customer"]},component: Layout, children: [...layoutMapCustomer] },
+    { path: "/", name: "MerchantLayout", meta: {title: "商家", roles: ["merchant"]},component: Layout, children: [...layoutMapMerchant] },
 
 ];
 
