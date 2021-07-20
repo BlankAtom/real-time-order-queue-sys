@@ -45,7 +45,7 @@ import axios from "../../utils/axios";
 
 export default {
     setup() {
-        const { proxy } = getCurrentInstance();
+        const {proxy} = getCurrentInstance();
         const router = useRouter();
         const store = useStore();
         const loginFormRef = ref();
@@ -57,10 +57,10 @@ export default {
         });
 
         const rules = {
-            name: [{ required: true, message: "账号不能为空", trigger: "blur" }],
+            name: [{required: true, message: "账号不能为空", trigger: "blur"}],
             pwd: [
-                { required: true, message: "密码不能为空", trigger: "blur" },
-                { min: 5, max: 16, message: "密码长度为5-16位", trigger: "blur" }
+                {required: true, message: "密码不能为空", trigger: "blur"},
+                {min: 5, max: 16, message: "密码长度为5-16位", trigger: "blur"}
             ]
         };
 
@@ -72,43 +72,59 @@ export default {
 
                 loginFormState.loading = true;
 
-                let params = { username: loginFormState.name, password: loginFormState.pwd };
-                var roleGet
+                let params = {username: loginFormState.name, password: loginFormState.pwd};
+                let roleGet;
 
                 proxy.$axios
-                	.post("/login", proxy.$qs.stringify(params))
-                	.then(res => {
-                	    let { code, data, msg, success } = res.data;
-                	    if( success === true ) {
-                	        store.dispatch("setToken", data)
+                    .post("/login", proxy.$qs.stringify(params))
+                    .then(res => {
+                        let {code, data, msg, success} = res.data;
+                        if (success === true) {
+                            store.dispatch("setToken", data)
                         } else {
-                	        ElMessage.error("登陆失败"+msg)
+                            ElMessage.error("登陆失败" + msg)
                         }
 
                         console.log(res)
-                	})
-                	.catch(err => {
-                		console.log("login err", err);
-                		ElMessage.error("登录失败");
-                	});
+                    })
+                    .catch(err => {
+                        console.log("login err", err);
+                        ElMessage.error("登录失败" + err);
+                    });
 
 
-              setTimeout(() => {
-                let users = {
-                    role: loginFormState.name === "admin" ? "admin" : roleGet,
-                    username: loginFormState.name
-                };
-                Object.assign(params, users);
-                sessionStorage.setItem("jwt", encode(JSON.stringify(params)));
-                store.dispatch("setUser", params);
-                loginFormState.loading = false;
-                router.replace("/");
-              }, 1000);
+                setTimeout(() => {
+                    // 这里主要是为了进行不验证登录，为了方便进行其他开发
+                    let users = null
+                    if (loginFormState.name === "customer") {
+                        users = {
+                            role: loginFormState.name === "customer" ? "customer" : roleGet,
+                            username: loginFormState.name
+                        }
+                    } else if (loginFormState.name === "admin") {
+                        users = {
+                            role: loginFormState.name === "admin" ? "admin" : roleGet,
+                            username: loginFormState.name
+                        }
+
+                    } else {
+                        users = {
+                            role: loginFormState.name === "merchant" ? "merchant" : roleGet,
+                            username: loginFormState.name
+                        }
+                    }
+                    Object.assign(params, users);
+                    sessionStorage.setItem("jwt", encode(JSON.stringify(params)));
+                    store.dispatch("setUser", params);
+                    loginFormState.loading = false;
+                    // 这里的替换需要改为指定页面
+                    router.replace("/customer");
+                }, 1000);
 
             });
         };
 
-        return { loginFormRef, loginFormState, rules, handleLogin };
+        return {loginFormRef, loginFormState, rules, handleLogin};
     }
 };
 </script>
