@@ -82,14 +82,14 @@ const layoutMap = [
     {
         path: "player",
         name: "Player",
-        meta: { title: "视频播放", icon: "el-icon-video-camera-solid" , roles: ["admin"],},
-        component: () => import("../views/common/XGPlayer.vue")
+        meta: { title: "叫号点单", icon: "el-icon-phone" , roles: ["admin"],},
+        component: () => import("../views/common/Calling.vue")
     },
     {
         path: "editor",
-        name: "Editor",
-        meta: { title: "富文本编辑器", icon: "el-icon-s-comment" , roles: ["admin"],},
-        component: () => import("../views/common/Editor.vue")
+        name: "Order",
+        meta: { title: "点单", icon: "el-icon-document" , roles: ["admin"],},
+        component: () => import("../views/common/Order.vue")
     },
     {
         path: "user",
