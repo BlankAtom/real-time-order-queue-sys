@@ -1,5 +1,6 @@
 import Layout from "../layout/Index.vue";
 import RouteView from "../components/RouteView.vue";
+import Queue from "../views/common/Queue.vue";
 
 
 // 普通用户导航
@@ -13,23 +14,40 @@ const layoutMapCustomer = [
             icon: "el-icon-location",
             roles: ["customer"]
         },
-        component: ()=> import("../views/custom/index.vue")
+        component: ()=> import("../views/custom/index.vue"),
     },
+
+    {
+        path: "customerSelf",
+        name: "CustomerSelf",
+        meta: { title: "介个先当做用户", icon: "el-icon-s-comment" , roles: ["customer"]},
+        component: () => import("../views/common/ChooseMerchant.vue")
+    },
+
+    {
+        path: "queue",
+        name: "Queue",
+        meta: {title: "队列", icon: "el-icon-s-comment", roles: ["customer"]},
+        component: ()=>import("../views/common/Queue.vue")
+    }
 ]
 
 // 商家用户导航
 // [个人信息、商家]
 const layoutMapMerchant = [
+
     {
-        path: "",
-        name: "Index",
-        meta: {
-            title: "商家主页",
-            icon: "el-icon-location",
-            roles: ["merchant"]
-        },
-        component: ()=> import("../views/merchant/index.vue")
-    }
+        path: "merchant",
+        name: "MerchantMain",
+        meta: { title: "叫号点单", icon: "el-icon-phone" , roles: ["merchant"],},
+        component: () => import("../views/common/Calling.vue")
+    },
+    {
+        path: "order",
+        name: "Order",
+        meta: { title: "点单", icon: "el-icon-document" , roles: ["merchant"],},
+        component: () => import("../views/common/Order.vue")
+    },
 ]
 // 管理员导航
 const layoutMap = [
@@ -78,18 +96,6 @@ const layoutMap = [
                 component: () => import("../views/admin/RoleList.vue")
             }
         ]
-    },
-    {
-        path: "player",
-        name: "Player",
-        meta: { title: "叫号点单", icon: "el-icon-phone" , roles: ["admin"],},
-        component: () => import("../views/common/Calling.vue")
-    },
-    {
-        path: "editor",
-        name: "Order",
-        meta: { title: "点单", icon: "el-icon-document" , roles: ["admin"],},
-        component: () => import("../views/common/Order.vue")
     },
     {
         path: "user",

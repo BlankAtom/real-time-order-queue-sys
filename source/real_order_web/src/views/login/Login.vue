@@ -73,7 +73,7 @@ export default {
                 loginFormState.loading = true;
 
                 let params = {username: loginFormState.name, password: loginFormState.pwd};
-                let roleGet;
+                let roleGet = loginFormState.name;
 
                 proxy.$axios
                     .post("/login", proxy.$qs.stringify(params))
@@ -118,7 +118,7 @@ export default {
                     store.dispatch("setUser", params);
                     loginFormState.loading = false;
                     // 这里的替换需要改为指定页面
-                    router.replace("/customer");
+                    router.replace("/"+roleGet?roleGet:"");
                 }, 1000);
 
             });

@@ -15,7 +15,7 @@ import { onMounted, ref } from "vue";
 import WEditor from "../../components/WEditor.vue";
 
 export default {
-    components: { WEditor },
+    components: {WEditor},
     setup() {
         const defaultText = ref("");
         const richText = ref("");
@@ -29,8 +29,22 @@ export default {
             richText.value = nv;
         };
 
-        return { defaultText, getRichHtml };
-    }
+        return {defaultText, getRichHtml};
+    },
+
+    methods: {
+        clickInto(val) {
+            let thisRowData = this
+            thisRowData = val
+            let mId = val.mId
+            this.lineUp(mId)
+            console.log(val.pic)
+        },
+        lineUp(mId) {
+            console.log(mId)
+            this.$router.push("/queue/" + mId)
+        }
+    },
 };
 </script>
 
