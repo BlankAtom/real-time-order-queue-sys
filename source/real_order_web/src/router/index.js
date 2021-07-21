@@ -6,6 +6,7 @@ import "nprogress/nprogress.css";
 
 NProgress.configure({ showSpinner: false });
 
+// 创建导航
 const router = createRouter({
     history: createWebHistory(),
     routes: [...routes],
@@ -33,7 +34,7 @@ router.beforeEach((to, from, next) => {
             return false;
         }
         if (!!jwt) {
-            if (to.meta.hasOwnProperty("roles")) {
+            if (to.meta.hasOwnProperty("admin")) {
                 let roles = to.meta.roles || [];
                 let { role } = jwt && JSON.parse(decode(jwt));
                 roles.includes(role) ? next() : next("/error");

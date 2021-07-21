@@ -1,13 +1,21 @@
 import { createStore } from "vuex";
-import { layoutMap } from "../router/router";
+import {layoutMap, layoutMapCustomer, layoutMapMerchant} from "../router/router";
 import { filterAsyncRouter } from "../utils/tool";
 import createPersistedState from "vuex-persistedstate";
 import SecureLS from "secure-ls";
-import { CLEAR_USER, SET_USER, SET_ROUTES } from "./mutation-types";
-
+import {CLEAR_USER, SET_USER, SET_ROUTES, SET_TOKEN, SET_ROLE} from "./mutation-types";
+import "./role_types"
+import {ADMIN, CUSTOMER, MERCHANT} from "./role_types";
 const state = {
+    // username
     users: null,
-    routers: []
+    // 路由导航内容
+    routers: [],
+    // 登录token
+    token: null ,
+    // 用户角色, customer, admin, merchant字符串
+    role: null
+
 };
 
 const getters = {
@@ -21,11 +29,17 @@ const mutations = {
         state.users = null;
         state.routers = [];
     },
-    [SET_USER](state, payload) {
-        state.users = payload;
+    [SET_USER](state, value) {
+        state.users = value;
     },
-    [SET_ROUTES](state, payload) {
-        state.routers = payload;
+    [SET_ROUTES](state, value) {
+        state.routers = value;
+    },
+    [SET_TOKEN](state, value) {
+        state.token = value
+    },
+    [SET_ROLE](state, value) {
+        state.role = value
     }
 };
 
@@ -44,6 +58,25 @@ const actions = {
             accessedRouters = filterAsyncRouter(deepCopy, payload.role);
         commit(SET_USER, payload);
         commit(SET_ROUTES, accessedRouters);
+    },
+    setToken({ commit}, data ) {
+        // 根据传入的角色分配路由数组
+        let {token, username, role} = data
+        let lmap = null
+        if( role === ADMIN ){
+            lmap = layoutMap
+        } else if (role === MERCHANT) {
+            lmap = layoutMapMerchant
+        } else {
+            lmap = layoutMapCustomer
+        }
+        // 解析路由数组
+        let accessedRouters = filterAsyncRouter(JSON.parse(JSON.stringify(lmap)), role)
+        // 调用set设置四个参数
+        commit(SET_TOKEN, token)
+        commit(SET_USER, username);
+        commit(SET_ROUTES, accessedRouters);
+        commit(SET_ROLE, role)
     }
 };
 

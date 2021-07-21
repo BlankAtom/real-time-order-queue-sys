@@ -2,7 +2,6 @@ package edu.jmu.seven.entity
 
 import com.baomidou.mybatisplus.annotation.*
 import com.fasterxml.jackson.annotation.JsonIgnore
-import lombok.Data
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
@@ -13,7 +12,7 @@ import java.time.LocalDateTime
  * @author Seven
  * @since 2021-07-16
  */
-@Data
+
 @TableName("vocation.account")
 class Account(
     /**

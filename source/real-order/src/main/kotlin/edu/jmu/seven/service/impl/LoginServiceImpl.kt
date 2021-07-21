@@ -62,7 +62,7 @@ class LoginServiceImpl : LoginService {
 
     override fun login(phone: String, pwd: String) : String {
         val a = accountMapper.selectByName("user_$phone")
-        if ( a.password == pwd ) {
+        if ( a?.password == pwd ) {
             val token = generateToken("user_$phone")
             redisService.set(token, a.username)
             return token

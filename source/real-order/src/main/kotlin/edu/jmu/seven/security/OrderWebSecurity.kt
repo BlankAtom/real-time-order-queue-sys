@@ -14,6 +14,11 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.web.filter.CorsFilter
+import kotlin.coroutines.coroutineContext
 
 /**
  * <p></p>
@@ -55,6 +60,20 @@ class OrderWebSecurity(
             .logoutSuccessHandler(logoutSuccessHandler)
             .deleteCookies("JSESSIONID")
 
+    }
+
+
+    @Bean
+    fun corsFilter() : CorsFilter {
+        val source = UrlBasedCorsConfigurationSource()
+        val cors = CorsConfiguration()
+        cors.addAllowedOrigin("http://localhost:3000")
+        cors.addAllowedHeader("*")
+        cors.addAllowedMethod("*")
+        cors.allowCredentials = true
+
+        source.registerCorsConfiguration("/**", cors)
+        return CorsFilter(source)
     }
 
     override fun configure(auth: AuthenticationManagerBuilder?) {

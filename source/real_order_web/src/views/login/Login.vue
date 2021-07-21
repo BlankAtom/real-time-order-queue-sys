@@ -40,6 +40,8 @@ import { getCurrentInstance, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import { encode } from "js-base64";
+import {ElMessage} from "element-plus";
+import axios from "../../utils/axios";
 
 export default {
     setup() {
@@ -70,32 +72,39 @@ export default {
 
                 loginFormState.loading = true;
 
-                let params = { name: loginFormState.name, pwd: loginFormState.pwd };
+                let params = { username: loginFormState.name, password: loginFormState.pwd };
+                var roleGet
 
-                setTimeout(() => {
-                    let users = { role: loginFormState.name === "admin" ? "admin" : "", username: loginFormState.name };
-                    Object.assign(params, users);
-                    sessionStorage.setItem("jwt", encode(JSON.stringify(params)));
-                    store.dispatch("setUser", params);
-                    loginFormState.loading = false;
-                    router.replace("/");
-                }, 1000);
+                proxy.$axios
+                	.post("/login", proxy.$qs.stringify(params))
+                	.then(res => {
+                	    let { code, data, msg, success } = res.data;
+                	    if( success === true ) {
+                	        store.dispatch("setToken", data)
+                        } else {
+                	        ElMessage.error("登陆失败"+msg)
+                        }
 
-                // proxy.$axios
-                // 	.post("/user/login", proxy.$qs.stringify(params))
-                // 	.then(res => {
-                // 		let { code, result_data, message } = res.data;
-                // 		if (code == 1) {
-                // 			console.log("login_success", result_data);
-                // 			ElMessage.success("登录成功");
-                // 		} else {
-                // 			ElMessage.error("登录失败：" + message);
-                // 		}
-                // 	})
-                // 	.catch(err => {
-                // 		console.log("login err", err);
-                // 		ElMessage.error("登录失败");
-                // 	});
+                        console.log(res)
+                	})
+                	.catch(err => {
+                		console.log("login err", err);
+                		ElMessage.error("登录失败");
+                	});
+
+
+              setTimeout(() => {
+                let users = {
+                    role: loginFormState.name === "admin" ? "admin" : roleGet,
+                    username: loginFormState.name
+                };
+                Object.assign(params, users);
+                sessionStorage.setItem("jwt", encode(JSON.stringify(params)));
+                store.dispatch("setUser", params);
+                loginFormState.loading = false;
+                router.replace("/");
+              }, 1000);
+
             });
         };
 

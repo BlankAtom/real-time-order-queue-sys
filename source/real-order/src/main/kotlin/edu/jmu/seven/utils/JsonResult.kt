@@ -12,35 +12,35 @@ import java.io.Serializable
  */
 class JsonResult<T> : Serializable {
     var success: Boolean? = null
-    var errorCode: Int? = null
-    var errorMsg: String? = null
+    var code: Int? = null
+    var msg: String? = null
     var data: T? = null
         private set
 
     constructor() {}
     constructor(success: Boolean) {
         this.success = success
-        errorCode = if (success) ResultCode.SUCCESS.code else ResultCode.COMMON_FAIL.code
-        errorMsg = if (success) ResultCode.SUCCESS.message else ResultCode.COMMON_FAIL.message
+        code = if (success) ResultCode.SUCCESS.code else ResultCode.COMMON_FAIL.code
+        msg = if (success) ResultCode.SUCCESS.message else ResultCode.COMMON_FAIL.message
     }
 
     constructor(success: Boolean, resultEnum: ResultCode?) {
         this.success = success
-        errorCode = if (success) ResultCode.SUCCESS.code else resultEnum?.code ?: ResultCode.COMMON_FAIL.code
-        errorMsg = if (success) ResultCode.SUCCESS.message else resultEnum?.message ?: ResultCode.COMMON_FAIL.message
+        code = if (success) ResultCode.SUCCESS.code else resultEnum?.code ?: ResultCode.COMMON_FAIL.code
+        msg = if (success) ResultCode.SUCCESS.message else resultEnum?.message ?: ResultCode.COMMON_FAIL.message
     }
 
     constructor(success: Boolean, data: T) {
         this.success = success
-        errorCode = if (success) ResultCode.SUCCESS.code else ResultCode.COMMON_FAIL.code
-        errorMsg = if (success) ResultCode.SUCCESS.message else ResultCode.COMMON_FAIL.message
+        code = if (success) ResultCode.SUCCESS.code else ResultCode.COMMON_FAIL.code
+        msg = if (success) ResultCode.SUCCESS.message else ResultCode.COMMON_FAIL.message
         this.data = data
     }
 
     constructor(success: Boolean, resultEnum: ResultCode?, data: T) {
         this.success = success
-        errorCode = if (success) ResultCode.SUCCESS.code else resultEnum?.code ?: ResultCode.COMMON_FAIL.code
-        errorMsg = if (success) ResultCode.SUCCESS.message else resultEnum?.message ?: ResultCode.COMMON_FAIL.message
+        code = if (success) ResultCode.SUCCESS.code else resultEnum?.code ?: ResultCode.COMMON_FAIL.code
+        msg = if (success) ResultCode.SUCCESS.message else resultEnum?.message ?: ResultCode.COMMON_FAIL.message
         this.data = data
     }
 

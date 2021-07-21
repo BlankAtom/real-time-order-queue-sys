@@ -7,7 +7,7 @@ export const hasPermission = (route, role) => {
 };
 
 export const filterAsyncRouter = (routerMap, roles) => {
-    const accessedRouters = routerMap.filter(route => {
+    return routerMap.filter(route => {
         if (hasPermission(route, roles)) {
             if (route.children && route.children.length) {
                 route.children = filterAsyncRouter(route.children, roles);
@@ -16,5 +16,4 @@ export const filterAsyncRouter = (routerMap, roles) => {
         }
         return false;
     });
-    return accessedRouters;
 };
