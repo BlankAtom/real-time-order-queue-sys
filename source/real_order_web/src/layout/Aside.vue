@@ -1,7 +1,7 @@
 <template>
     <el-aside :width="isCollapse ? `64px` : `200px`">
         <div class="logo">
-            <img src="@/assets/img/avatar.png" alt="logo" draggable="false" />
+            <img src="../assets/img/avatar.png" alt="logo" draggable="false" />
             <!-- <p>Vite2 Admin</p> -->
         </div>
         <el-menu

@@ -17,5 +17,5 @@ import org.apache.ibatis.annotations.Select
 interface CustomerMapper : BaseMapper<Customer> {
 
     @Select("select * from customer where c_id = #{uname}")
-    fun selectByName(@Param(value = "uname") id: String) : Customer
+    fun selectByName(@Param(value = "uname") id: String) : Customer?
 }

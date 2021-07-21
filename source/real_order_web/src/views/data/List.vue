@@ -5,7 +5,8 @@
                 <b>数据列表</b>
             </div>
         </template>
-        <el-empty description="暂无数据"></el-empty>
+
+
     </el-card>
 </template>
 

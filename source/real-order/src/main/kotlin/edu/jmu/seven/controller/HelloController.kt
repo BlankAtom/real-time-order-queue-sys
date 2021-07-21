@@ -21,6 +21,7 @@ class HelloController {
 
     @RequestMapping("/api/getUser")
     fun gu( ) : String {
+
         return "{\"getUser\": \"user\"}"
     }
 }
