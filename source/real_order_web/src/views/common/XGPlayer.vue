@@ -1,254 +1,212 @@
-<!--<template>-->
-<!--    <el-card shadow="never" class="index">-->
-<!--        <template #header>-->
-<!--            <div class="card_header">-->
-<!--                <b>查看菜品</b>-->
-<!--            </div>-->
-<!--        </template>-->
-<!--        <div id="xg"></div>-->
-<!--    </el-card>-->
-
-
-<!--  <el-table-->
-<!--      :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"-->
-<!--      style="width: 100%">-->
-<!--    <el-table-column-->
-<!--        label="Date"-->
-<!--        prop="date">-->
-<!--    </el-table-column>-->
-<!--    <el-table-column-->
-<!--        label="Name"-->
-<!--        prop="name">-->
-<!--    </el-table-column>-->
-<!--    <el-table-column-->
-<!--        label="Image"-->
-<!--        prop="images">-->
-<!--    </el-table-column>-->
-
-
-<!--  </el-table>-->
-
-<!--  </template>-->
-<!--<script>-->
-<!--export default {-->
-<!--  data() {-->
-<!--    return {-->
-<!--      tableData: [{-->
-<!--        date: '2016-05-02',-->
-<!--        name: '王小虎',-->
-<!--        images: '上海市普陀区金沙江路 1518 弄'-->
-<!--      }, {-->
-<!--        date: '2016-05-04',-->
-<!--        name: '王小虎',-->
-<!--        images: '上海市普陀区金沙江路 1517 弄'-->
-<!--      }, {-->
-<!--        date: '2016-05-01',-->
-<!--        name: '王小虎',-->
-<!--        images: '上海市普陀区金沙江路 1519 弄'-->
-<!--      }, {-->
-<!--        date: '2016-05-03',-->
-<!--        name: '王小虎',-->
-<!--        images: '上海市普陀区金沙江路 1516 弄'-->
-<!--      }],-->
-<!--      search: ''-->
-<!--    }-->
-<!--  },-->
-<!--  methods: {-->
-<!--    handleEdit(index, row) {-->
-<!--      console.log(index, row);-->
-<!--    },-->
-<!--    handleDelete(index, row) {-->
-<!--      console.log(index, row);-->
-<!--    }-->
-<!--  },-->
-<!--}-->
-<!--</script>-->
 
 <template>
+  <div class="hello">
+    <h1>菜品展示</h1>
+    <el-row class="table-grid-content">
+      <el-col :span="18" class="grid">
+        <el-input v-model="input" placeholder="请输入搜索内容"></el-input>
+      </el-col>
+      <el-col :span="3" class="grid" :gutter="1">
+        <el-button type="success" icon="el-icon-search">搜索</el-button>
+      </el-col>
+      <el-col :span="2" class="grid" :gutter="15">
+        <el-button type="primary" @click="addMembers()">增加</el-button>
+      </el-col>
+    </el-row>
 
-      <el-card shadow="never" class="index">
-          <template #header>
-              <div class="card_header">
-                  <b>查看菜品</b>
-              </div>
-          </template>
-          <div id="xg"></div>
-      </el-card>
-  <div>
-    <el-button type="success" plain @click="handleAddClick">增加</el-button>
-
-    <el-table
-        :data="tableData"
-        border
-        style="width: 100%">
-      <el-table-column
-          prop="date"
-          label="日期"
-          width="180">
-      </el-table-column>
-      <el-table-column
-          prop="name"
-          label="姓名"
-          width="180">
-      </el-table-column>
-      <el-table-column
-          prop="address"
-          label="地址">
-      </el-table-column>
-
-
-      <el-table-column label="操作" width="180">
-<!--        <template slot-scope="scope">-->
-<!--          <el-button type="primary" @click="handleEditClick(scope.$index,scope.row)"  size="mini">编辑</el-button>-->
-<!--          <el-button type="danger" size="mini" @click="handleDelClick(scope.$index,scope.row)">删除</el-button>-->
-<!--        </template>-->
+    <el-table :data="tableData" :stripe="true" :border="true" width="100%">
+      <el-table-column label="菜id" prop="d_id"></el-table-column>
+      <el-table-column label="菜名" prop="d_name"></el-table-column>
+      <el-table-column label="商家id" prop="m_id"></el-table-column>
+      <el-table-column label="价格" prop="d_price"></el-table-column>
+      <el-table-column label="图片" prop="d_pic"></el-table-column>
+      <el-table-column label="操作">
+        <template #default="scope">
+          <el-button type="primary" @click="modifyData(scope.$index, scope.row)">修改</el-button>
+          <el-button type="danger" @click="deleteData(scope.$index,tableData)">删除</el-button>
+        </template>
       </el-table-column>
     </el-table>
-
-    <el-dialog title="修改用户" :visible.sync="editBox" width="50%" :before-close="handleClose">
-      <el-form ref="form" label-width="100px" v-model="user">
-        <el-form-item label="时间:">
-          <el-input placeholder="请输入时间" maxlength="50" v-model = "user.date"></el-input>
+    <el-dialog  v-model="centerDialogVisible" >
+      <el-form :model="editForm">
+<!--        <el-form-item label="日期" :picker-options="pickerOptions">-->
+<!--          <el-date-picker v-model="editForm.date" type="date" placeholder="选择日期" value-format="yyyy-MM-dd"></el-date-picker>-->
+<!--        </el-form-item>-->
+        <el-form-item label="姓名">
+          <el-input v-model="editForm.name"></el-input>
         </el-form-item>
-        <!--                <el-form-item label="时间:">-->
-        <!--                    <el-date-picker-->
-        <!--                            v-model = "user.date"-->
-        <!--                            type="date"-->
-        <!--                            placeholder="选择日期">-->
-        <!--                    </el-date-picker>-->
-        <!--                </el-form-item>-->
-        <el-form-item label="名字:">
-          <el-input placeholder="请输入名字" maxlength="50" v-model = "user.name"></el-input>
-        </el-form-item>
-        <el-form-item label="地址:">
-          <el-input placeholder="请输入地址" maxlength="50" v-model = "user.address"></el-input>
+        <el-form-item label="地址">
+          <el-input v-model="editForm.address"></el-input>
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="handleEditUser">确 定</el-button>
-            </span>
+      <div>
+        <el-button @click="closeDialog()">取消</el-button>
+        <el-button type="primary" @click="sumbitEditRow()">确定</el-button>
+      </div>
     </el-dialog>
-
-    <el-dialog title="添加用户" :visible.sync="addBox" width="50%" :before-close="handleClose">
-      <el-form ref="form" label-width="100px" v-model="addUserData">
-        <el-form-item label="时间:">
-          <el-date-picker
-              v-model = "addUserData.date"
-              type="date"
-              placeholder="选择日期">
-          </el-date-picker>
+    <el-dialog v-model="isAddMembers">
+      <el-form :model="addForm">
+<!--        <el-form-item label="日期" :picker-options="pickerOptions">-->
+<!--          <el-date-picker v-model="addForm.date" type="date" placeholder="选择日期" value-format="yyyy-MM-dd"></el-date-picker>-->
+<!--        </el-form-item>-->
+        <el-form-item label="姓名">
+          <el-input v-model="addForm.name"></el-input>
         </el-form-item>
-        <el-form-item label="名字:">
-          <el-input placeholder="请输入名字" maxlength="50" v-model = "addUserData.name"></el-input>
-        </el-form-item>
-        <el-form-item label="地址:">
-          <el-input placeholder="请输入地址" maxlength="50" v-model = "addUserData.address"></el-input>
+        <el-form-item label="地址">
+          <el-input v-model="addForm.address"></el-input>
         </el-form-item>
       </el-form>
-      <span slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="handleAddUser">确 定</el-button>
-            </span>
+      <div>
+        <el-button @click="closeDialog()">取消</el-button>
+        <el-button type="primary" @click="sumbitAddRow()">确定</el-button>
+      </div>
     </el-dialog>
 
   </div>
+
+  <el-pagination
+      background
+      layout="prev, pager, next"
+      :total="100"
+      @current-change="page">
+  </el-pagination>
+
+
 </template>
 
-
 <script>
+// import { musicBroadcastingDetails } from '@/api/index.js'
+import axios from 'axios'
+ var _index;
 export default {
-  name: "TableData",
+
   data() {
+
     return {
-      tableData: [{
-        date: '2016-03-02',
-        name: '张三',
-        address: '广州市天河区金沙江路 1518 弄'
-      }, {
-        date: '2016-04-06',
-        name: '李四',
-        address: '广州市黄埔区金沙江路 1517 弄'
-      }, {
-        date: '2016-08-01',
-        name: '王五',
-        address: '北京市金沙江路 1519 弄'
-      }, {
-        date: '2016-06-03',
-        name: '赵六',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }],
-      addBox : false,
-      editBox:false,
-      user:{},
-      editIndex:"",
-      addUserData:{
-        date : "",
-        name : "",
-        address : ""
-      }
+
+      // msg: 'Welcome to Your Vue.js App',
+      centerDialogVisible: false,
+      isAddMembers: false,
+      editForm: [],
+      addForm: [],
+      searchData: '',
+      input: '',
+      id:'',
+      // pickerOptions: {
+      //   disabledDate(time) {
+      //     return time.getTime() > Date.now();
+      //   }
+      // },
+      // tableData: [{
+      //   d_id: '',
+      //   d_name: '',
+      //   m_id: '',
+      //   d_price: '',
+      //   d_pic: '',
+      // }
+
+      //],
+
     }
   },
-  methods:{
-    handleEditClick(index,row){
-      this.editBox = true
-      this.user = row
-      this.editIndex = index
-    },
+  setup (){
+    const _this = this
+    axios.get('http://localhost:8080/dish/findAll').then(function(resp){
+      console.log(resp)
+      _this.tableData = resp.data.content
+      _this.pageSize = resp.data.size
+      _this.total = resp.data.total
+      console.log(_this.tableData)
+    })
+  },
+  methods: {
 
-    // eslint-disable-next-line no-unused-vars
-    handleDelClick(index,row){
-      this.$confirm('此操作将删除该用户, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
-      }).then(() => {
-        this.tableData.splice(index,1)
-        this.$message({showClose: true, message: "删除成功", type: 'success'});
+    page(currentPage){
+      const _this = this
+      axios.get('http://localhost:8080/dish/findAll/'+(currentPage-1)+'/6').then(function(resp){
+        console.log(resp)
+        _this.tableData = resp.data.content
+        _this.pageSize = resp.data.size
+        _this.total = resp.data.total
       })
     },
-    handleClose(done) {
-      done();
+    deleteData(index, row) {
+      this.tableData.splice(index, 1)
+      console.log("进行了删除操作")
+      console.log("index的值是：" + index)
+      console.log("row的值是：", row)
     },
-    handleEditUser(){
-      this.tableData.splice(this.editIndex,1,this.user)
-      this.$message({showClose: true, message: "修改成功", type: 'success'});
-      this.editBox = false
+    modifyData(index, row) {
+      this.centerDialogVisible= true
+      // console.log(this.centerDialogVisible)
+      this.editForm = Object.assign({}, row); //重置对象
+      _index = index;
+      console.log("index的值：" + index)
+      console.log("_index的值：" + _index)
+      console.log("row的值是：", this.editForm) //代表选择的这一行的数据
     },
-    handleAddClick(){
-      this.addBox = true
+    sumbitEditRow() {
+      var editData = _index;
+      console.log("editData的值" + this.editForm)
+      this.tableData[editData].name = this.editForm.name;
+      this.tableData[editData].date = this.editForm.date;
+      this.tableData[editData].address = this.editForm.address;
+      this.centerDialogVisible = false;
+      console.log("数据：" + this.editForm.date)
+      console.log("对象数组", this.tableData)
     },
-    handleAddUser(){
-      let strDate = dateFormat("YYYY-mm-dd",this.addUserData.date)
-      this.addUserData.date = strDate
-      this.tableData.push(this.addUserData)
-      this.addBox = false
-      this.addUserData = {}
-      this.$message({showClose: true, message: "添加成功", type: 'success'});
-    }
-  }
-}
+    closeDialog() {
+      this.centerDialogVisible = false
+      this.isAddMembers = false
+      console.log("editfrom", this.editForm)
+      console.log("addfrom", this.addForm)
 
-function dateFormat(fmt, date) {
-  let ret;
-  const opt = {
-    "Y+": date.getFullYear().toString(),        // 年
-    "m+": (date.getMonth() + 1).toString(),     // 月
-    "d+": date.getDate().toString(),            // 日
-    "H+": date.getHours().toString(),           // 时
-    "M+": date.getMinutes().toString(),         // 分
-    "S+": date.getSeconds().toString()          // 秒
-    // 有其他格式化字符需求可以继续添加，必须转化成字符串
-  };
-  for (let k in opt) {
-    ret = new RegExp("(" + k + ")").exec(fmt);
-    if (ret) {
-      fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
-    };
-  };
-  return fmt;
+    },
+    addMembers() {
+      this.isAddMembers = true
+      this.addForm = {
+        name: '',
+        date: '',
+        address: ''
+      }
+    },
+    sumbitAddRow() {
+      this.tableData = this.tableData || []
+      console.log("表格是:" + this.tableData)
+      this.tableData.push({
+        name: this.addForm.name,
+        date: this.addForm.date,
+        address: this.addForm.address
+      })
+      this.isAddMembers = false;
+      console.log("新增的日期：" + this.addForm.date)
+    }
+  },
+  computed: {
+    tables() {
+      const input = this.input
+      if (input) {
+        console.log("input输入的搜索内容：" + this.input)
+        return this.tableData.filter(data => {
+          console.log("object:" + Object.keys(data))
+          return Object.keys(data).some(key => {
+            return String(data[key]).toLowerCase().indexOf(input) > -1
+          })
+        })
+      }
+      return this.tableData
+    }
+  },
 
 }
 </script>
-
+<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.table-grid-content {
+  border-radius: 4px;
+  height: 50px;
+  background: #ebeef5;
+  padding: 10px;
+}
 </style>
+
