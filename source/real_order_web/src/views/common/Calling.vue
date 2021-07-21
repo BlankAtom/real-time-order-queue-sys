@@ -50,7 +50,13 @@
 </template>
 
 <script>
+import {ElMessage} from "element-plus";
+import {getCurrentInstance} from "vue";
+
 export default {
+  setup() {
+    const {proxy} = getCurrentInstance();
+  },
   methods: {
     next(){
       alert("下一位")
@@ -61,87 +67,37 @@ export default {
     menu(){
       this.$router.replace({name: 'Order'})
     },
-    page(currentPage){
+    page(currentPage) {
+      const {proxy} = getCurrentInstance();
       const _this = this
-      _this.tableData = [{
-        o_id: '1',
-        c_id: '王小虎'+currentPage,
-        c_phone: '11111111111',
-        o_start_time: '04:00:00',
-        wait_time: '15'
-      }, {
-        o_id: '2',
-        c_id: '王小虎',
-        c_phone: '11111111111',
-        o_start_time: '04:00:00',
-        wait_time: '15'
-      }, {
-        o_id: '3',
-        c_id: '王小虎',
-        c_phone: '11111111111',
-        o_start_time: '04:00:00',
-        wait_time: '15'
-      }, {
-        o_id: '4',
-        c_id: '王小虎',
-        c_phone: '11111111111',
-        o_start_time: '04:00:00',
-        wait_time: '15'
-      }, {
-        o_id: '5',
-        c_id: '王小虎',
-        c_phone: '11111111111',
-        o_start_time: '04:00:00',
-        wait_time: '15'
-      }, {
-        o_id: '6',
-        c_id: '王小虎',
-        c_phone: '11111111111',
-        o_start_time: '04:00:00',
-        wait_time: '15'
-      }]
+      proxy.$axios
+          .get("/calling/findAll/1/6")
+          .then(res => {
+            _this.total = res.data.size
+            _this.tableData = res.data
+            // tabledata.wait_time =
+          })
+          .catch(err => {
+            console.log("login err", err);
+            ElMessage.error("读取失败" + err);
+          });
     }
   },
   created() {
+    const {proxy} = getCurrentInstance();
     const _this = this
-    _this.total = 1000
-    _this.tableData = [{
-      o_id: '1',
-      c_id: '王小虎',
-      c_phone: '11111111111',
-      o_start_time: '04:00:00',
-      wait_time: '15'
-    }, {
-      o_id: '2',
-      c_id: '王小虎',
-      c_phone: '11111111111',
-      o_start_time: '04:00:00',
-      wait_time: '15'
-    }, {
-      o_id: '3',
-      c_id: '王小虎',
-      c_phone: '11111111111',
-      o_start_time: '04:00:00',
-      wait_time: '15'
-    }, {
-      o_id: '4',
-      c_id: '王小虎',
-      c_phone: '11111111111',
-      o_start_time: '04:00:00',
-      wait_time: '15'
-    }, {
-      o_id: '5',
-      c_id: '王小虎',
-      c_phone: '11111111111',
-      o_start_time: '04:00:00',
-      wait_time: '15'
-    }, {
-      o_id: '6',
-      c_id: '王小虎',
-      c_phone: '11111111111',
-      o_start_time: '04:00:00',
-      wait_time: '15'
-    }]
+
+    proxy.$axios
+        .get("/calling/findAll/1/6")
+        .then(res => {
+          _this.total = res.data.size
+          _this.tableData = res.data
+          // tabledata.wait_time =
+        })
+        .catch(err => {
+          console.log("login err", err);
+          ElMessage.error("读取失败" + err);
+        });
   },
   data() {
     return {

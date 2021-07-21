@@ -21,3 +21,5 @@ spring:
         min-idle: 0
     port: 56379
     connect-timeout: 3000
+server:
+  port: 8081

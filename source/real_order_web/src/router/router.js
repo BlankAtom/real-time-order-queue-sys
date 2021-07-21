@@ -98,6 +98,18 @@ const layoutMap = [
         ]
     },
     {
+        path: "player",
+        name: "Player",
+        meta: { title: "叫号点单", icon: "el-icon-phone" },
+        component: () => import("../views/common/Calling.vue")
+    },
+    {
+        path: "editor",
+        name: "Order",
+        meta: { title: "点单", icon: "el-icon-document" },
+        component: () => import("../views/common/Order.vue")
+    },
+    {
         path: "user",
         name: "User",
         hidden: true /* 不在侧边导航展示 */,
