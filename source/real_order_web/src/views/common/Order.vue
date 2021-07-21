@@ -2,7 +2,7 @@
     <el-card shadow="never" class="index">
         <template #header>
             <div class="card_header">
-                <b>富文本编辑器</b>
+                <b>用户点单</b>
             </div>
         </template>
         <!-- 富文本 -->
@@ -15,7 +15,7 @@ import { onMounted, ref } from "vue";
 import WEditor from "../../components/WEditor.vue";
 
 export default {
-    components: { WEditor },
+    components: {WEditor},
     setup() {
         const defaultText = ref("");
         const richText = ref("");
@@ -29,8 +29,22 @@ export default {
             richText.value = nv;
         };
 
-        return { defaultText, getRichHtml };
-    }
+        return {defaultText, getRichHtml};
+    },
+
+    methods: {
+        clickInto(val) {
+            let thisRowData = this
+            thisRowData = val
+            let mId = val.mId
+            this.lineUp(mId)
+            console.log(val.pic)
+        },
+        lineUp(mId) {
+            console.log(mId)
+            this.$router.push("/queue/" + mId)
+        }
+    },
 };
 </script>
 

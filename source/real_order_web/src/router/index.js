@@ -25,7 +25,8 @@ router.beforeEach((to, from, next) => {
     document.title = to.meta && to.meta.title ? to.meta.title + " - 管理应用" : "管理系统";
 
     const jwt = sessionStorage.getItem("jwt") || "";
-
+    // console.log(to, from, next )
+    console.log(jwt)
     if (to.path === "/login") {
         !!jwt ? next("/") : next();
     } else {
@@ -34,7 +35,7 @@ router.beforeEach((to, from, next) => {
             return false;
         }
         if (!!jwt) {
-            if (to.meta.hasOwnProperty("admin")) {
+            if (to.meta.hasOwnProperty(from.meta.roles)) {
                 let roles = to.meta.roles || [];
                 let { role } = jwt && JSON.parse(decode(jwt));
                 roles.includes(role) ? next() : next("/error");

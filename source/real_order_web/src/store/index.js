@@ -54,10 +54,25 @@ const actions = {
         commit(CLEAR_USER);
     },
     setUser({ commit }, payload) {
-        let deepCopy = JSON.parse(JSON.stringify(layoutMap)),
-            accessedRouters = filterAsyncRouter(deepCopy, payload.role);
+        let deepCopy;
+        switch (payload.role) {
+            case "admin":
+                deepCopy = JSON.parse(JSON.stringify(layoutMap));
+                break
+            case "customer":
+                deepCopy = JSON.parse(JSON.stringify(layoutMapCustomer));
+                break
+            case "merchant":
+                deepCopy = JSON.parse(JSON.stringify(layoutMapMerchant));
+                break
+        }
+
+        let accessedRouters = filterAsyncRouter(deepCopy, payload.role);
         commit(SET_USER, payload);
         commit(SET_ROUTES, accessedRouters);
+        commit(SET_ROLE, payload.role)
+
+        console.log(payload, deepCopy, accessedRouters)
     },
     setToken({ commit}, data ) {
         // 根据传入的角色分配路由数组
