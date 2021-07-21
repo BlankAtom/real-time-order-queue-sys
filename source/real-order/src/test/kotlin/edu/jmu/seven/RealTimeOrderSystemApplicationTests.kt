@@ -2,10 +2,13 @@ package edu.jmu.seven
 
 import edu.jmu.seven.entity.Account
 import edu.jmu.seven.entity.Customer
+import edu.jmu.seven.entity.Orders
 import edu.jmu.seven.mapper.AccountMapper
 import edu.jmu.seven.mapper.CustomerMapper
+import edu.jmu.seven.mapper.OrdersMapper
 import edu.jmu.seven.utils.SHAUtil
 import org.junit.jupiter.api.Test
+import org.mybatis.spring.annotation.MapperScan
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -16,6 +19,9 @@ class RealTimeOrderSystemApplicationTests {
 
     @Autowired
     lateinit var mapper: AccountMapper
+
+    @Autowired
+    lateinit var omapper: OrdersMapper
 
     @Autowired
     lateinit var cmapper: CustomerMapper
@@ -32,18 +38,22 @@ class RealTimeOrderSystemApplicationTests {
         res.forEach { println(it.toString()) }
 
         // Insert new, And the sha512's length is least 64
-        val pwd = SHAUtil().SHA512("123456")
-        println("$pwd : ${pwd?.length}")
-        mapper.insert(Account("test_123456", pwd!!, 1))
-
-        res = mapper.selectList(null)
-        res.forEach { println(it.toString()) }
-
-        mapper.deleteById("test_123456")
-
-
-        res = mapper.selectList(null)
-        res.forEach { println(it.toString()) }
+//        val pwd = SHAUtil().SHA512("123456")
+//        println("$pwd : ${pwd?.length}")
+//        mapper.insert(Account("test_123456", pwd!!, 1))
+//
+//        res = mapper.selectList(null)
+//        res.forEach { println(it.toString()) }
+//
+//        mapper.deleteById("test_123456")
+//
+//
+//        res = mapper.selectList(null)
+//        res.forEach { println(it.toString()) }
     }
-
+    @Test
+     fun orderTest() {
+        var orders = omapper.selectList(null)
+//        orders.forEach { println(it.toString())}
+    }
 }

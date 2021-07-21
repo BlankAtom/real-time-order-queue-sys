@@ -1,5 +1,4 @@
-<!--<script src="//unpkg.com/vue/dist/vue.js"></script>-->
-<!--<script src="//unpkg.com/element-ui@2.15.3/lib/index.js"></script>-->
+
 <template>
     <el-card shadow="never" class="index">
         <template #header>
@@ -7,11 +6,6 @@
                 <b>数据列表</b>
             </div>
         </template>
-<!--        <el-empty description="暂无数据1111"></el-empty>-->
-<!--      <div id="app">-->
-<!--      <template>-->
-<!--      </template>-->
-<!--      </div>-->
         <el-table
             :data="tableData"
             style="width: 100%">
@@ -39,7 +33,7 @@
             </template>
           </el-table-column>
         </el-table>
-      <div style="padding-top: 20px" align="center">
+      <div  style="padding-top: 20px " align="center"  >
         <el-pagination
           layout="prev, pager, next"
           page-size="7"
@@ -55,6 +49,8 @@
 </template>
 
 <script >
+import {getCurrentInstance} from "vue";
+
 export default {
   data(){
     return {
@@ -94,10 +90,20 @@ export default {
       }],
     }
   },
+  setup(){
+    const { proxy} = getCurrentInstance()
+    proxy.$axios
+        .get('/data/findOrders?m_id=merchant_8995566')
+        .then((response)=>{
+          console.log(response)
+        }).catch((error)=>{
+          console.log(error)
+        })
+  },
   created() {
     const thisView = this
-
     thisView.totalPage= thisView.tableData.length
+
   },
   methods: {
     handleEdit(index, row) {
@@ -148,5 +154,8 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+.center {
+  align-items: center;
 }
 </style>

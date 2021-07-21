@@ -1,7 +1,6 @@
 package edu.jmu.seven.mapper
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper
-import edu.jmu.seven.entity.Account
 import edu.jmu.seven.entity.Customer
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
