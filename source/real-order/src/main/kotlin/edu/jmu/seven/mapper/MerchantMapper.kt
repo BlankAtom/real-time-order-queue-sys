@@ -1,10 +1,6 @@
 package edu.jmu.seven.mapper
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper
-import edu.jmu.seven.entity.Account
-import edu.jmu.seven.entity.Merchant
-import org.apache.ibatis.annotations.Mapper
-import edu.jmu.seven.entity.Customer
 import edu.jmu.seven.entity.Merchant
 import org.apache.ibatis.annotations.Mapper
 import org.apache.ibatis.annotations.Param
@@ -19,4 +15,7 @@ import org.apache.ibatis.annotations.Select
 interface MerchantMapper : BaseMapper<Merchant> {
     @Select("select * from merchant where m_id = #{uname}")
     fun selectByName(@Param(value = "uname") id: String) : Merchant?
+
+    @Select("select * from merchant")
+    fun selectAll() : List<Merchant>
 }
