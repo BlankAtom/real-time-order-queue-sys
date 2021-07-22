@@ -19,16 +19,16 @@ class Orders(
     var c_id: String,
     @TableField(value = "o_cost")
     var o_cost: Double,
-    @TableField(value = "o_content")
-    var o_content: String,
+//    @TableField(value = "o_content")
+//    var o_content: String,
     @TableField(value = "o_start_time")
     var o_start_time: LocalDateTime,
     @TableField(value = "o_pay_time")
     var o_pay_time: LocalDateTime,
     @TableField(value = "o_pay_type")
     var o_pay_type: Int,
-    @TableField(value = "o_estimate")
-    var o_estimate: String,
+//    @TableField(value = "o_estimate")
+//    var o_estimate: String,
     @TableField(value = "status")
     var status: String,
     @TableField(value = "o_desk_num")
@@ -73,11 +73,11 @@ class Orders(
                 ", m_id=" + m_id +
                 ", c_id=" + c_id +
                 ", o_cost=" + o_cost +
-                ", o_content=" + o_content +
+//                ", o_content=" + o_content +
                 ", o_start_time=" + o_start_time +
                 ", o_pay_time=" + o_pay_time +
                 ", o_pay_type=" + o_pay_type +
-                ", o_estimate=" + o_estimate +
+//                ", o_estimate=" + o_estimate +
                 ", status=" + status +
                 ", o_desk_num=" + o_desk_num +
                 ", created_at=" + created_at +

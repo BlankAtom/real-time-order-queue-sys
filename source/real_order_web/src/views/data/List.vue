@@ -24,11 +24,11 @@
               label="花费金额"
               prop="o_cost">
           </el-table-column>
-          <el-table-column
-              label="内容"
-              prop="o_content"
-              width="200%">
-          </el-table-column>
+<!--          <el-table-column-->
+<!--              label="内容"-->
+<!--              prop="o_content"-->
+<!--              width="200%">-->
+<!--          </el-table-column>-->
           <el-table-column
               label="下单时间"
               prop="o_start_time">
@@ -42,10 +42,10 @@
               prop="o_pay_type"
               :formatter="typeFormatter">
           </el-table-column>
-          <el-table-column
-              label="估价"
-              prop="o_estimate">
-          </el-table-column>
+<!--          <el-table-column-->
+<!--              label="估价"-->
+<!--              prop="o_estimate">-->
+<!--          </el-table-column>-->
           <el-table-column
               label="状态"
               prop="status"
@@ -89,80 +89,37 @@ export default {
       currentPage: 1,
       total: 7,
       currentData: [],
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      },{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      },{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
     }
   },
   created() {
     const thisView = this
     const {proxy} = getCurrentInstance()
     const params = {m_id: "merchant_8995566"}
-    proxy.$axios
-        .post('/data/findOrdersBym_id',proxy.$qs.stringify(params))
+    this.$axios
+        .post('/data/findOrdersBym_id',this.$qs.stringify(params))
         .then((response)=>{
           // let{ o_id ,m_id, c_id, o_cost, o_content, o_start_time,
           //   o_pay_time,o_pay_type,o_estimate,status,
           //   o_desk_num,created_at,update_at,deleted,version} =response.data[0]
           // console.log(o_id,m_id,c_id,o_cost,o_content,deleted)
-
           this.orders = response.data
-          // console.log(this.test)
-          // console.log(this.test[0].o_id)
-          // console.log(response.data)
         }).catch((error)=>{
           console.log(error)
       })
-    thisView.currentData = thisView.tableData.splice(thisView.currentPage)
-    thisView.total=thisView.tableData.length
+    // proxy.$axios
+    //   .get("/data/findOrdersBym_id",{
+    //     params:{
+    //       m_id:"merchant_8995566"
+    //     }
+    //   })
+    //   .then((response)=>{
+    //         this.orders = response.data
+    //   })
+    // thisView.currentData = thisView.tableData.splice(thisView.currentPage)
+    // thisView
+    thisView.total=8
     // thisView.total= thisView.test.length
-    return
+
   },
   methods: {
     // handleEdit(index, row) {
@@ -175,21 +132,13 @@ export default {
     },
     handleCurrentChange(val){
       this.currentPage=val
-      // const thisView = this
-      const { proxy} = getCurrentInstance()
-      const params = {m_id: "merchant_8995566"}
-      proxy.$axios
-          .post('/data/findOrdersBym_id',proxy.$qs.stringify(params))
+      const thisView = this
+      const params = {m_id: "merchant_8995566",curPage: val,size: 7}
+      this.$axios
+          .get('/data/findOrderByPage',this.$qs.stringify(params))
           .then((response)=>{
-            // let{ o_id ,m_id, c_id, o_cost, o_content, o_start_time,
-            //   o_pay_time,o_pay_type,o_estimate,status,
-            //   o_desk_num,created_at,update_at,deleted,version} =response.data[0]
-            // console.log(o_id,m_id,c_id,o_cost,o_content,deleted)
-
             this.orders = response.data
-            // console.log(this.test)
-            // console.log(this.test[0].o_id)
-            // console.log(response.data)
+            console.log(this.orders)
           }).catch((error)=>{
         console.log(error)
       })
