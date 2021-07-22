@@ -2,6 +2,7 @@ package edu.jmu.seven.controller;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import edu.jmu.seven.entity.Order;
 import edu.jmu.seven.entity.Orders;
 import edu.jmu.seven.entity.Calling;
 import edu.jmu.seven.mapper.CustomerMapper;
@@ -33,6 +34,8 @@ public class CallingController {
         List<Calling> callings = new ArrayList<Calling>();
         Page<Orders> page = new Page<>(f,size);
         ordersMapper.selectPage(page,null);
+        int total = ordersMapper.selectList(null).size();
+        System.out.println(ordersMapper.selectList(null));
         for(Orders p : page.getRecords()){
             Duration duration = Duration.between(p.getO_start_time(), LocalDateTime.now());
             long time = duration.toMinutes();
@@ -40,12 +43,20 @@ public class CallingController {
             String p1 = phone.substring(0,3);
             String p2 = phone.substring(7,11);
             phone = p1 + "****" + p2;
-            System.out.println(p1);
             Calling calling = new Calling(p.getO_id(),p.getC_id(),
-                    phone,p.getO_start_time(), time);
+                    phone,p.getO_start_time(), time,total);
             callings.add(calling);
         }
         return callings;
+    }
+
+    @GetMapping("/calling/findOrder/{f}/{size}")
+    public List<Order> findOrder(@PathVariable("f") int f, @PathVariable("size") int size){
+
+        List<Order> orders = new ArrayList<>();
+        Page<Orders> page = new Page<>(f,size);
+        return null;
+
     }
 
 }

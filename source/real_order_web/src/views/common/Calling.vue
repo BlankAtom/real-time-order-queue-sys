@@ -68,12 +68,11 @@ export default {
       this.$router.replace({name: 'Order'})
     },
     page(currentPage) {
-      const {proxy} = getCurrentInstance();
+      // const {proxy} = getCurrentInstance();
       const _this = this
-      proxy.$axios
-          .get("/calling/findAll/1/6")
+      this.$axios
+          .get("/calling/findAll/"+currentPage+"/6")
           .then(res => {
-            _this.total = res.data.size
             _this.tableData = res.data
             // tabledata.wait_time =
           })
@@ -84,15 +83,13 @@ export default {
     }
   },
   created() {
-    const {proxy} = getCurrentInstance();
     const _this = this
 
-    proxy.$axios
+    this.$axios
         .get("/calling/findAll/1/6")
         .then(res => {
-          _this.total = res.data.size
           _this.tableData = res.data
-          // tabledata.wait_time =
+          _this.total = res.data[0].total
         })
         .catch(err => {
           console.log("login err", err);
@@ -101,6 +98,8 @@ export default {
   },
   data() {
     return {
+      p: 1,
+      c: 6,
       total: null,
       tableData: null
     }

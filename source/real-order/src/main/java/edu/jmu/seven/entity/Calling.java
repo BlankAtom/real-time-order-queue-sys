@@ -16,5 +16,6 @@ public class Calling {
     private String c_phone;
     private LocalDateTime o_start_time;
     private long wait_time;
+    private int total;
 
 }
