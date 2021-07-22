@@ -34,10 +34,39 @@
 export default {
     setup() {
 
-    },
+    }
+import {getCurrentInstance} from "vue";
+
+export default {
+    // setup(){
+    //     const {proxy} = getCurrentInstance();
+    //     proxy.$axios.get('cus/showmerchant',{
+    //         params:{
+    //
+    //         }
+    //     })
+    //         .then(function (response){
+    //             console.log("6854")
+    //             console.log(response.data)
+    //             let {a,b,c,d}=response.data
+    //             console.log(a)
+    //         })
+    //         .catch(function (error){
+    //             console.log(error)
+    //         })
+    // },
     methods: {
-        handleClick(row) {
-            console.log(row)
+        clickInto(val) {
+            let thisRowData = this
+            thisRowData = val
+            let mId = val.mId
+            this.lineUp(mId)
+            console.log(val.pic)
+        },
+        lineUp(mId) {
+            console.log(mId)
+            this.$router.push("/queue" )
+            this.$router.push("/queue/"+mId)
         }
     },
     data() {

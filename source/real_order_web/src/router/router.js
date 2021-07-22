@@ -3,6 +3,61 @@ import RouteView from "../components/RouteView.vue";
 import Queue from "../views/common/Queue.vue";
 
 
+
+const devMap = [
+    {
+        path: "hxq",
+        name: "HXQ",
+        meta: {
+            title: "HXQ"
+        },
+        children: [
+            {
+                path: "customer",
+                name: "Customer",
+                meta: {
+                    title: "顾客-选择商家",
+                    icon: "el-icon-location"
+                },
+                component: ()=> import("../views/custom/index.vue"),
+            },
+            {
+                path: "customerSelf",
+                name: "CustomerSelf",
+                meta: { title: "介个先当做用户", icon: "el-icon-s-comment" },
+                component: () => import("../views/common/ChooseMerchant.vue")
+            },
+
+            {
+                path: "queue/:mId",
+                name: "Queue",
+                meta: {title: "队列", icon: "el-icon-s-comment"},
+                component: ()=>import("../views/common/Queue.vue")
+            }
+        ]
+    },
+    {
+        path: "chb",
+        name: "CHB",
+        meta: {
+            title: "CHB"
+        },
+        children: [
+            {
+                path: "merchant",
+                name: "MerchantMain",
+                meta: { title: "叫号点单", icon: "el-icon-phone" , roles: ["merchant"],},
+                component: () => import("../views/common/Calling.vue")
+            },
+            {
+                path: "order",
+                name: "Order",
+                meta: { title: "点单", icon: "el-icon-document" , roles: ["merchant"],},
+                component: () => import("../views/common/Order.vue")
+            },
+        ]
+    }
+]
 // 普通用户导航
 // [个人信息、商家]
 const layoutMapCustomer = [
@@ -11,8 +66,7 @@ const layoutMapCustomer = [
         name: "Customer",
         meta: {
             title: "顾客-选择商家",
-            icon: "el-icon-location",
-            roles: ["customer"]
+            icon: "el-icon-location"
         },
         component: ()=> import("../views/custom/index.vue"),
     },
@@ -20,14 +74,14 @@ const layoutMapCustomer = [
     {
         path: "customerSelf",
         name: "CustomerSelf",
-        meta: { title: "介个先当做用户", icon: "el-icon-s-comment" , roles: ["customer"]},
+        meta: { title: "介个先当做用户", icon: "el-icon-s-comment" },
         component: () => import("../views/common/ChooseMerchant.vue")
     },
 
     {
-        path: "queue",
+        path: "queue/:mId",
         name: "Queue",
-        meta: {title: "队列", icon: "el-icon-s-comment", roles: ["customer"]},
+        meta: {title: "队列", icon: "el-icon-s-comment"},
         component: ()=>import("../views/common/Queue.vue")
     }
 ]
@@ -61,12 +115,12 @@ const layoutMap = [
         path: "data",
         name: "Data",
         component: RouteView,
-        meta: { title: "数据管理", icon: "el-icon-s-help" },
+        meta: { title: "数据管理", icon: "el-icon-s-help" , roles: ["admin"],},
         children: [
             {
                 path: "",
                 name: "DataList",
-                meta: { title: "数据列表" },
+                meta: { title: "数据列表" ,roles: ["admin"], },
                 component: () => import("../views/data/List.vue")
             },
             {
@@ -102,6 +156,12 @@ const layoutMap = [
         name: "Player",
         meta: { title: "查看菜品", icon: "el-icon-video-camera-solid" },
         component: () => import("../views/common/XGPlayer.vue")
+    },
+    {
+        path: "editor",
+        name: "Editor",
+        meta: { title: "富文本编辑器", icon: "el-icon-s-comment" },
+        component: () => import("../views/common/Editor.vue")
     },
     {
         path: "user",
