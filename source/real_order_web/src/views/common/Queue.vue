@@ -2,7 +2,7 @@
     <div class="outer" style="height: 100%;width: 100%">
         <div class="center" style="margin-bottom: 20px">
             <h1 style="size: auto;margin-top: 50px;font-size: 50px">{{ mName }}</h1>
-            <!--            <h1 style="size: auto;margin-top: 50px">{{ $route.params.mId }}</h1>-->
+<!--                        <h1 style="size: auto;margin-top: 50px">{{ m_id }}</h1>-->
         </div>
         <div style="width: 300px;height:300px;margin: auto; "  @click="queueup">
             <div class="box">
@@ -67,14 +67,32 @@
         //             console.log(error)
         //         })
         // },
+        created() {
+            const _this = this
+            const {proxy} = getCurrentInstance();
+            let m_id = this.m_id
+            proxy.$axios.post('cus/onemerchant?m_id='+m_id)
+                .then((response)=>{
+                    this.data = response.data
+                    console.log("1111"+response.data)
+                    console.log(this.data)
+                    let {m_id,m_name,m_phone}=response.data
+                    this.mName=m_name
+                    console.log(m_id)
+                    // this.mName=m.m_name
+                }).catch((error)=>{
+                console.log(error)
+            })
+        },
         data() {
             return {
-                test: [],
+                data: [],
                 mName: '俺是个店名',
                 text: '点击排队',
                 qNub: '很多',
                 btnText: '',
                 show: false,
+                m_id:this.$route.params.mId,
                 flag: true
             }
         },

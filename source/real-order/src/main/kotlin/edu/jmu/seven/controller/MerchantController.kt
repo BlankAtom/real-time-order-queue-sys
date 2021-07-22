@@ -5,6 +5,7 @@ import edu.jmu.seven.mapper.MerchantMapper
 import edu.jmu.seven.service.MerchantService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 /**
@@ -28,7 +29,8 @@ class MerchantController {
     }
 
     @RequestMapping("/onemerchant")
-    fun oneMerchant(m_id:String): Merchant {
+    fun oneMerchant(@RequestParam("m_id") m_id: String)
+    : Merchant {
         return mmapper.selectById(m_id)
     }
 
