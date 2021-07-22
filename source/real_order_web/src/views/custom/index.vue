@@ -4,7 +4,7 @@
         <div class="cm-div">
 
             <el-table @row-click="clickInto"
-                      :data="tableData"
+                      :data="testData"
                       style="width: 100%">
                 <el-table-column
                     min-width="30%"
@@ -14,16 +14,22 @@
                     <img src="../../assets/img/admin.png" style="height: 80px;">
                 </el-table-column>
                 <el-table-column
-                    prop="name"
+                    prop="m_name"
                     label="商家名称"
                     align="center"
                 >
                 </el-table-column>
-                <el-table-column hidden
-                                 prop="mId"
-                                 align="center"
+                <el-table-column
+                        prop="m_address"
+                        label="商家地址"
+                        align="center"
                 >
                 </el-table-column>
+<!--                <el-table-column v-if="false"-->
+<!--                                 prop="m_id"-->
+<!--                                 align="center"-->
+<!--                >-->
+<!--                </el-table-column>-->
             </el-table>
         </div>
 
@@ -34,39 +40,9 @@
 import {getCurrentInstance} from "vue";
 
 export default {
-    // setup(){
-    //     const {proxy} = getCurrentInstance();
-    //     proxy.$axios.get('cus/showmerchant',{
-    //         params:{
-    //
-    //         }
-    //     })
-    //         .then(function (response){
-    //             console.log("6854")
-    //             console.log(response.data)
-    //             let {a,b,c,d}=response.data
-    //             console.log(a)
-    //         })
-    //         .catch(function (error){
-    //             console.log(error)
-    //         })
-    // },
-    methods: {
-        clickInto(val) {
-            let thisRowData = this
-            thisRowData = val
-            let mId = val.mId
-            this.lineUp(mId)
-            console.log(val.pic)
-        },
-        lineUp(mId) {
-            console.log(mId)
-            this.$router.push("/queue" )
-            this.$router.push("/queue/"+mId)
-        }
-    },
     data() {
         return {
+            testData: [],
             isPC: document.documentElement.clientWidth > 640,
             tableData: [{
                 pic: '2016-05-02',
@@ -87,6 +63,33 @@ export default {
             }]
         }
     },
+    created() {
+        const _this = this
+        const {proxy} = getCurrentInstance();
+        proxy.$axios.post('cus/showmerchant')
+        .then((response)=>{
+            this.testData = response.data
+            console.log(this.testData)
+        }).catch((error)=>{
+            console.log(error)
+        })
+    },
+    methods: {
+        clickInto(val) {
+            let thisRowData = this
+            thisRowData = val
+            let m_id = val.m_id
+            console.log("mid is "+m_id)
+            this.lineUp(m_id)
+
+        },
+        lineUp(mId) {
+            console.log(mId)
+            this.$router.push("/queue" )
+            this.$router.push("/queue/"+mId)
+        }
+    },
+
 }
 </script>
 
