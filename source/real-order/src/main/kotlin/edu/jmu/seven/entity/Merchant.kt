@@ -1,5 +1,7 @@
 package edu.jmu.seven.entity
 
+import com.baomidou.mybatisplus.annotation.TableField
+import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
 import java.io.Serializable
 import java.time.LocalDateTime
@@ -9,21 +11,33 @@ import java.time.LocalDateTime
  * @since 2021-07-16
  */
 @TableName("vocation.merchant")
-class Merchant : Serializable {
-    var m_id: String? = null
-    var m_name: String? = null
-    var m_license: String? = null
-    var m_phone: String? = null
-    var m_address: String? = null
-    var m_open_time: String? = null
-    var m_close_time: String? = null
-    var m_tag: String? = null
-    var m_notice: String? = null
-    var m_icon: String? = null
+class Merchant (
+    @TableId("m_id")
+    var m_id: String,
+    @TableField("m_name")
+    var m_name: String,
+    @TableField("m_license")
+    var m_license: String,
+    @TableField("m_phone")
+    var m_phone: String,
+    @TableField("m_address")
+    var m_address: String,
+    @TableField("m_open_time")
+    var m_open_time: String,
+    @TableField("m_close_time")
+    var m_close_time: String,
+    @TableField("m_tag")
+    var m_tag: String,
+    @TableField("m_notice")
+    var m_notice: String,
+    @TableField("m_icon")
+    var m_icon: String,
+) : Serializable {
+
+    @TableField("created_at")
     var created_at: LocalDateTime? = null
+    @TableField("updated_at")
     var updated_at: LocalDateTime? = null
-
-
     override fun toString(): String {
         return "Merchant{" +
                 "m_id=" + m_id +

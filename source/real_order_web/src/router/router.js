@@ -11,8 +11,7 @@ const layoutMapCustomer = [
         name: "Customer",
         meta: {
             title: "顾客-选择商家",
-            icon: "el-icon-location",
-            roles: ["customer"]
+            icon: "el-icon-location"
         },
         component: ()=> import("../views/custom/index.vue"),
     },
@@ -20,14 +19,14 @@ const layoutMapCustomer = [
     {
         path: "customerSelf",
         name: "CustomerSelf",
-        meta: { title: "介个先当做用户", icon: "el-icon-s-comment" , roles: ["customer"]},
+        meta: { title: "介个先当做用户", icon: "el-icon-s-comment" },
         component: () => import("../views/common/ChooseMerchant.vue")
     },
 
     {
-        path: "queue",
+        path: "queue/:mId",
         name: "Queue",
-        meta: {title: "队列", icon: "el-icon-s-comment", roles: ["customer"]},
+        meta: {title: "队列", icon: "el-icon-s-comment"},
         component: ()=>import("../views/common/Queue.vue")
     }
 ]
