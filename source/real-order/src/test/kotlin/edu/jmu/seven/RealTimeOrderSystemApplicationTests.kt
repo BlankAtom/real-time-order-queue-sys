@@ -2,7 +2,6 @@ package edu.jmu.seven
 
 import edu.jmu.seven.entity.Account
 import edu.jmu.seven.entity.Customer
-import edu.jmu.seven.entity.Orders
 import edu.jmu.seven.mapper.AccountMapper
 import edu.jmu.seven.mapper.CustomerMapper
 import edu.jmu.seven.mapper.OrdersMapper
@@ -38,18 +37,18 @@ class RealTimeOrderSystemApplicationTests {
         res.forEach { println(it.toString()) }
 
         // Insert new, And the sha512's length is least 64
-//        val pwd = SHAUtil().SHA512("123456")
-//        println("$pwd : ${pwd?.length}")
-//        mapper.insert(Account("test_123456", pwd!!, 1))
-//
-//        res = mapper.selectList(null)
-//        res.forEach { println(it.toString()) }
-//
-//        mapper.deleteById("test_123456")
-//
-//
-//        res = mapper.selectList(null)
-//        res.forEach { println(it.toString()) }
+        val pwd = SHAUtil().SHA512("123456")
+        println("$pwd : ${pwd?.length}")
+        mapper.insert(Account("test_123456", pwd!!, 1))
+
+        res = mapper.selectList(null)
+        res.forEach { println(it.toString()) }
+
+        mapper.deleteById("test_123456")
+
+
+        res = mapper.selectList(null)
+        res.forEach { println(it.toString()) }
     }
     @Test
      fun orderTest() {
