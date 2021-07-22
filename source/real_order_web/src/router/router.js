@@ -11,9 +11,10 @@ const devMap = [
         meta: {
             title: "HXQ"
         },
+        component: RouteView,
         children: [
             {
-                path: "customer",
+                path: "",
                 name: "Customer",
                 meta: {
                     title: "顾客-选择商家",
@@ -42,20 +43,51 @@ const devMap = [
         meta: {
             title: "CHB"
         },
+        component: RouteView,
         children: [
             {
-                path: "merchant",
+                path: "",
                 name: "MerchantMain",
-                meta: { title: "叫号点单", icon: "el-icon-phone" , roles: ["merchant"],},
+                meta: { title: "叫号点单", icon: "el-icon-phone" },
                 component: () => import("../views/common/Calling.vue")
             },
             {
                 path: "order",
                 name: "Order",
-                meta: { title: "点单", icon: "el-icon-document" , roles: ["merchant"],},
+                meta: { title: "点单", icon: "el-icon-document"},
                 component: () => import("../views/common/Order.vue")
             },
         ]
+    },
+    {
+        path: "hzr",
+        name: "HZR",
+        meta: {
+            title: "HZR"
+        },
+        component: RouteView,
+        children: [
+
+            {
+                path: "",
+                name: "Player",
+                meta: { title: "查看菜品", icon: "el-icon-video-camera-solid" },
+                component: () => import("../views/common/XGPlayer.vue")
+            },
+        ]
+    },
+    {
+        path: "wds",
+        name: "WDS",
+        meta: {
+            title: "WDS"
+
+        }
+        ,
+        children: [
+
+        ]
+
     }
 ]
 // 普通用户导航
@@ -158,12 +190,6 @@ const layoutMap = [
         component: () => import("../views/common/XGPlayer.vue")
     },
     {
-        path: "editor",
-        name: "Editor",
-        meta: { title: "富文本编辑器", icon: "el-icon-s-comment" },
-        component: () => import("../views/common/Editor.vue")
-    },
-    {
         path: "user",
         name: "User",
         hidden: true /* 不在侧边导航展示 */,
@@ -186,10 +212,10 @@ const layoutMap = [
 
 const routes = [
     { path: "/login", name: "Login", meta: { title: "登录" }, component: () => import("../views/login/Login.vue") },
-    { path: "/", name: "Layout", meta: {title: "管理员", roles: ["admin"]},component: Layout, children: [...layoutMap] },
-    { path: "/", name: "CustomerLayout", meta: {title: "用户", roles: ["customer"]},component: Layout, children: [...layoutMapCustomer] },
-    { path: "/", name: "MerchantLayout", meta: {title: "商家", roles: ["merchant"]},component: Layout, children: [...layoutMapMerchant] },
+    { path: "/", name: "Layout", meta: {title: ""},component: Layout, children: [...devMap] },
+    // { path: "/", name: "CustomerLayout", meta: {title: "用户", roles: ["customer"]},component: Layout, children: [...layoutMapCustomer] },
+    // { path: "/", name: "MerchantLayout", meta: {title: "商家", roles: ["merchant"]},component: Layout, children: [...layoutMapMerchant] },
 
 ];
 
-export { routes, layoutMap, layoutMapCustomer, layoutMapMerchant };
+export { routes, devMap};
