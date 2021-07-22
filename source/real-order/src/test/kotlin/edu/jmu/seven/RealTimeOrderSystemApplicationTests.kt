@@ -2,6 +2,7 @@ package edu.jmu.seven
 
 import edu.jmu.seven.entity.Account
 import edu.jmu.seven.entity.Customer
+import edu.jmu.seven.entity.Dish
 import edu.jmu.seven.mapper.AccountMapper
 import edu.jmu.seven.mapper.CustomerMapper
 import edu.jmu.seven.mapper.OrderMapper
@@ -10,6 +11,8 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import java.time.LocalDateTime
+import kotlin.random.Random
 
 
 @SpringBootTest
@@ -53,5 +56,21 @@ class RealTimeOrderSystemApplicationTests {
     fun testOrder() {
         val v = orderMapper.selectList(null)
         v.forEach { println(it) }
+    }
+
+    @Test
+    fun createData() {
+        // dish
+        for(s in 1..100) {
+            val did = "dish_" + LocalDateTime.now().second + Random.nextInt()
+            val dname = "dname_" + Random.nextInt()
+            val mid = "merchant_8995566"
+            val dPrice = Random.nextInt().toDouble() / 100
+            val dPic = "https://hong-not-pic-1258424340.cos.ap-nanjing.myqcloud.com/notepic/20210418135821.png"
+            val dNote = "你希望这是什么呢"
+            val dSum = 0
+            val cus = ""
+            Dish()
+        }
     }
 }

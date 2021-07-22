@@ -3,11 +3,14 @@
         <div class="center">
             <h1 style="size: auto;margin-top: 50px">{{ mName }}</h1>
         </div >
+        <div style="width: 300px; margin: auto; horiz-align: center">
 
-        <div style="width: max-content;margin: auto;">
-            <div class="box" />
+            <div class="box" >
+            </div>
         </div>
-
+        <div class="center">
+            <label style="size: auto;font-size: 50px">前面还有{{ qNub }}人</label>
+        </div>
 <!--        <div class="center"-->
 <!--             style="border-radius: 100%;-->
 <!--             width: 300px;height: 300px;-->
@@ -18,9 +21,7 @@
 <!--                <label style="size: auto;font-size: 50px">{{text}}</label>-->
 <!--            </div>-->
 <!--        </div>-->
-        <div class="center">
-            <label style="size: auto;font-size: 50px">前面还有{{ qNub }}人</label>
-        </div>
+
         <div class="center" style="margin-top: 80px">
             <el-button class="center" type="primary" style="size: 100px;font-size: 60px;background-color: #0c212b" @click="clickChange">
                 {{ btnText }}
@@ -89,15 +90,17 @@
     }
 
     .box:before{
-        content:'123';
+        content:'';
         position:absolute;
-        z-index:2;
+        /*z-index:2;*/
+        /*text-align: center;*/
+        /*vertical-align: middle;*/
         top:60px;
-        left:50px;
+        /*left:50px;*/
         width:300px;
         height:300px;
         background:lightblue;
-        border-radius:100%;
+        border-radius:50%;
         /*transform: rotate(45deg);*/
         -webkit-animation:box 3s infinite ;
     }
@@ -127,7 +130,7 @@
     .box:after{
         content:'';
         position:absolute;
-        z-index:1;
+        /*z-index:1;*/
         top:192px;
         left:50px;
         width:100px;

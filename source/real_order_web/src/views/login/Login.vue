@@ -118,7 +118,7 @@ export default {
                     store.dispatch("setUser", params);
                     loginFormState.loading = false;
                     // 这里的替换需要改为指定页面
-                    router.replace("/"+roleGet?roleGet:"");
+                    router.replace("/");
                 }, 1000);
 
             });

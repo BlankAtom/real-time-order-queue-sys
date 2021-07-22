@@ -3,6 +3,61 @@ import RouteView from "../components/RouteView.vue";
 import Queue from "../views/common/Queue.vue";
 
 
+
+const devMap = [
+    {
+        path: "hxq",
+        name: "HXQ",
+        meta: {
+            title: "HXQ"
+        },
+        children: [
+            {
+                path: "customer",
+                name: "Customer",
+                meta: {
+                    title: "顾客-选择商家",
+                    icon: "el-icon-location"
+                },
+                component: ()=> import("../views/custom/index.vue"),
+            },
+            {
+                path: "customerSelf",
+                name: "CustomerSelf",
+                meta: { title: "介个先当做用户", icon: "el-icon-s-comment" },
+                component: () => import("../views/common/ChooseMerchant.vue")
+            },
+
+            {
+                path: "queue/:mId",
+                name: "Queue",
+                meta: {title: "队列", icon: "el-icon-s-comment"},
+                component: ()=>import("../views/common/Queue.vue")
+            }
+        ]
+    },
+    {
+        path: "chb",
+        name: "CHB",
+        meta: {
+            title: "CHB"
+        },
+        children: [
+            {
+                path: "merchant",
+                name: "MerchantMain",
+                meta: { title: "叫号点单", icon: "el-icon-phone" , roles: ["merchant"],},
+                component: () => import("../views/common/Calling.vue")
+            },
+            {
+                path: "order",
+                name: "Order",
+                meta: { title: "点单", icon: "el-icon-document" , roles: ["merchant"],},
+                component: () => import("../views/common/Order.vue")
+            },
+        ]
+    }
+]
 // 普通用户导航
 // [个人信息、商家]
 const layoutMapCustomer = [
