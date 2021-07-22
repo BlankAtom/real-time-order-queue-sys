@@ -2,13 +2,15 @@
     <div class="outer" style="height: 100%;width: 100%">
         <div class="center" style="margin-bottom: 20px">
             <h1 style="size: auto;margin-top: 50px;font-size: 50px">{{ mName }}</h1>
-<!--                        <h1 style="size: auto;margin-top: 50px">{{ m_id }}</h1>-->
+            <!--                        <h1 style="size: auto;margin-top: 50px">{{ m_id }}</h1>-->
         </div>
-        <div style="width: 300px;height:300px;margin: auto; "  @click="queueup">
-            <div class="box">
+        <div style="width: 300px;height:300px;margin: auto; " @click="queueup">
+            <div class="box" v-if="show"/>
+            <div v-else>
+                <div class="normal"/>
             </div>
             <div class="center" style="padding-top: 30%">
-                <label style="size: auto;font-size: 50px">{{text}}</label>
+                <label style="size: auto;font-size: 50px">{{ text }}</label>
             </div>
         </div>
 
@@ -27,7 +29,8 @@
         <!--        </div>-->
 
         <div class="center" style="margin-top: 80px">
-            <el-button class="center" type="primary" style="size: 100px;font-size: 60px;background-color: #0c212b" v-if="show"
+            <el-button class="center" type="primary" style="size: 100px;font-size: 60px;background-color: #0c212b"
+                       v-if="show"
                        @click="cancel">
                 {{ btnText }}
             </el-button>
@@ -71,16 +74,16 @@
             const _this = this
             const {proxy} = getCurrentInstance();
             let m_id = this.m_id
-            proxy.$axios.post('cus/onemerchant?m_id='+m_id)
-                .then((response)=>{
+            proxy.$axios.post('cus/onemerchant?m_id=' + m_id)
+                .then((response) => {
                     this.data = response.data
-                    console.log("1111"+response.data)
+                    console.log("1111" + response.data)
                     console.log(this.data)
-                    let {m_id,m_name,m_phone}=response.data
-                    this.mName=m_name
+                    let {m_id, m_name, m_phone} = response.data
+                    this.mName = m_name
                     console.log(m_id)
                     // this.mName=m.m_name
-                }).catch((error)=>{
+                }).catch((error) => {
                 console.log(error)
             })
         },
@@ -92,19 +95,19 @@
                 qNub: '很多',
                 btnText: '',
                 show: false,
-                m_id:this.$route.params.mId,
+                m_id: this.$route.params.mId,
                 flag: true
             }
         },
         methods: {
             cancel(val) {
-                this.btnText='取消排队'
-                this.text='点击排队'
-                this.show=!this.show
+                this.btnText = '取消排队'
+                this.text = '点击排队'
+                this.show = !this.show
             },
             queueup(val) {
                 if (!this.show)
-                this.show=!this.show
+                    this.show = !this.show
                 /**  取排队号操作   **/
                 this.text = '9856号'
             }
@@ -128,6 +131,18 @@
     .center {
         width: max-content;
         margin: auto;
+    }
+
+    .normal {
+        content: '';
+        position: absolute;
+
+        text-align: center;
+        z-index: -1;
+        width: 300px;
+        height: 300px;
+        background: lightblue;
+        border-radius: 100%;
     }
 
     .box:before {
