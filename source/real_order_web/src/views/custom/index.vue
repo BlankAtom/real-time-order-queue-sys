@@ -31,6 +31,10 @@
 </template>
 
 <script>
+export default {
+    setup() {
+
+    }
 import {getCurrentInstance} from "vue";
 
 export default {
