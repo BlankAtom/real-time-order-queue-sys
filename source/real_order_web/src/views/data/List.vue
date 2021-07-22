@@ -6,25 +6,58 @@
             </div>
         </template>
         <el-table
-            :data="tableData"
+            :data="orders"
             style="width: 100%">
           <el-table-column
-              label="买家名称"
-              prop="name">
+              label="订单ID"
+              prop="o_id">
           </el-table-column>
           <el-table-column
-              label="订单价格"
-              prop="date">
+              label="商家ID"
+              prop="m_id">
           </el-table-column>
           <el-table-column
-              label="订单"
-              prop="name">
+              label="用户ID"
+              prop="c_id">
+          </el-table-column>
+          <el-table-column
+              label="花费金额"
+              prop="o_cost">
+          </el-table-column>
+          <el-table-column
+              label="内容"
+              prop="o_content"
+              width="200%">
+          </el-table-column>
+          <el-table-column
+              label="下单时间"
+              prop="o_start_time">
+          </el-table-column>
+          <el-table-column
+              label="付款时间"
+              prop="o_pay_time">
+          </el-table-column>
+          <el-table-column
+              label="付款方式"
+              prop="o_pay_type"
+              :formatter="typeFormatter">
+          </el-table-column>
+          <el-table-column
+              label="估价"
+              prop="o_estimate">
+          </el-table-column>
+          <el-table-column
+              label="状态"
+              prop="status"
+              :formatter="statusFormatter">
+          </el-table-column>
+          <el-table-column
+              label="桌号"
+              prop="o_desk_num">
           </el-table-column>
           <el-table-column label="操作">
             <template #default="scope">
-              <el-button
-                  size="mini"
-                  @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+
               <el-button
                   size="mini"
                   type="danger"
@@ -38,8 +71,7 @@
           page-size="7"
           hide-on-single-page="true"
           background
-
-          :total="totalPage"
+          :total="total"
           @current-change="handleCurrentChange">
       </el-pagination>
       </div>
@@ -53,7 +85,10 @@ import {getCurrentInstance} from "vue";
 export default {
   data(){
     return {
-      totalPage: 1,
+      orders: [],
+      currentPage: 1,
+      total: 7,
+      currentData: [],
       tableData: [{
         date: '2016-05-02',
         name: '王小虎',
@@ -86,33 +121,7 @@ export default {
         date: '2016-05-03',
         name: '王小虎',
         address: '上海市普陀区金沙江路 1516 弄'
-      }],
-    }
-  },
-  setup(){
-    const { proxy} = getCurrentInstance()
-    proxy.$axios
-        .get('/data/findOrders?m_id=merchant_8995566')
-        .then((response)=>{
-          console.log(response)
-        }).catch((error)=>{
-          console.log(error)
-        })
-  },
-  created() {
-    const thisView = this
-    thisView.totalPage= thisView.tableData.length
-
-  },
-  methods: {
-    handleEdit(index, row) {
-      console.log(index, row);
-    },
-    handleDelete(index, row) {
-      console.log(index, row,this.totalPage);
-    },
-    handleCurrentChange(val){
-      this.tableData=[{
+      },{
         date: '2016-05-02',
         name: '王小虎',
         address: '上海市普陀区金沙江路 1518 弄'
@@ -128,20 +137,83 @@ export default {
         date: '2016-05-03',
         name: '王小虎',
         address: '上海市普陀区金沙江路 1516 弄'
-      },{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
       }]
-      // console.log(thisView.totalPage);
+    }
+  },
+  created() {
+    const thisView = this
+    const {proxy} = getCurrentInstance()
+    const params = {m_id: "merchant_8995566"}
+    proxy.$axios
+        .post('/data/findOrdersBym_id',proxy.$qs.stringify(params))
+        .then((response)=>{
+          // let{ o_id ,m_id, c_id, o_cost, o_content, o_start_time,
+          //   o_pay_time,o_pay_type,o_estimate,status,
+          //   o_desk_num,created_at,update_at,deleted,version} =response.data[0]
+          // console.log(o_id,m_id,c_id,o_cost,o_content,deleted)
+
+          this.orders = response.data
+          // console.log(this.test)
+          // console.log(this.test[0].o_id)
+          // console.log(response.data)
+        }).catch((error)=>{
+          console.log(error)
+      })
+    thisView.currentData = thisView.tableData.splice(thisView.currentPage)
+    thisView.total=thisView.tableData.length
+    // thisView.total= thisView.test.length
+    return
+  },
+  methods: {
+    // handleEdit(index, row) {
+    //   console.log(index, row);
+    // },
+    handleDelete(index, row) {
+      console.log(row.o_id)
+      this.orders.splice(index,1),
+      console.log(index, row);
+    },
+    handleCurrentChange(val){
+      this.currentPage=val
+      // const thisView = this
+      const { proxy} = getCurrentInstance()
+      const params = {m_id: "merchant_8995566"}
+      proxy.$axios
+          .post('/data/findOrdersBym_id',proxy.$qs.stringify(params))
+          .then((response)=>{
+            // let{ o_id ,m_id, c_id, o_cost, o_content, o_start_time,
+            //   o_pay_time,o_pay_type,o_estimate,status,
+            //   o_desk_num,created_at,update_at,deleted,version} =response.data[0]
+            // console.log(o_id,m_id,c_id,o_cost,o_content,deleted)
+
+            this.orders = response.data
+            // console.log(this.test)
+            // console.log(this.test[0].o_id)
+            // console.log(response.data)
+          }).catch((error)=>{
+        console.log(error)
+      })
+      console.log(val);
+    },
+    typeFormatter: function (row,column,cellValue){
+      if (cellValue===0){
+        return "现金支付";
+      }else if (cellValue===1){
+        return "微信支付";
+      }else if (cellValue===2){
+        return "支付宝支付";
+      }else if (cellValue===3){
+        return "刷银行卡支付";
+      }else if (cellValue===4){
+        return "刷信用卡支付";
+      }else if (cellValue===5){
+        return "其他支付";
+      }
+    },
+    statusFormatter: function (row,column,cellValue){
+      if(cellValue==="closed"){
+        return "已完成";
+      }
     }
   },
 }

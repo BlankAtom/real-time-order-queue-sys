@@ -13,20 +13,25 @@ import org.springframework.web.bind.annotation.RestController
 class OrdersController {
 
     @Autowired
-    lateinit var mapper: OrdersMapper
+    lateinit var omapper: OrdersMapper
 
-    @RequestMapping("/findOneOrders")
+    @RequestMapping("/findOrdersBym_id")
     fun selectOrders(@RequestParam("m_id") m_id: String): List<Orders>? {
-        println(mapper.selectAllOrders())
-        var warrper = QueryWrapper<Orders>().eq("m_id",m_id);
-
-        return mapper.selectList(warrper)
+//        println(omapper.selectAllOrders())
+        var orderwrapper = QueryWrapper<Orders>().eq("m_id", m_id)
+//        println("2222")
+        return omapper.selectList(orderwrapper)
     }
 
     @RequestMapping("/findOrders")
     fun selectAll(): List<Orders>? {
+        println("1111")
+        return omapper.selectList(null)
+    }
 
-
-        return mapper.selectList(null)
+    @RequestMapping("/deleteOrderByo_id")
+    fun deleteOrder(@RequestParam("o_id") o_id:String){
+        var orderwrapper = QueryWrapper<Orders>().eq("o_id",o_id)
+        omapper.delete(orderwrapper)
     }
 }
