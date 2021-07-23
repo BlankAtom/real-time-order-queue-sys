@@ -41,14 +41,14 @@ class Orders(
      * 不需要开发者进行设定，由MetaHandler进行
      */
     @TableField( "created_at", fill = FieldFill.INSERT )
-    var created_at: Date = Date()
+    var created_at: LocalDateTime = LocalDateTime.now()
 
     /**
      * updateTime: 字段，更新时间，记录更新记录的最后时间
      * 不需要开发者进行设定，由MetaHandler进行
      */
     @TableField("update_at", fill = FieldFill.INSERT_UPDATE)
-    var updated_at: Date = Date()
+    var updated_at: LocalDateTime = LocalDateTime.now()
 
 
     /**
@@ -73,11 +73,9 @@ class Orders(
                 ", m_id=" + m_id +
                 ", c_id=" + c_id +
                 ", o_cost=" + o_cost +
-//                ", o_content=" + o_content +
                 ", o_start_time=" + o_start_time +
                 ", o_pay_time=" + o_pay_time +
                 ", o_pay_type=" + o_pay_type +
-//                ", o_estimate=" + o_estimate +
                 ", status=" + status +
                 ", o_desk_num=" + o_desk_num +
                 ", created_at=" + created_at +

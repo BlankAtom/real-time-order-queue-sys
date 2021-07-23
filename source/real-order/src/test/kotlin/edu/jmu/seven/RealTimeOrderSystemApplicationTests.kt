@@ -4,10 +4,9 @@ import edu.jmu.seven.entity.Account
 import edu.jmu.seven.entity.Customer
 import edu.jmu.seven.mapper.AccountMapper
 import edu.jmu.seven.mapper.CustomerMapper
-import edu.jmu.seven.mapper.OrdersMapper
+import edu.jmu.seven.mapper.OrderMapper
 import edu.jmu.seven.utils.SHAUtil
 import org.junit.jupiter.api.Test
-import org.mybatis.spring.annotation.MapperScan
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
@@ -18,9 +17,6 @@ class RealTimeOrderSystemApplicationTests {
 
     @Autowired
     lateinit var mapper: AccountMapper
-
-    @Autowired
-    lateinit var omapper: OrdersMapper
 
     @Autowired
     lateinit var cmapper: CustomerMapper
@@ -50,9 +46,12 @@ class RealTimeOrderSystemApplicationTests {
         res = mapper.selectList(null)
         res.forEach { println(it.toString()) }
     }
+
+    @Autowired
+    lateinit var orderMapper: OrderMapper
     @Test
-     fun orderTest() {
-        var orders = omapper.selectList(null)
-//        orders.forEach { println(it.toString())}
+    fun testOrder() {
+        val v = orderMapper.selectList(null)
+        v.forEach { println(it) }
     }
 }

@@ -3,6 +3,93 @@ import RouteView from "../components/RouteView.vue";
 import Queue from "../views/common/Queue.vue";
 
 
+
+const devMap = [
+    {
+        path: "hxq",
+        name: "HXQ",
+        meta: {
+            title: "HXQ"
+        },
+        component: RouteView,
+        children: [
+            {
+                path: "",
+                name: "Customer",
+                meta: {
+                    title: "顾客-选择商家",
+                    icon: "el-icon-location"
+                },
+                component: ()=> import("../views/custom/index.vue"),
+            },
+            {
+                path: "customerSelf",
+                name: "CustomerSelf",
+                meta: { title: "介个先当做用户", icon: "el-icon-s-comment" },
+                component: () => import("../views/common/ChooseMerchant.vue")
+            },
+
+            {
+                path: "queue/:mId",
+                name: "Queue",
+                meta: {title: "队列", icon: "el-icon-s-comment"},
+                component: ()=>import("../views/common/Queue.vue")
+            }
+        ]
+    },
+    {
+        path: "chb",
+        name: "CHB",
+        meta: {
+            title: "CHB"
+        },
+        component: RouteView,
+        children: [
+            {
+                path: "",
+                name: "MerchantMain",
+                meta: { title: "叫号点单", icon: "el-icon-phone" },
+                component: () => import("../views/common/Calling.vue")
+            },
+            {
+                path: "order",
+                name: "Order",
+                meta: { title: "点单", icon: "el-icon-document"},
+                component: () => import("../views/common/Order.vue")
+            },
+        ]
+    },
+    {
+        path: "hzr",
+        name: "HZR",
+        meta: {
+            title: "HZR"
+        },
+        component: RouteView,
+        children: [
+
+            {
+                path: "",
+                name: "Player",
+                meta: { title: "查看菜品", icon: "el-icon-video-camera-solid" },
+                component: () => import("../views/common/XGPlayer.vue")
+            },
+        ]
+    },
+    {
+        path: "wds",
+        name: "WDS",
+        meta: {
+            title: "WDS"
+
+        }
+        ,
+        children: [
+
+        ]
+
+    }
+]
 // 普通用户导航
 // [个人信息、商家]
 const layoutMapCustomer = [
@@ -11,8 +98,7 @@ const layoutMapCustomer = [
         name: "Customer",
         meta: {
             title: "顾客-选择商家",
-            icon: "el-icon-location",
-            roles: ["customer"]
+            icon: "el-icon-location"
         },
         component: ()=> import("../views/custom/index.vue"),
     },
@@ -20,14 +106,14 @@ const layoutMapCustomer = [
     {
         path: "customerSelf",
         name: "CustomerSelf",
-        meta: { title: "介个先当做用户", icon: "el-icon-s-comment" , roles: ["customer"]},
+        meta: { title: "介个先当做用户", icon: "el-icon-s-comment" },
         component: () => import("../views/common/ChooseMerchant.vue")
     },
 
     {
-        path: "queue",
+        path: "queue/:mId",
         name: "Queue",
-        meta: {title: "队列", icon: "el-icon-s-comment", roles: ["customer"]},
+        meta: {title: "队列", icon: "el-icon-s-comment"},
         component: ()=>import("../views/common/Queue.vue")
     }
 ]
@@ -98,6 +184,12 @@ const layoutMap = [
         ]
     },
     {
+        path: "player",
+        name: "Player",
+        meta: { title: "查看菜品", icon: "el-icon-video-camera-solid" },
+        component: () => import("../views/common/XGPlayer.vue")
+    },
+    {
         path: "user",
         name: "User",
         hidden: true /* 不在侧边导航展示 */,
@@ -120,10 +212,10 @@ const layoutMap = [
 
 const routes = [
     { path: "/login", name: "Login", meta: { title: "登录" }, component: () => import("../views/login/Login.vue") },
-    { path: "/", name: "Layout", meta: {title: "管理员", roles: ["admin"]},component: Layout, children: [...layoutMap] },
-    { path: "/", name: "CustomerLayout", meta: {title: "用户", roles: ["customer"]},component: Layout, children: [...layoutMapCustomer] },
-    { path: "/", name: "MerchantLayout", meta: {title: "商家", roles: ["merchant"]},component: Layout, children: [...layoutMapMerchant] },
+    { path: "/", name: "Layout", meta: {title: ""},component: Layout, children: [...devMap] },
+    // { path: "/", name: "CustomerLayout", meta: {title: "用户", roles: ["customer"]},component: Layout, children: [...layoutMapCustomer] },
+    // { path: "/", name: "MerchantLayout", meta: {title: "商家", roles: ["merchant"]},component: Layout, children: [...layoutMapMerchant] },
 
 ];
 
-export { routes, layoutMap, layoutMapCustomer, layoutMapMerchant };
+export { routes, devMap};
