@@ -68,7 +68,7 @@
       <div  style="padding-top: 20px " align="center"  >
         <el-pagination
           layout="prev, pager, next"
-          page-size="7"
+          page-size="9"
           hide-on-single-page="true"
           background
           :total="total"
@@ -82,6 +82,7 @@
 <script >
 import {getCurrentInstance} from "vue";
 
+let total_page;
 export default {
   data(){
     return {
@@ -93,56 +94,50 @@ export default {
   },
   created() {
     const thisView = this
-    const {proxy} = getCurrentInstance()
-    const params = {m_id: "merchant_8995566"}
+    // const {proxy} = getCurrentInstance()
+    const m_idParams = {m_id:"merchant_8995566"}
+    const params = {m_id: "merchant_8995566",curPage: 1,pageCount: 9}
     this.$axios
         .post('/data/findOrdersBym_id',this.$qs.stringify(params))
         .then((response)=>{
-          // let{ o_id ,m_id, c_id, o_cost, o_content, o_start_time,
-          //   o_pay_time,o_pay_type,o_estimate,status,
-          //   o_desk_num,created_at,update_at,deleted,version} =response.data[0]
-          // console.log(o_id,m_id,c_id,o_cost,o_content,deleted)
+          total_page = response.data.length
+          this.total = response.data.length
+          // console.log(this.orders)
+        }).catch((error)=>{
+      console.log(error)
+    })
+
+    this.$axios
+        .post('/data/findOrderByPage',this.$qs.stringify(params))
+        .then((response)=>{
           this.orders = response.data
+          // console.log(this.orders)
         }).catch((error)=>{
           console.log(error)
       })
-    // proxy.$axios
-    //   .get("/data/findOrdersBym_id",{
-    //     params:{
-    //       m_id:"merchant_8995566"
-    //     }
-    //   })
-    //   .then((response)=>{
-    //         this.orders = response.data
-    //   })
-    // thisView.currentData = thisView.tableData.splice(thisView.currentPage)
-    // thisView
-    thisView.total=8
-    // thisView.total= thisView.test.length
+    // thisView.total=8
+    // thisView.total= thisView.orders.length
 
   },
   methods: {
-    // handleEdit(index, row) {
-    //   console.log(index, row);
-    // },
     handleDelete(index, row) {
       console.log(row.o_id)
-      this.orders.splice(index,1),
-      console.log(index, row);
+      this.orders.splice(index,1)
+      // console.log(index, row);
     },
     handleCurrentChange(val){
       this.currentPage=val
-      const thisView = this
-      const params = {m_id: "merchant_8995566",curPage: val,size: 7}
+      // const thisView = this
+      let params = {m_id: "merchant_8995566",curPage: val,pageCount: 9}
       this.$axios
-          .get('/data/findOrderByPage',this.$qs.stringify(params))
+          .post('/data/findOrderByPage',this.$qs.stringify(params))
           .then((response)=>{
             this.orders = response.data
-            console.log(this.orders)
+            // console.log(this.orders)
           }).catch((error)=>{
         console.log(error)
       })
-      console.log(val);
+      // console.log(val);
     },
     typeFormatter: function (row,column,cellValue){
       if (cellValue===0){
@@ -161,7 +156,9 @@ export default {
     },
     statusFormatter: function (row,column,cellValue){
       if(cellValue==="closed"){
-        return "已完成";
+        return "订单已关闭";
+      }else if (cellValue==="opened"){
+        return "订单还在继续"
       }
     }
   },
