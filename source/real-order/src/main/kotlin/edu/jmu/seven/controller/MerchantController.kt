@@ -1,6 +1,9 @@
 package edu.jmu.seven.controller
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import edu.jmu.seven.entity.Merchant
+import edu.jmu.seven.entity.Orders
 import edu.jmu.seven.mapper.MerchantMapper
 import edu.jmu.seven.service.MerchantService
 import org.springframework.beans.factory.annotation.Autowired
@@ -32,6 +35,19 @@ class MerchantController {
     fun oneMerchant(@RequestParam("m_id") m_id: String)
     : Merchant {
         return mmapper.selectById(m_id)
+    }
+
+    @RequestMapping("/merchantByPage")
+    fun merchantByPage(
+            @RequestParam("curPage") curPage: String,
+            @RequestParam("pageCount") pageCount: String
+    ): List<Merchant> {
+        val curPageLong = curPage.toLong()
+        val pageCountLong = pageCount.toLong()
+        var mPage = Page<Merchant>(curPageLong,pageCountLong);
+        mPage = mmapper.selectPage(mPage,null)
+        val mList: List<Merchant> = mPage.records;
+        return mList
     }
 
 }
