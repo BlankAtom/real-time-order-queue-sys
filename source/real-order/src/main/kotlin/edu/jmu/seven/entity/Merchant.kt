@@ -1,8 +1,6 @@
 package edu.jmu.seven.entity
 
-import com.baomidou.mybatisplus.annotation.TableField
-import com.baomidou.mybatisplus.annotation.TableId
-import com.baomidou.mybatisplus.annotation.TableName
+import com.baomidou.mybatisplus.annotation.*
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -34,10 +32,18 @@ class Merchant (
     var m_icon: String,
 ) : Serializable {
 
-    @TableField("created_at")
+    @TableField("created_at", fill = FieldFill.INSERT_UPDATE)
     var created_at: LocalDateTime? = null
-    @TableField("updated_at")
+    @TableField("updated_at", fill = FieldFill.UPDATE)
     var updated_at: LocalDateTime? = null
+
+    @Version
+    var version: Int = 0
+
+    @TableLogic
+    var deleted: Int = 0
+
+
     override fun toString(): String {
         return "Merchant{" +
                 "m_id=" + m_id +

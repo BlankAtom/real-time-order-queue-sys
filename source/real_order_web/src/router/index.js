@@ -35,7 +35,7 @@ router.beforeEach((to, from, next) => {
             return false;
         }
         if (!!jwt) {
-            if (to.meta.hasOwnProperty(from.meta.roles)) {
+            if (to.meta.hasOwnProperty("")) {
                 let roles = to.meta.roles || [];
                 let { role } = jwt && JSON.parse(decode(jwt));
                 roles.includes(role) ? next() : next("/error");

@@ -1,7 +1,8 @@
 package edu.jmu.seven.entity
 
-import com.baomidou.mybatisplus.annotation.TableName
+import com.baomidou.mybatisplus.annotation.*
 import java.io.Serializable
+import java.time.LocalDateTime
 
 /**
  * <p></p>
@@ -10,49 +11,32 @@ import java.io.Serializable
  */
 
 
-@TableName("vocation.oder_dish")
-class OrderDish : Serializable {
+@TableName("vocation.order_dish")
+class OrderDish(
+    @TableId("od_id")
+    var od_id: String,
+    @TableField("o_id")
+    var o_id: String,
+    @TableField("d_id")
+    var d_id: String,
+    @TableField("num")
+    var num: Int
+) : Serializable {
 
-    private var od_id: String? = null
+    @TableField("create_time", fill=FieldFill.UPDATE)
+    var createTime: LocalDateTime = LocalDateTime.now()
 
-    private var o_id: String? = null
-
-    private var d_id: String? = null
-
-    private var num: Int? = null
+    @TableField("update_time", fill=FieldFill.INSERT_UPDATE)
+    var updateTime: LocalDateTime = LocalDateTime.now()
 
 
-    fun getOd_id(): String? {
-        return od_id
-    }
+    @Version
+    var version: Int = 1
 
-    fun setOd_id(od_id: String?) {
-        this.od_id = od_id
-    }
 
-    fun geto_id(): String? {
-        return o_id
-    }
+    @TableLogic
+    var deleted: Int = 0
 
-    fun seto_id(o_id: String?) {
-        this.o_id = o_id
-    }
-
-    fun getd_id(): String? {
-        return d_id
-    }
-
-    fun setd_id(d_id: String?) {
-        this.d_id = d_id
-    }
-
-    fun getNum(): Int? {
-        return num
-    }
-
-    fun setNum(num: Int?) {
-        this.num = num
-    }
 
     override fun toString(): String {
         return "Oder_dish{" +

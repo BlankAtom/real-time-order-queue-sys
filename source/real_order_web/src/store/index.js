@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import {layoutMap, layoutMapCustomer, layoutMapMerchant} from "../router/router";
+import {devMap} from "../router/router";
 import { filterAsyncRouter } from "../utils/tool";
 import createPersistedState from "vuex-persistedstate";
 import SecureLS from "secure-ls";
@@ -54,18 +54,18 @@ const actions = {
         commit(CLEAR_USER);
     },
     setUser({ commit }, payload) {
-        let deepCopy;
-        switch (payload.role) {
-            case "admin":
-                deepCopy = JSON.parse(JSON.stringify(layoutMap));
-                break
-            case "customer":
-                deepCopy = JSON.parse(JSON.stringify(layoutMapCustomer));
-                break
-            case "merchant":
-                deepCopy = JSON.parse(JSON.stringify(layoutMapMerchant));
-                break
-        }
+        let deepCopy = JSON.parse(JSON.stringify(devMap))
+        // switch (payload.role) {
+        //     case "admin":
+        //         deepCopy = JSON.parse(JSON.stringify(layoutMap));
+        //         break
+        //     case "customer":
+        //         deepCopy = JSON.parse(JSON.stringify(layoutMapCustomer));
+        //         break
+        //     case "merchant":
+        //         deepCopy = JSON.parse(JSON.stringify(layoutMapMerchant));
+        //         break
+        // }
 
         let accessedRouters = filterAsyncRouter(deepCopy, payload.role);
         commit(SET_USER, payload);
