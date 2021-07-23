@@ -31,13 +31,13 @@
 </template>
 
 <script>
+import {getCurrentInstance} from "vue";
 export default {
     setup() {
 
-    }
-import {getCurrentInstance} from "vue";
+    },
 
-export default {
+// export default {
     // setup(){
     //     const {proxy} = getCurrentInstance();
     //     proxy.$axios.get('cus/showmerchant',{
