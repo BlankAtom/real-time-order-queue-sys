@@ -122,6 +122,15 @@ export default {
   methods: {
     handleDelete(index, row) {
       console.log(row.o_id)
+      let params = {o_id: row.o_id}
+      this.$axios
+          .post('/data/deleteOrderByo_id',this.$qs.stringify(params))
+          .then((response)=>{
+
+          })
+          .catch((err)=>{
+            console.log(err)
+          })
       this.orders.splice(index,1)
       // console.log(index, row);
     },

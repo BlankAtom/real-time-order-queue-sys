@@ -26,16 +26,13 @@ class OrdersController {
 
         return omapper.selectList(orderwrapper)
     }
-//    @RequestMapping("/findOrders")
-//    fun selectAll(): List<Orders>? {
-//        println("1111")
-//        return omapper.selectList(null)
-//    }
+
     @RequestMapping("/deleteOrderByo_id")
     fun deleteOrder(
         @RequestParam("o_id") o_id:String
     ){
         var orderwrapper = QueryWrapper<Orders>().eq("o_id",o_id)
+//        println(omapper.selectList(orderwrapper))
         omapper.delete(orderwrapper)
     }
 
@@ -47,14 +44,11 @@ class OrdersController {
     ):List<Orders>{
         val curPageLong = curPage.toLong()
         val pageCountLong = pageCount.toLong()
-//        println("$curPage $pageCount $m_id")
         var orderPage = Page<Orders>(curPageLong,pageCountLong);
         val orderwrapper = QueryWrapper<Orders>().eq("m_id", m_id)
         orderPage = omapper.selectPage(orderPage,orderwrapper)
         val orderList: List<Orders> = orderPage.records;
-//        println(orderList)
         return orderList
-//        Page<Orders>() orderPage = new Page<>(curPage,size);
     }
 //    @RequestMapping("/findOrderByPage1")
 //    fun findPageOrders():List<Orders>{
