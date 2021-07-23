@@ -100,8 +100,7 @@
             },
             lineUp(mId) {
                 console.log(mId)
-                this.$router.push("/queue")
-                this.$router.push("/queue/" + mId)
+                this.$router.push("/hxq/queue/" + mId)
             }
         },
 
