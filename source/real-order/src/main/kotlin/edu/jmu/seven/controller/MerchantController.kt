@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController
 class MerchantController {
 
     @Autowired
-    private lateinit var mmapper:MerchantMapper
+    private lateinit var mmapper: MerchantMapper
 
     /**
      * 展示所有商家
@@ -33,21 +33,40 @@ class MerchantController {
 
     @RequestMapping("/onemerchant")
     fun oneMerchant(@RequestParam("m_id") m_id: String)
-    : Merchant {
+            : Merchant {
         return mmapper.selectById(m_id)
     }
 
     @RequestMapping("/merchantByPage")
     fun merchantByPage(
             @RequestParam("curPage") curPage: String,
-            @RequestParam("pageCount") pageCount: String
+            @RequestParam("pageCount") pageCount: String,
+            @RequestParam("key") key: String
     ): List<Merchant> {
-        val curPageLong = curPage.toLong()
-        val pageCountLong = pageCount.toLong()
-        var mPage = Page<Merchant>(curPageLong,pageCountLong);
-        mPage = mmapper.selectPage(mPage,null)
-        val mList: List<Merchant> = mPage.records;
-        return mList
+        if (key == "") {
+            val curPageLong = curPage.toLong()
+            val pageCountLong = pageCount.toLong()
+            var mPage = Page<Merchant>(curPageLong, pageCountLong)
+            mPage = mmapper.selectPage(mPage, null)
+            val mList: List<Merchant> = mPage.records;
+            return mList
+        } else {
+            val curPageLong = curPage.toLong()
+            val pageCountLong = pageCount.toLong()
+            var mPage = Page<Merchant>(curPageLong, pageCountLong)
+            val mWrapper: QueryWrapper<Merchant>? = QueryWrapper<Merchant>().like("m_name", key)
+            mPage = mmapper.selectPage(mPage, mWrapper)
+            val mList: List<Merchant> = mPage.records
+            return mList
+        }
+    }
+
+    @RequestMapping("/findMerchantByKey")
+    fun findMerchantByKey(
+            @RequestParam("key") key: String
+    ): List<Merchant> {
+        val mWrapper: QueryWrapper<Merchant>? = QueryWrapper<Merchant>().like("m_name", key)
+        return mmapper.selectList(mWrapper)
     }
 
 }
