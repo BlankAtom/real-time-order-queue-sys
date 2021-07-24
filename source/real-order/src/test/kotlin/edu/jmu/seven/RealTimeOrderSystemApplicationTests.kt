@@ -1,5 +1,6 @@
 package edu.jmu.seven
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import edu.jmu.seven.entity.Account
 import edu.jmu.seven.entity.Customer
 import edu.jmu.seven.mapper.AccountMapper
@@ -53,5 +54,15 @@ class RealTimeOrderSystemApplicationTests {
     fun testOrder() {
         val v = orderMapper.selectList(null)
         v.forEach { println(it) }
+    }
+    @Autowired
+    lateinit var accountMapper: AccountMapper
+    @Test
+    fun testPsw(){
+        val encoder = BCryptPasswordEncoder()
+        val wrapper = QueryWrapper<Account>().eq("username","user_19971149316")
+        val account = accountMapper.selectList(wrapper)
+        println(account.toString())
+        println(encoder.matches("123456789",account[0].password))
     }
 }

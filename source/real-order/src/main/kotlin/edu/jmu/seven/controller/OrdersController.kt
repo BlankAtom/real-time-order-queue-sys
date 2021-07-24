@@ -16,22 +16,29 @@ class OrdersController {
     @Autowired
     lateinit var omapper: OrdersMapper
 
-
+    /**
+     * 查询所有订单
+     * @param m_id 商家的ID
+     */
     @RequestMapping("/findOrdersBym_id")
     fun selectOrders(
         @RequestParam("m_id") m_id: String
     ): List<Orders>? {
         println(m_id)
-        var orderwrapper = QueryWrapper<Orders>().eq("m_id", m_id)
+        val orderwrapper = QueryWrapper<Orders>().eq("m_id", m_id)
 
         return omapper.selectList(orderwrapper)
     }
 
+    /**
+     * 通过订单ID删除
+     * @param o_id 订单ID
+     */
     @RequestMapping("/deleteOrderByo_id")
     fun deleteOrder(
         @RequestParam("o_id") o_id:String
     ){
-        var orderwrapper = QueryWrapper<Orders>().eq("o_id",o_id)
+        val orderwrapper = QueryWrapper<Orders>().eq("o_id",o_id)
 //        println(omapper.selectList(orderwrapper))
         omapper.delete(orderwrapper)
     }

@@ -5,6 +5,16 @@
                 <b>数据列表</b>
             </div>
         </template>
+        <div class="search" style="padding-left: 40%">
+          <el-form :inline="true" class="demo-form-inline">
+            <el-form-item >
+              <el-input v-model="searchId" placeholder="请输入查询订单ID" clearable @clear="clear"  prefix-icon="el-icon-search"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="searchAccount">查询</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
         <el-table
             :data="orders"
             style="width: 100%">
@@ -24,11 +34,7 @@
               label="花费金额"
               prop="o_cost">
           </el-table-column>
-<!--          <el-table-column-->
-<!--              label="内容"-->
-<!--              prop="o_content"-->
-<!--              width="200%">-->
-<!--          </el-table-column>-->
+
           <el-table-column
               label="下单时间"
               prop="o_start_time">
@@ -42,10 +48,6 @@
               prop="o_pay_type"
               :formatter="typeFormatter">
           </el-table-column>
-<!--          <el-table-column-->
-<!--              label="估价"-->
-<!--              prop="o_estimate">-->
-<!--          </el-table-column>-->
           <el-table-column
               label="状态"
               prop="status"
@@ -80,12 +82,11 @@
 </template>
 
 <script >
-import {getCurrentInstance} from "vue";
-
-let total_page;
+import {ElMessage} from "element-plus";
 export default {
   data(){
     return {
+      searchId: '',
       orders: [],
       currentPage: 1,
       total: 7,
@@ -93,20 +94,16 @@ export default {
     }
   },
   created() {
-    const thisView = this
-    // const {proxy} = getCurrentInstance()
-    const m_idParams = {m_id:"merchant_8995566"}
     const params = {m_id: "merchant_8995566",curPage: 1,pageCount: 9}
+    //获取所有的数据信息
     this.$axios
         .post('/data/findOrdersBym_id',this.$qs.stringify(params))
         .then((response)=>{
-          total_page = response.data.length
           this.total = response.data.length
-          // console.log(this.orders)
         }).catch((error)=>{
       console.log(error)
     })
-
+    //获取第一页的数据
     this.$axios
         .post('/data/findOrderByPage',this.$qs.stringify(params))
         .then((response)=>{
@@ -115,18 +112,21 @@ export default {
         }).catch((error)=>{
           console.log(error)
       })
-    // thisView.total=8
-    // thisView.total= thisView.orders.length
 
   },
   methods: {
+    //删除
     handleDelete(index, row) {
       console.log(row.o_id)
       let params = {o_id: row.o_id}
       this.$axios
           .post('/data/deleteOrderByo_id',this.$qs.stringify(params))
           .then((response)=>{
-
+            ElMessage.success({
+              message: '删除成功',
+              type: 'success'
+            });
+            // this.reload
           })
           .catch((err)=>{
             console.log(err)
@@ -134,6 +134,7 @@ export default {
       this.orders.splice(index,1)
       // console.log(index, row);
     },
+    //点击页码获取当页的数据
     handleCurrentChange(val){
       this.currentPage=val
       // const thisView = this
