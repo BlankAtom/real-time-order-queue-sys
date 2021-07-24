@@ -9,7 +9,7 @@
 <!--      <el-col :span="3" class="grid" :gutter="1">-->
 <!--        <el-button type="success"  icon="el-icon-search">搜索</el-button>-->
 <!--      </el-col>-->
-      <el-col :span="2" class="grid" :gutter="15">
+      <el-col :span="10" :offset="22" class="grid" :gutter="15" >
         <el-button type="primary" @click="addMembers()">增加</el-button>
       </el-col>
     </el-row>
