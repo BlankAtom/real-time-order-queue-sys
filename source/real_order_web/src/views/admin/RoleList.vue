@@ -86,7 +86,8 @@ export default {
       isShowDialog: false,
       accounts: [],
       total:9,
-      searchId: ''
+      searchId: '',
+      curPage: 1
     }
   },
   created() {
@@ -101,7 +102,7 @@ export default {
           console.log(error)
         })
 
-    let params = {curPage: 1,pageCount:9}
+    let params = {curPage: this.curPage,pageCount:9}
     //获取第一页的数据
     this.$axios
         .post('/admin/findPageAccount',this.$qs.stringify(params))
@@ -112,12 +113,15 @@ export default {
     })
   },
   methods: {
-    //点击页码获取当页的数据
+    /**
+     * 处理换页时的数据显示
+     * @param val 页数
+     */
     handleCurrentChange(val){
-      let params = {curPage: val,pageCount:9,username:this.searchId}
+      this.curPage = val
+      let params = {curPage: this.curPage,pageCount:9,username:this.searchId}
       //所有用户的第val页
       if(this.searchId===''){
-        // console.log(this.searchId+"222222")
         this.$axios
             .post('/admin/findPageAccount',this.$qs.stringify(params))
             .then((response)=>{
@@ -126,25 +130,20 @@ export default {
           console.log(error)
         })
       }else{//模糊查询val页用户
-        // console.log(this.searchId+"11111")
         this.$axios
             .post('/admin/findPageByUsername',this.$qs.stringify(params))
             .then((response)=>{
               this.accounts = response.data
-              // this.total = this.accounts.length
             }).catch((error)=>{
           console.log(error)
         })
       }
-
     },
     /**
      * 通过输入的ID模糊查找所有用户
      */
     searchAccount(){
-
-
-      let params = {username: this.searchId,curPage:1,pageCount:9}
+      let params = {username: this.searchId,curPage:this.curPage,pageCount:9}
       //获取模糊查询所有用户数量
       this.$axios
           .post('/admin/findAllByUsername',this.$qs.stringify(params))
@@ -155,16 +154,17 @@ export default {
       })
       //获取模糊查询第一页用户
       this.$axios
-          .post('admin/findPageByUsername',this.$qs.stringify(params))
+          .post('//admin/findPageByUsername',this.$qs.stringify(params))
           .then((response)=>{
             this.accounts = response.data
           }).catch((error)=>{
             console.log(error)
       })
-
       console.log(this.searchId)
     },
-    //修改密码后点击提交
+    /**
+     * 根据输入密码进行修改
+     */
     commitPsw(){
       let params = {username:this.updatePsw.username,psw: this.updatePsw.firstPsw}
       if(this.updatePsw.firstPsw.length<=6||this.updatePsw.secondPsw.length<=6){
@@ -194,7 +194,9 @@ export default {
       }
       this.isShowDialog= false
     },
-    //弹框的关闭
+    /**
+     * 弹窗关闭
+     */
     handleClose(done) {
       this.$confirm('确认关闭？')
           .then(_ => {
@@ -202,7 +204,9 @@ export default {
           })
           .catch(_ => {});
     },
-    //修改密码展示弹窗
+    /**
+     * 弹窗显示
+     */
     showDialog(index,row){
       this.updatePsw = {
         username: row.username,
@@ -211,11 +215,19 @@ export default {
       }
       this.isShowDialog = true
     },
-
+    /**
+     * 弹窗显示取消按钮
+     */
     cancel(){
       this.isShowDialog= false
     },
-
+    /**
+     * 用户类型格式转换
+     * @param row 行
+     * @param column 列
+     * @param cellValue 值
+     * @returns {string} 返回对应值
+     */
     typeFormatter:function (row,column,cellValue){
       if(cellValue===1){
         return "顾客账号"
@@ -225,14 +237,13 @@ export default {
         return "管理员账号"
       }
     },
-
-
-    searchPageByID(){
-
-    },
-    //清除搜索框刷新数据
+    /**
+     * 搜索框的clearable对应事件
+     * 重新获取后端数据
+     */
     clear(){
       //获取所有数据
+      this.curPage = 1
       this.$axios
           .post('/admin/findAllAccount')
           .then((response)=>{
@@ -242,7 +253,7 @@ export default {
           .catch((error)=>{
             console.log(error)
           })
-      let params = {curPage: 1,pageCount:9}
+      let params = {curPage: this.curPage,pageCount:9}
       //获取第一页的数据
       this.$axios
           .post('/admin/findPageAccount',this.$qs.stringify(params))
@@ -252,11 +263,7 @@ export default {
         console.log(error)
       })
     }
-  },
-
-
-
-
+  }
 }
 </script>
 
@@ -265,8 +272,5 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
-.search {
-  vertical-align: center;
 }
 </style>

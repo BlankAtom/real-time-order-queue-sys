@@ -1,6 +1,6 @@
 package edu.jmu.seven.controller
 
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import edu.jmu.seven.entity.Account
 import edu.jmu.seven.mapper.AccountMapper
@@ -18,7 +18,6 @@ class AdminController {
     @Autowired
     lateinit var accountMapper: AccountMapper
 
-
     /**
      * 查询所有用户
      */
@@ -26,7 +25,6 @@ class AdminController {
     fun showAllCustomers():List<Account>{
         return  accountMapper.selectList(null)
     }
-
     /**
      * 查询一页用户
      * @param curPage 当前页数
@@ -39,20 +37,20 @@ class AdminController {
     ): List<Account> {
         val curPageLong = curPage.toLong()
         val pageCountLong = pageCount.toLong()
-        var accountPage = Page<Account>(curPageLong, pageCountLong)
+        val accountPage = Page<Account>(curPageLong, pageCountLong)
         return accountMapper.selectPage(accountPage,null).records
     }
 
 
     /**
-     * 模糊查询用户
+     * 模糊查询所有用户
      * @param username 传入部分username
      */
     @RequestMapping("/findAllByUsername")
     fun selectAllByUsername(
         @RequestParam("username") username: String,
     ): List<Account> {
-        var accountwrapper = UpdateWrapper<Account>().like("username", username)
+        val accountwrapper = QueryWrapper<Account>().like("username", username)
 //        println(accountMapper.selectList(accountwrapper).size)
         return accountMapper.selectList(accountwrapper)
     }
@@ -60,7 +58,8 @@ class AdminController {
     /**
      * 模糊查询用户
      * @param username 传入的部分username
-     * @param
+     * @param curPage 页码
+     * @param pageCount 一页显示的数量
      */
     @RequestMapping("/findPageByUsername")
     fun selectPageByUsername(
@@ -70,20 +69,24 @@ class AdminController {
     ): List<Account> {
         val curPageLong = curPage.toLong()
         val pageCountLong = pageCount.toLong()
-        var accountwrapper = UpdateWrapper<Account>().like("username", username)
-        var accountPage = Page<Account>(curPageLong, pageCountLong)
+        val accountwrapper = QueryWrapper<Account>().like("username", username)
+        val accountPage = Page<Account>(curPageLong, pageCountLong)
         return accountMapper.selectPage(accountPage,accountwrapper).records
     }
 
 
-    //修改对应username的密码
+    /**
+     * 修改对应username的密码
+     * @param psw 输入的新密码
+     * @param username 输入的账号
+     */
     @RequestMapping("/updatePassword")
     fun updatePassword(
         @RequestParam("psw") psw:String,
         @RequestParam("username") username:String
     ):Int{
-        var accountwrapper = UpdateWrapper<Account>().eq("username",username)
-        var account: Account = accountMapper.selectById(username)
+        val accountwrapper = QueryWrapper<Account>().eq("username",username)
+        val account: Account = accountMapper.selectById(username)
         val encoder = BCryptPasswordEncoder()
         val newPass = encoder.encode(psw)
         account.password = newPass
