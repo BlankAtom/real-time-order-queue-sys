@@ -3,13 +3,13 @@
   <div class="hello">
     <h1>菜品展示</h1>
     <el-row class="table-grid-content">
-<!--      <el-col :span="18" class="grid">-->
-<!--        <el-input v-model="input" placeholder="请输入搜索内容"></el-input>-->
-<!--      </el-col>-->
-<!--      <el-col :span="3" class="grid" :gutter="1">-->
-<!--        <el-button type="success"  icon="el-icon-search">搜索</el-button>-->
-<!--      </el-col>-->
-      <el-col :span="10" :offset="22" class="grid" :gutter="15" >
+      <el-col :span="18" class="grid">
+        <el-input v-model="input" placeholder="请输入搜索内容" clearable @clear="clear"></el-input>
+      </el-col>
+      <el-col :span="3" class="grid" :gutter="1">
+        <el-button type="success" @click="searchDish()" icon="el-icon-search">搜索</el-button>
+      </el-col>
+      <el-col :span="3" class="grid" :gutter="10" >
         <el-button type="primary" @click="addMembers()">增加</el-button>
       </el-col>
     </el-row>
@@ -113,6 +113,7 @@ import {ElMessage} from "element-plus";
 export default {
   data() {
     return {
+      currentPage:1,
       totalPage: 7,
       // msg: 'Welcome to Your Vue.js App',
       centerDialogVisible: false,
@@ -181,13 +182,38 @@ export default {
     console.log(this.totalPage)
   },
   methods: {
+    searchDish(){
+
+      let params = {d_name: this.input,current_page:this.currentPage,size_page:9, m_id: merchant_now}
+      //获取模糊查询所有
+      this.$axios
+          .post('/dish/findAllByd_name',this.$qs.stringify(params))
+          .then((response)=>{
+            this.total = response.data.length
+          }).catch((error)=>{
+        console.log(error)
+      })
+      //获取模糊查询按页面
+      this.$axios
+          .post('dish/findPageByd_name',this.$qs.stringify(params))
+          .then((response)=>{
+            this.tableData = response.data
+          }).catch((error)=>{
+        console.log(error)
+      })
+
+      console.log(this.input)
+    },
     page(currentPage){
      const _this = this
+      this.currentPage=currentPage
       let params = {
         current_page:currentPage,
         size_page: 9,
-        m_id:merchant_now
+        m_id:merchant_now,
+        d_name: this.input
       };
+      if(this.input===''){
       this.$axios
           .post("/dish/findPage", this.$qs.stringify(params))
           .then(res => {
@@ -200,7 +226,18 @@ export default {
             console.log("///////////////////////报错", err);
 
           })
-      console.log(this.totalPage)
+      //console.log(this.totalPage)
+         }
+      else {
+        this.$axios
+            .post('/dish/findPageByd_name',this.$qs.stringify(params))
+            .then((response)=>{
+              this.tableData = response.data
+              // this.total = this.accounts.length
+            }).catch((error)=>{
+          console.log(error)
+        })
+      }
 
     },
     deleteData(index, row) {
@@ -359,6 +396,34 @@ export default {
         return "菜系5"
 
 
+    },
+    clear(){
+      //获取所有数据
+      this.currentPage=1
+      let params = {
+        current_page:1,
+        size_page: 9,
+        m_id:merchant_now,
+      };
+
+      this.$axios
+          .post('/dish/findAll')
+          .then((response)=>{
+            //获得所有页数显示的数据量
+            this.total = response.data.length
+          })
+          .catch((error)=>{
+            console.log(error)
+          })
+
+
+      this.$axios
+          .post('/dish/findPage',this.$qs.stringify(params))
+          .then((response)=>{
+            this.tableData = response.data
+          }).catch((error)=>{
+        console.log(error)
+      })
     }
 
   },

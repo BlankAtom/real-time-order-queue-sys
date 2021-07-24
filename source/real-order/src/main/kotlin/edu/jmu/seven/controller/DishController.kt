@@ -109,4 +109,37 @@ public  class DishController {
         return dishList
 //        Page<Orders>() orderPage = new Page<>(curPage,size);
     }
+
+    /**
+     * 模糊查询所有菜
+     * @param d_name 传入部分d_name
+     */
+    @RequestMapping("/findAllByd_name")
+    fun selectAllByd_name(
+        @RequestParam("d_name") d_name: String,
+        @RequestParam("m_id") m_id: String,
+    ): List<Dish> {
+        var dishwrapper = QueryWrapper<Dish>().eq("m_id",m_id).like("d_name", d_name)
+//        println(accountMapper.selectList(accountwrapper).size)
+        return dishMapper.selectList(dishwrapper)
+    }
+
+    /**
+     * 模糊查询那一页菜
+     * @param d_name 传入的部分d_name
+     * @param
+     */
+    @RequestMapping("/findPageByd_name")
+    fun selectPageByd_name(
+        @RequestParam("d_name") d_name: String,
+        @RequestParam("current_page") curPage: String,
+        @RequestParam("m_id") m_id: String,
+        @RequestParam("size_page") pageCount: String
+    ): List<Dish> {
+        val curPageLong = curPage.toLong()
+        val pageCountLong = pageCount.toLong()
+        var dishwrapper = QueryWrapper<Dish>().eq("m_id",m_id).like("d_name", d_name)
+        var dishPage = Page<Dish>(curPageLong, pageCountLong)
+        return dishMapper.selectPage(dishPage,dishwrapper).records
+    }
 }
