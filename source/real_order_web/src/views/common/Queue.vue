@@ -10,7 +10,7 @@
                 <div class="normal"/>
             </div>
             <div class="center" style="padding-top: 30%">
-                <label style="size: auto;font-size: 50px">{{ text }}</label>
+                <label style="size: auto;font-size: 50px;color: cornsilk">{{ text }}</label>
             </div>
         </div>
 
@@ -153,33 +153,82 @@
         z-index: -1;
         width: 300px;
         height: 300px;
-        background: lightblue;
         border-radius: 100%;
         /*transform: rotate(45deg);*/
         -webkit-animation: box 3s infinite;
     }
 
     @-webkit-keyframes box {
-        0% {
-            /*top:50px;*/
-            /*transform: rotate(90deg); */
-        }
+        /*0% {*/
+        /*    background: #46A3FF;*/
+        /*}100% {*/
+        /*     background: #46A3FF;*/
+        /* }*/
+
+        /*10% {*/
+        /*    background:#2894FF;*/
+        /*}90% {*/
+        /*     background: #2894FF;*/
+        /* }*/
+
+        /*20% {*/
+
+        /*    background:#0080FF;*/
+        /*}80% {*/
+        /*     background:#0080FF;*/
+        /* }*/
+
+        /*30% {*/
+        /*    background:#0072E3;*/
+        /*}70% {*/
+        /*     background:#0072E3;*/
+        /* }*/
+
+        /*40% {*/
+        /*    background: #0066CC;*/
+        /*}60% {*/
+        /*     background:#0066CC;*/
+        /* }*/
+
+        /*50% {*/
+        /*    transform: scale(0.9);*/
+        /*    background: #0066CC;*/
+        /*}*/
+
+        40% {
+            background: #46A3FF;
+        }60% {
+             background: #46A3FF;
+         }
+
+        30% {
+            background:#2894FF;
+        }70% {
+             background: #2894FF;
+         }
+
         20% {
-            /*border-radius:100%;*/
-        }
+
+            background:#0080FF;
+        }80% {
+             background:#0080FF;
+         }
+
+        10% {
+            background:#0072E3;
+        }90% {
+             background:#0072E3;
+         }
+
+        0% {
+            background: #0066CC;
+        }100% {
+             background:#0066CC;
+         }
+
         50% {
-            /*top:80px;*/
             transform: scale(0.9);
-            /*border-bottom-right-radius:130%;*/
-            /*border-top-left-radius:120% ;*/
-            /*border-bottom-left-radius: 130%;*/
-        }
-        80% {
-            /*border-radius:100%;*/
-        }
-        100% {
-            /*top:50px;*/
-            /*transform: rotate(0deg);*/
+            background: #46A3FF;
         }
     }
 
