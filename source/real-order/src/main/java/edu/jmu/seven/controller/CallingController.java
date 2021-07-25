@@ -57,7 +57,7 @@ public class CallingController {
     @GetMapping("/calling/closeOrder/{id}")
     public String closeOrder(@PathVariable("id") String id){
 //        System.out.println("1111");
-        if(ordersMapper.updateById(id)==1){
+        if(ordersMapper.updateStatusById(id)==1){
             return "success";
         }
         return "false";
@@ -94,6 +94,14 @@ public class CallingController {
 //        }
         return orders;
 
+    }
+
+    @GetMapping("/calling/updateOrder/{id}/{type}/{cost}")
+    public String updateOrder(@PathVariable("id") String id,@PathVariable("cost") Double cost,@PathVariable("type") int type){
+        if(ordersMapper.updateOrderById(cost,type,id)==1){
+            return "success";
+        }
+        return "false";
     }
 
 }

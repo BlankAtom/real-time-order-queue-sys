@@ -13,5 +13,8 @@ import org.apache.ibatis.annotations.Update
 interface OrdersMapper : BaseMapper<Orders> {
 
     @Update("update orders set status='closed' where o_id = #{id} ")
-    fun updateById(@Param(value = "id") id: String) : Int?
+    fun updateStatusById(@Param(value = "id") id: String) : Int?
+
+    @Update("update orders set o_cost=#{cost},o_pay_type=#{type} where o_id = #{id}")
+    fun updateOrderById(@Param(value = "cost") cost: Double,@Param(value = "type") type: Int, @Param(value = "id") id: String) : Int?
 }

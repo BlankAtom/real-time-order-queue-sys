@@ -78,7 +78,8 @@ export default {
         // path: 'yourPath',
         name: 'Order',
         params: {
-          c_id: this.tableData[0].c_id
+          c_id: this.tableData[0].c_id,
+          o_id: this.tableData[0].o_id
         }
       })
     },

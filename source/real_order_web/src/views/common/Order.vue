@@ -56,15 +56,36 @@ import {ElMessage} from "element-plus";
 export default {
   methods:{
     settlement(){
-      this.$alert(this.content, '结算', {
-        confirmButtonText: '结算',
-        callback: action => {
-          this.$message({
-            type: 'info',
-            message: `action: ${ action }`
+      // this.$alert(this.content, '结算', {
+      //   confirmButtonText: '结算',
+      //   callback: action => {
+      //     this.$message({
+      //       type: 'info',
+      //       message: `action: ${ action }`
+      //     });
+      //   }
+      // });
+      this.$axios
+          .get("/calling/closeOrder/"+this.o_id)
+          .then(res => {
+          })
+          .catch(err => {
+            console.log("login err", err);
+            ElMessage.error("读取失败" + err);
           });
-        }
-      });
+      this.$axios
+          .get("/calling/updateOrder/"+this.o_id+"/"+this.value+"/"+this.totalPrice)
+          .then(res => {
+            alert("success")
+          })
+          .catch(err => {
+            console.log("login err", err);
+            ElMessage.error("读取失败" + err);
+          });
+      this.$router.push({
+        // path: 'yourPath',
+        name: 'MerchantMain',
+      })
     },
     show(){
       let detail
@@ -114,6 +135,7 @@ export default {
   created() {
     const _this = this
     this.c_id = this.$route.params.c_id
+    this.o_id = this.$route.params.o_id
     this.$axios
         .get("/calling/findOrder/merchant_8995566")
         .then(res => {
@@ -129,26 +151,28 @@ export default {
     return {
       totalPrice: 0.00,
       total: 0,
+      c_id: null,
+      o_id: null,
       value: null,
       content: null,
       tableData: null,
       options: [{
-        value: '选项1',
+        value: 0,
         label: '现金支付'
       }, {
-        value: '选项2',
+        value: 1,
         label: '微信支付'
       }, {
-        value: '选项3',
+        value: 2,
         label: '支付宝支付'
       }, {
-        value: '选项4',
+        value: 3,
         label: '刷银行卡支付'
       }, {
-        value: '选项5',
+        value: 4,
         label: '刷信用卡支付'
       },{
-        value: '选项6',
+        value: 5,
         label: '其他支付'
       }],
     }
