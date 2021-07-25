@@ -23,12 +23,12 @@ public  class DishController {
 //        return dishMapper.findAll(request)
 //    }
 
-    @GetMapping("/findAll")
-    open fun findAll( ) : List<Dish>{
-//        println(dishMapper.findAll());
-
-        return dishMapper.findAll()
-    }
+//    @GetMapping("/findAll")
+//    open fun findAll( ) : List<Dish>{
+////        println(dishMapper.findAll());
+//
+////        return dishMapper.findAll()
+//    }
 
 
 }
