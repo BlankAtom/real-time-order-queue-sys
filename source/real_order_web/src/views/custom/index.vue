@@ -1,97 +1,156 @@
 <template>
     <div>
         <h1>Customer</h1>
+        <div class="search" style="padding-left: 40%">
+            <el-form :inline="true" class="demo-form-inline">
+                <el-form-item>
+                    <el-col span="18">
+                        <el-input v-model="searchKey" placeholder="请输入查询关键字" clearable @clear="clear"
+                                  prefix-icon="el-icon-search"></el-input>
+                    </el-col>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="searchMerchant">查询</el-button>
+                </el-form-item>
+            </el-form>
+        </div>
         <div class="cm-div">
-
             <el-table @row-click="clickInto"
-                      :data="tableData"
+                      :data="testData"
                       style="width: 100%">
                 <el-table-column
-                    min-width="30%"
-                    label="图片"
-                    align="center"
+                        min-width="30%"
+                        label="图片"
+                        align="center"
                 >
                     <img src="../../assets/img/admin.png" style="height: 80px;">
                 </el-table-column>
                 <el-table-column
-                    prop="name"
-                    label="商家名称"
-                    align="center"
+                        prop="m_name"
+                        label="商家名称"
+                        align="center"
                 >
                 </el-table-column>
-                <el-table-column hidden
-                                 prop="mId"
-                                 align="center"
+                <el-table-column
+                        prop="m_address"
+                        label="商家地址"
+                        align="center"
                 >
                 </el-table-column>
+                <!--                <el-table-column v-if="false"-->
+                <!--                                 prop="m_id"-->
+                <!--                                 align="center"-->
+                <!--                >-->
+                <!--                </el-table-column>-->
             </el-table>
+            <div id="123" style="padding-top: 20px " align="center">
+                <el-pagination
+                        layout="prev, pager, next"
+                        page-size="8"
+                        hide-on-single-page="true"
+                        background
+                        :total="total"
+                        @current-change="handleCurrentChange">
+                </el-pagination>
+            </div>
         </div>
 
     </div>
 </template>
 
 <script>
-import {getCurrentInstance} from "vue";
-export default {
-    setup() {
+    import {getCurrentInstance} from "vue";
 
-    },
-
-// export default {
-    // setup(){
-    //     const {proxy} = getCurrentInstance();
-    //     proxy.$axios.get('cus/showmerchant',{
-    //         params:{
-    //
-    //         }
-    //     })
-    //         .then(function (response){
-    //             console.log("6854")
-    //             console.log(response.data)
-    //             let {a,b,c,d}=response.data
-    //             console.log(a)
-    //         })
-    //         .catch(function (error){
-    //             console.log(error)
-    //         })
-    // },
-    methods: {
-        clickInto(val) {
-            let thisRowData = this
-            thisRowData = val
-            let mId = val.mId
-            this.lineUp(mId)
-            console.log(val.pic)
+    export default {
+        data() {
+            return {
+                total: 6,
+                testData: [],
+                searchKey: "",
+                isPC: document.documentElement.clientWidth > 640
+            }
         },
-        lineUp(mId) {
-            console.log(mId)
-            this.$router.push("/queue" )
-            this.$router.push("/queue/"+mId)
-        }
-    },
-    data() {
-        return {
-            isPC: document.documentElement.clientWidth > 640,
-            tableData: [{
-                pic: '2016-05-02',
-                name: '王小虎',
-                mId: '1518 弄'
-            }, {
-                pic: '2016-05-04',
-                name: '乐色',
-                mId: '1517 弄'
-            }, {
-                pic: '2016-05-01',
-                name: '王小虎',
-                mId: '1519 弄'
-            }, {
-                pic: '2016-05-03',
-                name: '王小虎',
-                mId: '1516 弄'
-            }]
-        }
-    },
-}
+        created() {
+            const _this = this
+            const {proxy} = getCurrentInstance();
+            this.$axios.post('cus/showmerchant')
+                .then((response) => {
+                    this.total = response.data.length
+                    console.log(this.testData)
+                }).catch((error) => {
+                console.log(error)
+            })
+            this.$axios
+                .post('/cus/merchantByPage?curPage=1&pageCount=8&key=')
+                .then((response) => {
+                    this.testData = response.data
+                }).catch((error) => {
+                console.log(error)
+            })
+        },
+        methods: {
+            searchMerchant() {
+                if (this.searchKey!=="") {
+                    console.log("the key is " + this.searchKey)
+                    //获取模糊查询所有订单数量
+                    this.$axios
+                        .post('/cus/findMerchantByKey?key=' + this.searchKey)
+                        .then((response) => {
+                            this.total = response.data.length
+                        }).catch((error) => {
+                        console.log(error)
+                    })
+                    this.$axios
+                        .post('/cus/merchantByPage?curPage=1&pageCount=8&key=' + this.searchKey)
+                        .then((response) => {
+                            this.testData = response.data
+                        }).catch((error) => {
+                        console.log(error)
+                    })
+                }
+            },
+            clear() {
+                //获取所有的数据信息
+                this.$axios
+                    .post('cus/showmerchant')
+                    .then((response) => {
+                        this.total = response.data.length
+                    }).catch((error) => {
+                    console.log(error)
+                })
+                this.$axios
+                    .post('/cus/merchantByPage?curPage=1&pageCount=8?key=')
+                    .then((response) => {
+                        this.testData = response.data
+                    }).catch((error) => {
+                    console.log(error)
+                })
+            },
+            handleCurrentChange(val) {
+                this.$axios
+                    .post('/cus/merchantByPage?curPage=' + val + '&pageCount=8&key=' + this.searchKey)
+                    .then((response) => {
+                        console.log("val " + val)
+                        this.testData = response.data
+                    }).catch((error) => {
+                    console.log(error)
+                })
+            },
+            clickInto(val) {
+                let thisRowData = this
+                thisRowData = val
+                let m_id = val.m_id
+                console.log("mid is " + m_id)
+                this.lineUp(m_id)
+
+            },
+            lineUp(mId) {
+                console.log(mId)
+                this.$router.push("/hxq/queue/" + mId)
+            }
+        },
+
+    }
 </script>
 
 <style>
