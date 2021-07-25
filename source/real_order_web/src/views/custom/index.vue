@@ -1,7 +1,6 @@
 <template>
     <div>
-        <h1>Customer</h1>
-        <div class="search" style="padding-left: 40%">
+        <div class="search">
             <el-form :inline="true" class="demo-form-inline">
                 <el-form-item>
                     <el-col span="18">

@@ -1,38 +1,29 @@
 <template>
     <div class="outer" style="height: 100%;width: 100%">
         <div class="center" style="margin-bottom: 20px">
-            <h1 style="size: auto;margin-top: 50px;font-size: 50px">{{ mName }}</h1>
-            <!--                        <h1 style="size: auto;margin-top: 50px">{{ m_id }}</h1>-->
+            <h1 v-text="mName"></h1>
+            <p>lience20xxxxxxx09</p>
         </div>
-        <div style="width: 300px;height:300px;margin: auto; " @click="queueup">
-            <div class="box" v-if="show"/>
-            <div v-else>
-                <div class="normal"/>
+
+<!--        圆形按钮+中心文字内容-->
+        <div class="round-box" >
+            <div class="round-anime-playing" v-if="show">
+                <div class="round-queue-num" v-text="text"/>
             </div>
-            <div class="center" style="padding-top: 30%">
-                <label style="size: auto;font-size: 50px;color: cornsilk">{{ text }}</label>
+            <div class="round-anime-normal" @click="startQueue" v-else>
+                <div class="round-queue-num" v-text="text"/>
             </div>
         </div>
 
-        <div class="center" style="margin-top: 50px">
-            <label style="size: auto;font-size: 50px">前面还有{{ qNub }}人</label>
+        <div style="margin-top: 150px">
+            <label style="color: black;size: auto;font-size: 40px" v-if="show">前方共有<span style="color: darkgray;" v-text="qNub"></span>人排队</label>
         </div>
-        <!--        <div class="center"-->
-        <!--             style="border-radius: 100%;-->
-        <!--             width: 300px;height: 300px;-->
-        <!--            margin-top: 50px;-->
-        <!--            margin-bottom: 50px;-->
-        <!--            background-color: lightblue">-->
-        <!--            <div style="height: max-content;width: max-content;margin: auto;padding-top: 30%    ">-->
-        <!--                <label style="size: auto;font-size: 50px">{{text}}</label>-->
-        <!--            </div>-->
-        <!--        </div>-->
 
-        <div class="center" style="margin-top: 80px">
-            <el-button class="center" type="primary" style="size: 100px;font-size: 60px;background-color: #0c212b"
+        <div style="margin-top: 80px">
+            <el-button type="primary" class="btn-cancel-queue"
                        v-if="show"
-                       @click="cancel">
-                {{ btnText }}
+                       @click="cancel"
+                       v-text="btnText">
             </el-button>
         </div>
 
@@ -92,7 +83,7 @@
                 data: [],
                 mName: '俺是个店名',
                 text: '点击排队',
-                qNub: '很多',
+                qNub: '99',
                 btnText: '',
                 show: false,
                 m_id: this.$route.params.mId,
@@ -105,27 +96,50 @@
                 this.text = '点击排队'
                 this.show = !this.show
             },
-            queueup(val) {
+            startQueue(val) {
+                /**  取排队号操作   **/
+                this.btnText = '取消排队'
+                this.text = '9856号'
                 if (!this.show)
                     this.show = !this.show
-                /**  取排队号操作   **/
-                this.text = '9856号'
             }
         }
     }
 
 </script>
 
-<style>
+<style scoped>
+h1 {
+    size: auto;
+    margin-top: 50px;
+    font-size: 50px;
+    color: black;
+}
+.btn-cancel-queue {
+    width: 200px;
+    height: 60px;
+    font-size: 30px;
+    background-color: lightskyblue;
+    border: none;
+}
+.btn-cancel-queue:hover {
+    background-color: #46A3FF;
+}
+.round-queue-num {
+    /*height: 300px;*/
+    /*width: 300px;*/
+    color: whitesmoke;
+    text-align: center;
+}
     .outer {
-        background-image: url("../../assets/img/bluebackground.jpeg");
+        /*background-image: url("../../assets/img/bluebackground.jpeg");*/
+        background-color: whitesmoke;
         background-size: 100% 100%;
 
         height: 100%;
-
         position: fixed;
-
-        width: 100%
+        width: 100%;
+        text-align: center;
     }
 
     .center {
@@ -133,130 +147,51 @@
         margin: auto;
     }
 
-    .normal {
-        content: '';
-        position: absolute;
+.round-box {
+    /*display: flex;*/
+    /*align-items: center;*/
 
-        text-align: center;
+    /*position: relative;*/
+    margin: 20px auto;
+}
+    .round-anime-normal, .round-anime-playing {
+        /*position: absolute;*/
+        margin: 0 auto;
+        font-size: 50px;
+        line-height: 300px;
+        vertical-align: middle;
+        user-select: none;
         z-index: -1;
         width: 300px;
         height: 300px;
-        background: lightblue;
+        background: #46A3FF;
         border-radius: 100%;
     }
+.round-anime-playing {
+    -webkit-animation: round-anime-playing 3s infinite;
+}
+.round-anime-normal:active {
+    width: 290px;
+    height: 290px;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    line-height: 290px;
+    font-size: 48px;
+}
 
-    .box:before {
-        content: '';
-        position: absolute;
 
-        text-align: center;
-        z-index: -1;
-        width: 300px;
-        height: 300px;
-        border-radius: 100%;
-        /*transform: rotate(45deg);*/
-        -webkit-animation: box 3s infinite;
-    }
 
-    @-webkit-keyframes box {
-        /*0% {*/
-        /*    background: #46A3FF;*/
-        /*}100% {*/
-        /*     background: #46A3FF;*/
-        /* }*/
-
-        /*10% {*/
-        /*    background:#2894FF;*/
-        /*}90% {*/
-        /*     background: #2894FF;*/
-        /* }*/
-
-        /*20% {*/
-
-        /*    background:#0080FF;*/
-        /*}80% {*/
-        /*     background:#0080FF;*/
-        /* }*/
-
-        /*30% {*/
-        /*    background:#0072E3;*/
-        /*}70% {*/
-        /*     background:#0072E3;*/
-        /* }*/
-
-        /*40% {*/
-        /*    background: #0066CC;*/
-        /*}60% {*/
-        /*     background:#0066CC;*/
-        /* }*/
-
-        /*50% {*/
-        /*    transform: scale(0.9);*/
-        /*    background: #0066CC;*/
-        /*}*/
-
-        40% {
-            background: #46A3FF;
-        }60% {
-             background: #46A3FF;
-         }
-
-        30% {
-            background:#2894FF;
-        }70% {
-             background: #2894FF;
-         }
-
-        20% {
-
-            background:#0080FF;
-        }80% {
-             background:#0080FF;
-         }
-
-        10% {
-            background:#0072E3;
-        }90% {
-             background:#0072E3;
-         }
-
+    @-webkit-keyframes round-anime-playing {
         0% {
-            background: #0066CC;
-        }100% {
-             background:#0066CC;
-         }
-
+            background: #46A3FF;
+        }
+        100% {
+            background: #46A3FF;
+        }
         50% {
             transform: scale(0.9);
-            background: #46A3FF;
+            background: #80bff2;
         }
     }
 
-    .box:after {
-        content: '';
-        position: absolute;
-        /*z-index:1;*/
-        top: 192px;
-        left: 50px;
-        width: 100px;
-        height: 6px;
-        background: #eaeaea;
-        border-radius: 100%;
-        -webkit-animation: shadow 5s infinite;
-    }
-
-    @-webkit-keyframes shadow {
-        0%, 100% {
-            left: 50px;
-            width: 100px;
-            background: #eaeaea;
-        }
-        50% {
-            top: 192px;
-            left: 75px; /*讓陰影保持在原位*/
-            width: 50px;
-            height: 7px;
-            background: #eee;
-        }
-    }
 </style>
