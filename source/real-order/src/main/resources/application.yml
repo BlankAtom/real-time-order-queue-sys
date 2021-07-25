@@ -1,4 +1,9 @@
 spring:
+  servlet:
+    multipart:
+      max-file-size: 5MB
+      max-request-size: 30MB
+
   datasource:
     username: seven
     password: 12345678
@@ -23,3 +28,5 @@ spring:
     connect-timeout: 3000
 server:
   port: 8081
+
+
