@@ -1,5 +1,6 @@
 package edu.jmu.seven
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper
 import edu.jmu.seven.entity.*
 import edu.jmu.seven.mapper.*
 import edu.jmu.seven.utils.SHAUtil
@@ -61,9 +62,22 @@ class RealTimeOrderSystemApplicationTests {
     lateinit var orderDishMapper: OrderDishMapper
     @Autowired
     lateinit var merchantMapper: MerchantMapper
+    @Autowired
+    lateinit var accountMapper: AccountMapper
+    @Autowired
+    lateinit var customerMapper: CustomerMapper
 
     @Test
     fun createData() {
+        // Account
+
+//        for(i in 1..100 ) {
+//            val phone: String = "199" + Random.nextInt(1000, 9999).toString() + Random.nextInt(1000, 9999).toString()
+//            val cus = Customer("user_"+phone, "u"+phone.substring(7, 11), phone)
+//            val act = Account("user_" + phone, BCryptPasswordEncoder().encode(phone), 1)
+//            customerMapper.insert(cus)
+//            accountMapper.insert(act)
+//        }
         // dish
 //        for(s in 1..100) {
 //            val did = "dish_" + LocalDateTime.now().second + Random.nextInt(10000000)
@@ -126,6 +140,16 @@ class RealTimeOrderSystemApplicationTests {
 //            val micon = "https://hong-not-pic-1258424340.cos.ap-nanjing.myqcloud.com/notepic/20210418135821.png"
 //            val m = Merchant(mid, m_name, m_liense, phone, maddress, mot, mdt, mtg, mnotice, micon)
 //            merchantMapper.insert(m)
+//        }
+
+
+//        val list = dishMapper.selectList(null)
+//        for(l in list ) {
+//                val uw = UpdateWrapper<Dish>()
+//                uw.eq("d_id", l.d_id)
+//                l.d_price = Random.nextInt(0, 9999).toDouble() / 100
+//
+//                dishMapper.update(l, uw)
 //        }
 
     }
