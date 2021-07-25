@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/real-time-order-queue-sys.iml" filepath="$PROJECT_DIR$/.idea/real-time-order-queue-sys.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/real_order.iml" filepath="$PROJECT_DIR$/.idea/real_order.iml" />
     </modules>
   </component>
 </project>

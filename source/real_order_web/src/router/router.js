@@ -82,10 +82,21 @@ const devMap = [
         meta: {
             title: "WDS"
 
-        }
-        ,
+        },
+        component: RouteView,
         children: [
-
+            {
+                path: "List",
+                name: "List",
+                meta: { title: "查看订单", icon: "el-icon-video-camera-solid" },
+                component: () => import("../views/data/List.vue")
+            },
+            {
+                path: "role",
+                name: "AdminRole",
+                meta: { title: "角色列表", icon: "el-icon-s-custom" },
+                component: () => import("../views/admin/RoleList.vue")
+            }
         ]
 
     }
@@ -187,7 +198,7 @@ const layoutMap = [
     {
         path: "player",
         name: "Player",
-        meta: { title: "查看菜品", icon: "el-icon-video-camera-solid" },
+        meta: { title: "查看菜品", icon: "el-icon-vid" },
         component: () => import("../views/common/XGPlayer.vue")
     },
 

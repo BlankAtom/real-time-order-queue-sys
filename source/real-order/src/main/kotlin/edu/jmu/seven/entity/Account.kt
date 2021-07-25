@@ -1,6 +1,10 @@
 package edu.jmu.seven.entity
 
 import com.baomidou.mybatisplus.annotation.*
+import com.fasterxml.jackson.annotation.JsonIgnore
+import org.springframework.security.core.GrantedAuthority
+import org.springframework.security.core.authority.SimpleGrantedAuthority
+import org.springframework.security.core.userdetails.UserDetails
 import java.io.Serializable
 import java.time.LocalDateTime
 

@@ -18,12 +18,16 @@ class Orders(
     var c_id: String,
     @TableField(value = "o_cost")
     var o_cost: Double,
+//    @TableField(value = "o_content")
+//    var o_content: String,
     @TableField(value = "o_start_time")
     var o_start_time: LocalDateTime,
     @TableField(value = "o_pay_time")
     var o_pay_time: LocalDateTime,
     @TableField(value = "o_pay_type")
     var o_pay_type: Int,
+//    @TableField(value = "o_estimate")
+//    var o_estimate: String,
     @TableField(value = "status")
     var status: String,
     @TableField(value = "o_desk_num")
