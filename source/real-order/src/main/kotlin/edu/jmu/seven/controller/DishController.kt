@@ -19,12 +19,12 @@ public  class DishController {
     private lateinit var dishMapper : DishMapper
 
 
-    @GetMapping("/findAll")
-    open fun findAll( ) : List<Dish>{
-//        println(dishMapper.findAll());
-
-        return dishMapper.findAll()
-    }
+//    @GetMapping("/findAll")
+//    open fun findAll( ) : List<Dish>{
+////        println(dishMapper.findAll());
+//
+////        return dishMapper.findAll()
+//    }
 
     @RequestMapping("/findByid")
     open fun findByid( @RequestParam("merchant_now") m_id: String ) : List<Dish>{

@@ -3,6 +3,7 @@ package edu.jmu.seven.entity
 import com.baomidou.mybatisplus.annotation.*
 import java.io.Serializable
 import java.time.LocalDateTime
+import java.util.*
 
 /**
  * @author Seven
@@ -15,7 +16,7 @@ class Dish(
     @TableField(value = "d_name")
     var d_name: String,
     @TableField(value = "m_id")
-    var m_id: Int,
+    var m_id: String,
     @TableField(value = "d_price")
     var d_price: Double,
     @TableField(value = "d_pic")
@@ -34,14 +35,14 @@ class Dish(
      * 不需要开发者进行设定，由MetaHandler进行
      */
     @TableField(value = "created_at" ,fill = FieldFill.INSERT)
-    var created_at: LocalDateTime = LocalDateTime.now()
+    var created_at = Date().time
 
     /**
      * updateTime: 字段，更新时间，记录更新记录的最后时间
      * 不需要开发者进行设定，由MetaHandler进行
      */
     @TableField(value = "updated_at", fill = FieldFill.INSERT_UPDATE)
-    var updated_at: LocalDateTime = LocalDateTime.now()
+    var updated_at = Date().time
 
     override fun toString(): String {
         return "Dish{" +

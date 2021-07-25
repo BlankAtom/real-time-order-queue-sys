@@ -12,5 +12,6 @@ public class Order {
     private String name;
     private Double price;
     private int count;
+//    private int total;
 
 }

@@ -59,13 +59,29 @@ export default {
   },
   methods: {
     next(){
-      alert("下一位")
+      this.$axios
+          .get("/calling/closeOrder/"+this.tableData[0].o_id)
+          .then(res => {
+            this.$router.go(0)
+          })
+          .catch(err => {
+            console.log("login err", err);
+            ElMessage.error("读取失败" + err);
+          });
     },
     call(){
       alert("叫号")
     },
     menu(){
-      this.$router.replace({name: 'Order'})
+      // this.$router.replace({name: 'Order'})+this.tableData[0].c_id
+      this.$router.push({
+        // path: 'yourPath',
+        name: 'Order',
+        params: {
+          c_id: this.tableData[0].c_id,
+          o_id: this.tableData[0].o_id
+        }
+      })
     },
     page(currentPage) {
       // const {proxy} = getCurrentInstance();

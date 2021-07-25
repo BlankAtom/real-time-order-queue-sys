@@ -194,7 +194,6 @@ const layoutMap = [
             }
         ]
     },
-
     {
         path: "player",
         name: "Player",
