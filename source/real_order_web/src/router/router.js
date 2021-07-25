@@ -183,11 +183,26 @@ const layoutMap = [
             }
         ]
     },
+
     {
         path: "player",
         name: "Player",
         meta: { title: "查看菜品", icon: "el-icon-video-camera-solid" },
         component: () => import("../views/common/XGPlayer.vue")
+    },
+
+
+    {
+        path: "player",
+        name: "Player",
+        meta: { title: "叫号点单", icon: "el-icon-phone" },
+        component: () => import("../views/common/Calling.vue")
+    },
+    {
+        path: "editor",
+        name: "Order",
+        meta: { title: "点单", icon: "el-icon-document" },
+        component: () => import("../views/common/Order.vue")
     },
     {
         path: "user",
