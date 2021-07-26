@@ -6,12 +6,17 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import edu.jmu.seven.entity.Dish
 import edu.jmu.seven.mapper.DishMapper
 import edu.jmu.seven.utils.ResultTool.fail
-import io.lettuce.core.internal.LettuceStrings.toDouble
+import jdk.jpackage.internal.Log.info
+import org.apache.commons.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
-
-import org.springframework.data.domain.PageRequest
+import org.springframework.util.ResourceUtils
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import kotlin.random.Random
 
 
 @RestController
@@ -19,14 +24,6 @@ import org.springframework.web.multipart.MultipartFile
 class DishController {
     @Autowired
     private lateinit var dishMapper : DishMapper
-
-
-//    @GetMapping("/findAll")
-//    open fun findAll( ) : List<Dish>{
-////        println(dishMapper.findAll());
-//
-////        return dishMapper.findAll()
-//    }
 
     @RequestMapping("/findByid")
     fun findByid(@RequestParam("merchant_now") m_id: String ) : List<Dish>{
@@ -60,11 +57,17 @@ class DishController {
 
     }
 
+    /**
+     * 接收单个图片上传
+     * 注：upload的默认参数名为“file”，此处使用其他参数名会导致无法获取到传入的内容
+     */
     @RequestMapping("/upload/pic")
-    fun uploadPic(@RequestParam("img") pic: MultipartFile) : String {
+    fun uploadPic(@RequestParam("file") pic: MultipartFile) : String {
 
         val fn = pic.originalFilename?.lowercase()
         println(fn)
+
+        // 判断文件类型是否符合要求
         if( !fn!!.endsWith(".bmp") &&
             !fn.endsWith(".jps") &&
             !fn.endsWith(".jpeg") &&
@@ -72,9 +75,36 @@ class DishController {
             !fn.endsWith(".png") &&
             !fn.endsWith(".gif")
         ) {
+            // 不符合要求，返回失败结果
             return "{code=\"f001\", msg=\"上传失败\"}"
         }
 
+        // 获得class运行路径
+        val path: String = ResourceUtils.getURL("classpath:").path
+        // 打开静态上传图片路径
+        val fileUploadDir = File(path, "static/images/upload")
+        // 建立这个路径
+        if( !fileUploadDir.exists() ) {
+            fileUploadDir.mkdirs()
+        }
+
+        // 给图片生成新的名字
+        val ns = fn.substring(fn.lastIndexOf('.') + 1)
+        val ran = Random.nextInt(100, 999)
+        val ldt = SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_sss_$ran").format(LocalDateTime.now()) + "." + ns
+
+        // 创建图片
+        try {
+            val picFile = File(fileUploadDir, ldt)
+//            logger.info("123")
+            pic.transferTo(picFile)
+        } catch (e: IOException) {
+            e.printStackTrace()
+            // 捕捉一个IO异常，这是有可能发生的，打印异常（其实更应该写成日志）并返回内容
+            return ""
+        }
+
+        // 上传成功，返回一个可解密的加密码，用来方便上传信息全部信息时检索信息（或者使用时间戳+随机数的形式）
         return "{code=\"S001\", msg=\"上传成功\"}"
     }
 

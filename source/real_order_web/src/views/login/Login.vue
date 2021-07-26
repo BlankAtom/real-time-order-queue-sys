@@ -120,6 +120,7 @@ export default {
                     sessionStorage.setItem("jwt", encode(JSON.stringify(params)));
                     store.dispatch("setUser", params);
                     loginFormState.loading = false;
+                    // store.state.users
                     // 这里的替换需要改为指定页面
                     router.replace("/hxq");
                   }, 1000);

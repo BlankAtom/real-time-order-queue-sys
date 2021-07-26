@@ -3,7 +3,7 @@
         <h1>当个用户</h1>
         <el-upload action="http://localhost:8081/dish/upload/pic" class="avatar-uploader"
                    :on-success="handleSuccess" :before-upload="beforeAvatarUpload"
-                    >
+                    multiple>
             <img v-if="img" :src="img" class="avatar">
             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
         </el-upload>
@@ -22,13 +22,22 @@ export default {
     },
     data() {
         return {
-            img: ""
+            formData: {
+
+            },
+            img: null
+
         }
     },
     methods: {
         handleUpload() {
             console.log(this.img);
-            axios.post("http://localhost:8081/dish/upload/pic", qs.stringify( this.img)).then(res => {
+            let config = {
+                headers: {
+                    "Content-Type": "multipart/form-data"
+                }
+            };
+            axios.post("http://localhost:8081/dish/upload/pic", this.img, config).then(res => {
                 console.log(res)
             }).catch(err => {
                 console.log(err)
@@ -51,6 +60,8 @@ export default {
             if (!isLt2M) {
                 this.$message.error('上传头像图片大小不能超过 5MB!');
             }
+
+            // this.img = URL.createObjectURL(file.raw)
             return (isJPEG || isJpg || isPng) && isLt2M;
         }
     }
