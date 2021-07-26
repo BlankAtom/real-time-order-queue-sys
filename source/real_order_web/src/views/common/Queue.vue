@@ -97,11 +97,27 @@
                 this.show = !this.show
             },
             startQueue(val) {
+              setTimeout(startQueue(val){
                 /**  取排队号操作   **/
-                this.btnText = '取消排队'
-                this.text = '9856号'
+                // this.btnText = '取消排队'
+                // this.text = '9856号'
+                // if (!this.show)
+                //     this.show = !this.show
+                this.$axios.post('cus/findNumber?m_id=' + this.m_id)
+                    .then((response) => {
+                      this.text = response.data+1+"号"
+                    }).catch((error) => {
+                  console.log(error)
+                })
+                this.$axios.post('cus/lineUp?m_id=' + this.m_id+"&c_id=user_18877776666")
+                    .then((response) => {
+                      this.qNub = response.data
+                    }).catch((error) => {
+                  console.log(error)
+                })
                 if (!this.show)
-                    this.show = !this.show
+                  this.show = !this.show
+              }, 1000);
             }
         }
     }

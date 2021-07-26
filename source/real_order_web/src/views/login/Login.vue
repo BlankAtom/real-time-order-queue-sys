@@ -122,7 +122,7 @@ export default {
                     loginFormState.loading = false;
                     // 这里的替换需要改为指定页面
                     router.replace("/hxq");
-                }, 1000);
+                  }, 1000);
 
             });
         };
