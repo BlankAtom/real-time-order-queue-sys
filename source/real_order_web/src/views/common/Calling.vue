@@ -87,7 +87,7 @@ export default {
       // const {proxy} = getCurrentInstance();
       const _this = this
       this.$axios
-          .get("/calling/findAll/"+currentPage+"/6")
+          .get("/calling/findAll/"+currentPage+"/6/merchant_8995566")
           .then(res => {
             _this.tableData = res.data
             // tabledata.wait_time =
@@ -102,7 +102,7 @@ export default {
     const _this = this
 
     this.$axios
-        .get("/calling/findAll/1/6")
+        .get("/calling/findAll/1/6/merchant_8995566")
         .then(res => {
           _this.tableData = res.data
           _this.total = res.data[0].total

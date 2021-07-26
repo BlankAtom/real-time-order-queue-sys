@@ -31,12 +31,14 @@ public class CallingController {
     @Autowired
     DishMapper dishMapper;
 
-    @GetMapping("/calling/findAll/{f}/{size}")
-    public List<Calling> findAll(@PathVariable("f") int f, @PathVariable("size") int size) {
+    @GetMapping("/calling/findAll/{f}/{size}/{id}")
+    public List<Calling> findAll(@PathVariable("f") int f, @PathVariable("size") int size,@PathVariable("id") String id) {
 
         List<Calling> callings = new ArrayList<Calling>();
         Page<Orders> page = new Page<>(f,size);
-        QueryWrapper<Orders> wrapper = new QueryWrapper<Orders>().eq("status","opened");
+        QueryWrapper<Orders> wrapper = new QueryWrapper<Orders>().eq
+                ("status","opened").orderByAsc
+                ("o_start_time").eq("m_id",id);
         ordersMapper.selectPage(page,wrapper);
         int total = ordersMapper.selectList(wrapper).size();
 //        System.out.println(ordersMapper.selectList(null));
