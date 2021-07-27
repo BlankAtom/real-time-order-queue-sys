@@ -46,6 +46,14 @@ dependencies {
     compileOnly("org.apache.spark:spark-mllib_2.12:3.1.2")
 // https://mvnrepository.com/artifact/org.apache.spark/spark-streaming
     compileOnly("org.apache.spark:spark-streaming_2.12:3.1.2")
+// https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-client
+    implementation("org.apache.hadoop:hadoop-client:3.3.1")
+// https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-common
+    implementation("org.apache.hadoop:hadoop-common:3.3.1")
+// https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-hdfs
+    testImplementation("org.apache.hadoop:hadoop-hdfs:3.3.1")
+// https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-annotations
+    implementation("org.apache.hadoop:hadoop-annotations:3.3.1")
 
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
