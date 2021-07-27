@@ -17,23 +17,29 @@ const devMap = [
                 path: "",
                 name: "Customer",
                 meta: {
-                    title: "顾客-选择商家",
+                    title: "选择商家",
                     icon: "el-icon-location"
                 },
                 component: ()=> import("../views/custom/index.vue"),
             },
-            {
-                path: "customerSelf",
-                name: "CustomerSelf",
-                meta: { title: "介个先当做用户", icon: "el-icon-s-comment" },
-                component: () => import("../views/common/ChooseMerchant.vue")
-            },
+            // {
+            //     path: "customerSelf",
+            //     name: "CustomerSelf",
+            //     meta: { title: "介个先当做用户", icon: "el-icon-s-comment", roles: ["merc314hant"] },
+            //     component: () => import("../views/common/ChooseMerchant.vue")
+            // },
 
             {
                 path: "queue/:mId",
                 name: "Queue",
-                meta: {title: "队列", icon: "el-icon-s-comment"},
+                meta: {title: "队列", icon: "el-icon-s-comment", roles: ["merc314hant"]},
                 component: ()=>import("../views/common/Queue.vue")
+            },
+            {
+                path: "myqueue",
+                name: "MyQueue",
+                meta: {title: "我的队列", icon: "el-icon-s-comment"},
+                component: ()=>import("../views/common/MyQueue.vue")
             }
         ]
     },

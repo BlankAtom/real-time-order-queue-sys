@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="search">
+        <div class="search" style="margin:auto;width: max-content">
             <el-form :inline="true" class="demo-form-inline">
                 <el-form-item>
                     <el-col span="18">
@@ -63,6 +63,7 @@
     export default {
         data() {
             return {
+                cid:window.sessionStorage.getItem('cid'),
                 total: 6,
                 testData: [],
                 searchKey: "",
@@ -145,7 +146,20 @@
             },
             lineUp(mId) {
                 console.log(mId)
-                this.$router.push("/hxq/queue/" + mId)
+                this.$axios
+                    .post('/cus/isQueuing?c_id=' + window.sessionStorage.getItem('cid'))
+                    .then((response) => {
+                        if (response.data===0)
+                            this.$router.push("/hxq/queue/" + mId)
+                        else
+                        {
+                            alert("您已经在别家店铺的队列中了哟")
+                            this.$router.push("/hxq/myqueue")
+                        }
+                    }).catch((error) => {
+                    console.log(error)
+                })
+
             }
         },
 

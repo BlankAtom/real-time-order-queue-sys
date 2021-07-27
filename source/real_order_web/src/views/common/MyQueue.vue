@@ -2,75 +2,61 @@
     <div class="outer" style="height: 100%;width: 100%">
         <div class="center" style="margin-bottom: 20px">
             <h1 v-text="mName"></h1>
+
         </div>
 
 <!--        圆形按钮+中心文字内容-->
-        <div class="round-box"   >
-<!--            <div class="round-anime-playing" v-if="show">-->
-<!--                <div class="round-queue-num" v-text="text"/>-->
-<!--            </div>-->
-            <div class="round-anime-normal" @click="startQueue" >
+        <div class="round-box" >
+            <div class="round-anime-playing">
                 <div class="round-queue-num" v-text="text"/>
             </div>
+
         </div>
 
-<!--        <div style="margin-top: 150px">-->
-<!--            <label style="color: black;size: auto;font-size: 40px" v-if="show">前方共有<span style="color: darkgray;" v-text="qNub"></span>人排队</label>-->
-<!--        </div>-->
+        <div style="margin-top: 150px">
+            <label style="color: black;size: auto;font-size: 40px" >前方共有<span style="color: darkgray;" v-text="qNub"></span>人排队</label>
+        </div>
 
-<!--        <div style="margin-top: 80px">-->
-<!--            <el-button type="primary" class="btn-cancel-queue"-->
-<!--                       v-if="show"-->
-<!--                       @click="cancel"-->
-<!--                       v-text="btnText">-->
-<!--            </el-button>-->
-<!--        </div>-->
+        <div style="margin-top: 80px">
+            <el-button type="primary" class="btn-cancel-queue"
+                       @click="cancel"
+                       v-text="btnText">
+            </el-button>
+        </div>
 
     </div>
 
 
 </template>
 <script>
+    import axios from "axios";
     import {getCurrentInstance} from "vue";
 
     export default {
-        // setup(){
-        //     const {proxy} = getCurrentInstance();
-        //     proxy.$axios.post('cus/onemerchant',proxy.$qs.stringify($route.params.mId))
-        //         .then(function (response){
-        //             console.log("6854")
-        //             console.log(response.data)
-        //             let {a,b,c,d}=response.data
-        //             console.log(a)
-        //         })
-        //         .catch(function (error){
-        //             console.log(error)
-        //         })
-        // },
-        // created() {
-        //     const {proxy} = getCurrentInstance();
-        //     proxy.$axios.post('cus/onemerchant',proxy.$qs.stringify($route.params.mId))
-        //         .then(function (response){
-        //             this.test=response,date()
-        //             console.log("6854")
-        //             console.log(response.data)
-        //         })
-        //         .catch(function (error){
-        //             console.log(error)
-        //         })
-        // },
         created() {
+            this.$axios.post('cus/findNumber?c_id='+window.sessionStorage.getItem('cid'))
+                .then((response) => {
+                    this.text = response.data+"号"
+                }).catch((error) => {
+                console.log(error)
+            })
+            this.$axios.post('cus/findMyPosition?c_id='+window.sessionStorage.getItem('cid'))
+                .then((response) => {
+                    this.qNub = response.data
+                }).catch((error) => {
+                console.log(error)
+            })
+            const _this = this
             const {proxy} = getCurrentInstance();
             let m_id = this.m_id
-            proxy.$axios.post('cus/onemerchant?m_id=' + m_id)
+            proxy.$axios.post('cus/findMyQueue?c_id=' + window.sessionStorage.getItem('cid'))
                 .then((response) => {
-                    this.data = response.data
-                    console.log("1111" + response.data)
-                    console.log(this.data)
-                    let {m_id, m_name, m_phone} = response.data
-                    this.mName = m_name
-                    console.log(m_id)
-                    // this.mName=m.m_name
+                    this.mName=response.data
+                    console.log(response.data)
+                    if (this.mName==="") {
+                        this.$router.push("/hxq")
+                        alert("您还没有选择商家哦，请进入首页选择商家并排队")
+                    }
                 }).catch((error) => {
                 console.log(error)
             })
@@ -79,22 +65,21 @@
             return {
                 data: [],
                 mName: '俺是个店名',
-                text: '点击排队',
-                qNub: '99',
+                text: 'XXXX号',
+                qNub: 'XX',
+                btnText: '取消排队',
                 m_id: this.$route.params.mId,
-                flag: true
             }
         },
         methods: {
-            startQueue(val) {
-                /** 选择排队并跳转 **/
-                this.$axios.post('cus/lineUp?m_id=' + this.m_id+"&c_id="+window.sessionStorage.getItem('cid'))
+            cancel(val) {
+                this.$axios.post('cus/cancel?c_id='+window.sessionStorage.getItem('cid'))
                     .then((response) => {
+                        alert("取消成功，即将回到首页")
+                        this.$router.push("/hxq")
                     }).catch((error) => {
-                  console.log(error)
+                    console.log(error)
                 })
-                this.$router.push("/hxq/myqueue")
-                alert("排队成功")
             }
         }
     }
