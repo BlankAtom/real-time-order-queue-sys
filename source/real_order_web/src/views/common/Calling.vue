@@ -52,11 +52,9 @@
 <script>
 import {ElMessage} from "element-plus";
 import {getCurrentInstance} from "vue";
+import { useStore } from "vuex"
 
 export default {
-  setup() {
-    const {proxy} = getCurrentInstance();
-  },
   methods: {
     next(){
       this.$axios
@@ -87,7 +85,7 @@ export default {
       // const {proxy} = getCurrentInstance();
       const _this = this
       this.$axios
-          .get("/calling/findAll/"+currentPage+"/6/merchant_8995566")
+          .get("/calling/findAll/"+currentPage+"/6/"+useStore().state.users.username)
           .then(res => {
             _this.tableData = res.data
             // tabledata.wait_time =
@@ -100,9 +98,10 @@ export default {
   },
   created() {
     const _this = this
-
+    const store = useStore()
+    // alert( store.state.users.username)
     this.$axios
-        .get("/calling/findAll/1/6/merchant_8995566")
+        .get("/calling/findAll/1/6/"+store.state.users.username)
         .then(res => {
           _this.tableData = res.data
           _this.total = res.data[0].total

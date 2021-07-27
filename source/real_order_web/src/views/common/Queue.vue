@@ -97,7 +97,6 @@
                 this.show = !this.show
             },
             startQueue(val) {
-              setTimeout(startQueue(val){
                 /**  取排队号操作   **/
                 // this.btnText = '取消排队'
                 // this.text = '9856号'
@@ -117,7 +116,6 @@
                 })
                 if (!this.show)
                   this.show = !this.show
-              }, 1000);
             }
         }
     }
