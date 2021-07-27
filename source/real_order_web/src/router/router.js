@@ -96,6 +96,12 @@ const devMap = [
                 name: "AdminRole",
                 meta: { title: "角色列表", icon: "el-icon-s-custom" },
                 component: () => import("../views/admin/RoleList.vue")
+            },
+            {
+                path: "merchant",
+                name: "AdminMerchant",
+                meta: { title: "商家列表", icon: "el-icon-s-custom" },
+                component: () => import("../views/admin/Merchant.vue")
             }
         ]
 

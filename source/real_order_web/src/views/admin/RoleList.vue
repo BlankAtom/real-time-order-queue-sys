@@ -11,7 +11,7 @@
         <el-input v-model="searchId" placeholder="请输入查询用户ID" clearable @clear="clear"  prefix-icon="el-icon-search"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="searchAccount">查询</el-button>
+        <el-button type="primary" @click="clearCurPage">查询</el-button>
       </el-form-item>
     </el-form>
     </div>
@@ -91,37 +91,22 @@ export default {
     }
   },
   created() {
-    //获取所有的数据信息
-    this.$axios
-        .post('/admin/findAllAccount')
-        .then((response)=>{
-          //获得所有页数显示的数据量
-          this.total = response.data.length
-        })
-        .catch((error)=>{
-          console.log(error)
-        })
-
-    let params = {curPage: this.curPage,pageCount:9}
-    //获取第一页的数据
-    this.$axios
-        .post('/admin/findPageAccount',this.$qs.stringify(params))
-        .then((response)=>{
-          this.accounts = response.data
-        }).catch((error)=>{
-          console.log(error)
-    })
+    this.clearCurPage()
   },
   methods: {
-    /**
-     * 处理换页时的数据显示
-     * @param val 页数
-     */
-    handleCurrentChange(val){
-      this.curPage = val
+    clearCurPage(){
       let params = {curPage: this.curPage,pageCount:9,username:this.searchId}
-      //所有用户的第val页
       if(this.searchId===''){
+        this.$axios
+            .post('/admin/findAllAccount')
+            .then((response)=>{
+              //获得所有页数显示的数据量
+              this.total = response.data.length
+            })
+            .catch((error)=>{
+              console.log(error)
+            })
+        //获取第一页的数据
         this.$axios
             .post('/admin/findPageAccount',this.$qs.stringify(params))
             .then((response)=>{
@@ -129,7 +114,16 @@ export default {
             }).catch((error)=>{
           console.log(error)
         })
-      }else{//模糊查询val页用户
+      }else{
+        //获取模糊查询所有用户数量
+        this.$axios
+            .post('/admin/findAllByUsername',this.$qs.stringify(params))
+            .then((response)=>{
+              this.total = response.data.length
+            }).catch((error)=>{
+          console.log(error)
+        })
+        //获取模糊查询第一页用户
         this.$axios
             .post('/admin/findPageByUsername',this.$qs.stringify(params))
             .then((response)=>{
@@ -137,13 +131,23 @@ export default {
             }).catch((error)=>{
           console.log(error)
         })
+        console.log(this.searchId)
       }
+    },
+    /**
+     * 处理换页时的数据显示
+     * @param val 页数
+     */
+    handleCurrentChange(val){
+      this.curPage = val
+      this.clearCurPage()
     },
     /**
      * 通过输入的ID模糊查找所有用户
      */
     searchAccount(){
       let params = {username: this.searchId,curPage:this.curPage,pageCount:9}
+      console.log(this.searchId)
       //获取模糊查询所有用户数量
       this.$axios
           .post('/admin/findAllByUsername',this.$qs.stringify(params))
@@ -154,7 +158,7 @@ export default {
       })
       //获取模糊查询第一页用户
       this.$axios
-          .post('//admin/findPageByUsername',this.$qs.stringify(params))
+          .post('/admin/findPageByUsername',this.$qs.stringify(params))
           .then((response)=>{
             this.accounts = response.data
           }).catch((error)=>{
@@ -243,7 +247,7 @@ export default {
      */
     clear(){
       //获取所有数据
-      this.curPage = 1
+      // this.curPage = 1
       this.$axios
           .post('/admin/findAllAccount')
           .then((response)=>{
