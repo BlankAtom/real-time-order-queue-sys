@@ -52,6 +52,7 @@
 <script>
 
 import {ElMessage} from "element-plus";
+import {useStore} from "vuex";
 
 export default {
   methods:{
@@ -137,7 +138,7 @@ export default {
     this.c_id = this.$route.params.c_id
     this.o_id = this.$route.params.o_id
     this.$axios
-        .get("/calling/findOrder/merchant_8995566")
+        .get("/calling/findOrder/"+useStore().state.users.username)
         .then(res => {
           _this.tableData = res.data
           // _this.total = res.data[0].total

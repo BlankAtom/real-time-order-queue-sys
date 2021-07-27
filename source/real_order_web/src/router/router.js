@@ -57,6 +57,24 @@ const devMap = [
                 meta: { title: "点单", icon: "el-icon-document"},
                 component: () => import("../views/common/Order.vue")
             },
+            {
+                path: "BigData1",
+                name: "BigData1",
+                meta: { title: "大数据1", icon: "el-icon-document"},
+                component: () => import("../views/admin/BigData1.vue")
+            },
+            {
+                path: "BigData2",
+                name: "BigData2",
+                meta: { title: "大数据2", icon: "el-icon-document"},
+                component: () => import("../views/admin/BigData2.vue")
+            },
+            {
+                path: "BigData3",
+                name: "BigData3",
+                meta: { title: "大数据3", icon: "el-icon-document"},
+                component: () => import("../views/admin/BigData3.vue")
+            },
         ]
     },
     {

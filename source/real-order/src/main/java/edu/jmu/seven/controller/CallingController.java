@@ -12,7 +12,6 @@ import edu.jmu.seven.mapper.OrdersMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
@@ -100,7 +99,7 @@ public class CallingController {
 
     @GetMapping("/calling/updateOrder/{id}/{type}/{cost}")
     public String updateOrder(@PathVariable("id") String id,@PathVariable("cost") Double cost,@PathVariable("type") int type){
-        if(ordersMapper.updateOrderById(cost,type,id)==1){
+        if(ordersMapper.updateOrderById(cost,type,id,LocalDateTime.now())==1){
             return "success";
         }
         return "false";
