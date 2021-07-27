@@ -3,6 +3,7 @@ package edu.jmu.seven.controller
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import edu.jmu.seven.entity.Merchant
+import edu.jmu.seven.entity.Merchant_Order
 import edu.jmu.seven.entity.Orders
 import edu.jmu.seven.mapper.MerchantMapper
 import edu.jmu.seven.mapper.OrdersMapper
@@ -24,6 +25,7 @@ class MerchantController {
 
     @Autowired
     private lateinit var mmapper: MerchantMapper
+
     @Autowired
     private lateinit var ordersMapper: OrdersMapper
 
@@ -73,27 +75,87 @@ class MerchantController {
         return mmapper.selectList(mWrapper)
     }
 
-    @RequestMapping("/lineUp")
-    fun lineUp(
-        @RequestParam("m_id") m_id: String,
-        @RequestParam("c_id") c_id: String
+    @RequestMapping("/findMyPosition")
+    fun findMyPosition(
+            @RequestParam("c_id") c_id: String
     ): Int {
-        val wrapper: QueryWrapper<Orders>? = QueryWrapper<Orders>().eq("m_id", m_id).eq("status","opened")
-
-        val orders : Orders = Orders(System.currentTimeMillis().toString(),
-            m_id,c_id,9.9, LocalDateTime.now(),LocalDateTime.now(),
-            0,"opened",1)
-        val count = ordersMapper.selectList(wrapper).size
-        ordersMapper.insert(orders)
-        return count
+        val m_owrapper: QueryWrapper<Orders>? = QueryWrapper<Orders>().eq("c_id", c_id).eq("status", "opened")
+        val m_o = ordersMapper.selectList(m_owrapper)
+        val m_id = m_o[0].m_id
+        val wrapper: QueryWrapper<Orders>? = QueryWrapper<Orders>().eq("m_id", m_id).eq("status", "opened").orderByAsc("o_start_time")
+        var nub = 1
+        for (i in ordersMapper.selectList(wrapper)) {
+            if (i.c_id == c_id)
+                return nub
+            nub++
+        }
+        return 0
     }
+
 
     @RequestMapping("/findNumber")
     fun findNumber(
-        @RequestParam("m_id") m_id: String,
+            @RequestParam("c_id") c_id: String,
     ): Int {
-        val wrapper: QueryWrapper<Orders>? = QueryWrapper<Orders>().eq("m_id", m_id)
-        return ordersMapper.selectList(wrapper).size
+        val m_owrapper: QueryWrapper<Orders>? = QueryWrapper<Orders>().eq("c_id", c_id).eq("status", "opened")
+        val m_o = ordersMapper.selectList(m_owrapper)
+        val m_id = m_o[0].m_id
+        val wrapper: QueryWrapper<Orders>? = QueryWrapper<Orders>().eq("m_id", m_id).orderByAsc("o_start_time")
+        var nub = 1
+        for (i in ordersMapper.selectList(wrapper)) {
+            if (i.c_id == c_id)
+                return nub
+            nub++
+        }
+        return 0
+    }
+
+    @RequestMapping("/findMyQueue")
+    fun findMyQueue(
+            @RequestParam("c_id") c_id: String
+    ): String {
+        val wrapper: QueryWrapper<Orders>? = QueryWrapper<Orders>().eq("c_id", c_id).eq("status", "opened")
+        val m_o = ordersMapper.selectList(wrapper)
+        if (m_o.isEmpty())
+            return ""
+
+        print(m_o[0].m_id)
+        return mmapper.selectByName(m_o[0].m_id)?.m_name ?: ""
+//        val mWrapper: QueryWrapper<Merchant>? = QueryWrapper<Merchant>().eq("m_id", m_o[0].m_id)
+//        val m = mmapper.selectList(mWrapper)
+//        return m
+    }
+
+    @RequestMapping("/lineUp")
+    fun lineUp(
+            @RequestParam("m_id") m_id: String,
+            @RequestParam("c_id") c_id: String
+    ) {
+        print(m_id)
+        val orders: Orders = Orders(System.currentTimeMillis().toString(),
+                m_id, c_id, 9.9, LocalDateTime.now(), LocalDateTime.now(),
+                0, "opened", 1)
+        ordersMapper.insert(orders)
+    }
+
+    @RequestMapping("/isQueuing")
+    fun isQueuing(
+            @RequestParam("c_id") c_id: String
+    ): Int {
+        val wrapper: QueryWrapper<Orders>? = QueryWrapper<Orders>().eq("c_id", c_id).eq("status", "opened")
+        val m_o = ordersMapper.selectList(wrapper)
+        if (m_o.isEmpty())
+            return 0
+        return 1
+    }
+
+    @RequestMapping("/cancel")
+    fun cancel(
+            @RequestParam("c_id") c_id: String,
+    ):Int {
+        if(ordersMapper.updateOrderStatus(c_id)==1)
+            return 1
+        return 0
     }
 
 }

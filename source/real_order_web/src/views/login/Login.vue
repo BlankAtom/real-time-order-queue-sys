@@ -69,6 +69,7 @@ export default {
                 if (!valid) {
                     return false;
                 }
+                window.sessionStorage.setItem('cid',loginFormState.name)
 
                 loginFormState.loading = true;
 
