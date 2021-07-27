@@ -103,8 +103,9 @@ class MerchantController {
         val wrapper: QueryWrapper<Orders>? = QueryWrapper<Orders>().eq("m_id", m_id).orderByAsc("o_start_time")
         var nub = 1
         for (i in ordersMapper.selectList(wrapper)) {
-            if (i.c_id == c_id)
+            if (i.c_id == c_id && i.status=="opened") {
                 return nub
+            }
             nub++
         }
         return 0
