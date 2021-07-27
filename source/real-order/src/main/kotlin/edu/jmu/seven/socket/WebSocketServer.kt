@@ -16,7 +16,7 @@ import javax.websocket.server.ServerEndpoint
 
 @ServerEndpoint("/websocket/{userCode}") //@ServerEndpoint(value = "/websocket")
 @Component
-class WebSocket {
+class WebSocketServer {
     //user
     private var currentUser: String? = null
 
@@ -76,7 +76,7 @@ class WebSocket {
             private set
 
         //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
-        private val webSocketSet = CopyOnWriteArraySet<WebSocket>()
+        private val webSocketSet = CopyOnWriteArraySet<WebSocketServer>()
 
         /**
          * 发送给指定用户

@@ -5,9 +5,6 @@ import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
 import org.apache.spark.api.java.JavaSparkContext
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Component
-import org.springframework.stereotype.Service
 import org.springframework.util.ResourceUtils
 import java.io.BufferedWriter
 import java.io.File
