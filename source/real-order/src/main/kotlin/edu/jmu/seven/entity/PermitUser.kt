@@ -30,7 +30,7 @@ class PermitUser(
 
     override fun equals(other: Any?): Boolean {
         if( other is PermitUser ) {
-            return (other as PermitUser).getUsername() == this.username
+            return other.getUsername() == this.username
         }
         return false
     }

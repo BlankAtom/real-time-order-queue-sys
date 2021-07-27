@@ -55,8 +55,8 @@ class LoginServiceImpl : LoginService {
     lateinit var accountMapper: AccountMapper
 
 
-    override fun check(user: String) : Boolean {
-        redisService.get(user) ?: return false
+    override fun check(userAgent: String) : Boolean {
+        redisService.get(userAgent) ?: return false
         return true
     }
 

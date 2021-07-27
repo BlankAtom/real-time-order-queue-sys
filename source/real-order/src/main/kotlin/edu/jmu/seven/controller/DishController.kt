@@ -5,12 +5,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import edu.jmu.seven.entity.Dish
 import edu.jmu.seven.mapper.DishMapper
-import edu.jmu.seven.utils.ResultTool.fail
-import jdk.jpackage.internal.Log.info
-import org.apache.commons.logging.Log
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.util.ResourceUtils
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
 import java.io.IOException

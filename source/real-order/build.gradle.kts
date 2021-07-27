@@ -28,64 +28,49 @@ repositories {
 }
 
 dependencies {
-
-    // https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-generator
-//    implementation("com.baomidou:mybatis-plus-generator:3.5.0")
-    // https://mvnrepository.com/artifact/org.mybatis/mybatis
-    implementation("org.mybatis:mybatis:3.5.7")
-    // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
-//    implementation("org.springdoc:springdoc-openapi-ui:1.5.9")
-
-//    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
-//    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
-    // https://mvnrepository.com/artifact/org.apache.spark/spark-core
-    implementation("org.apache.spark:spark-core_2.12:3.1.2")
-// https://mvnrepository.com/artifact/org.apache.spark/spark-launcher
-    implementation("org.apache.spark:spark-launcher_2.12:3.1.2")
-// https://mvnrepository.com/artifact/org.apache.spark/spark-mllib
-    compileOnly("org.apache.spark:spark-mllib_2.12:3.1.2")
-// https://mvnrepository.com/artifact/org.apache.spark/spark-streaming
-    compileOnly("org.apache.spark:spark-streaming_2.12:3.1.2")
-// https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-client
-    implementation("org.apache.hadoop:hadoop-client:3.3.1")
-// https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-common
-    implementation("org.apache.hadoop:hadoop-common:3.3.1")
-// https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-hdfs
-    testImplementation("org.apache.hadoop:hadoop-hdfs:3.3.1")
-// https://mvnrepository.com/artifact/org.apache.hadoop/hadoop-annotations
-    implementation("org.apache.hadoop:hadoop-annotations:3.3.1")
-
+    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-security")
-    implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-websocket")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.security:spring-security-test")
+    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+    implementation("org.mybatis:mybatis:3.5.7")
+    implementation("com.baomidou:mybatis-plus-boot-starter:3.4.3.1")
+//    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
+//    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+    implementation("org.apache.spark:spark-core_2.12:3.1.2"){
+        exclude("org.slf4j", "slf4j-log4j12")
+    }
+    implementation("org.apache.hadoop:hadoop-client:3.3.1"){
+        exclude("org.slf4j", "slf4j-log4j12")
+    }
+    implementation("org.apache.hadoop:hadoop-common:3.3.1") {
+        exclude("org.slf4j", "slf4j-log4j12")
+    }
+    compileOnly("org.apache.spark:spark-streaming_2.12:3.1.2"){
+        exclude("org.slf4j", "slf4j-log4j12")
+    }
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    // https://mvnrepository.com/artifact/com.baomidou/mybatis-plus-boot-starter
-    implementation("com.baomidou:mybatis-plus-boot-starter:3.4.3.1")
 
     // Lombok
     implementation("org.projectlombok:lombok:1.18.18")
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("org.springframework.security:spring-security-test")
-    annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
     runtimeOnly("org.mariadb.jdbc:mariadb-java-client")
 
-//    developmentOnly("org.springframework.boot:spring-boot-devtools")
-    // https://mvnrepository.com/artifact/eu.bitwalker/UserAgentUtils
     // 浏览器解析
     implementation("eu.bitwalker:UserAgentUtils:1.21")
     // FastJson
     implementation("com.alibaba:fastjson:1.2.76")
 
 
-}
 
+}
 tasks.withType<KotlinCompile> {
     kotlinOptions {
         freeCompilerArgs = listOf("-Xjsr305=strict")

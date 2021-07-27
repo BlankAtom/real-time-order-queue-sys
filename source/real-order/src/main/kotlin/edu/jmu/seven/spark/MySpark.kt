@@ -1,13 +1,18 @@
 package edu.jmu.seven.spark
 
+import edu.jmu.seven.config.SparkConfig
 import org.apache.hadoop.conf.Configuration
 import org.apache.hadoop.fs.FileSystem
 import org.apache.hadoop.fs.Path
+import org.apache.spark.api.java.JavaSparkContext
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import org.springframework.util.ResourceUtils
-import java.io.BufferedOutputStream
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
+import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 
@@ -16,17 +21,22 @@ import java.time.LocalDateTime
  * @author github/blackswords
  * @date 2021/07/27/14:34
  */
-class MySpark {
+
+class MySpark : Serializable {
     companion object {
         const val sparkFileUrl = "hdfs://159.75.90.116/data/order"
+
+        var jsc: JavaSparkContext = SparkConfig.javaSparkContext()
     }
+
+//    @Autowired
 
     /**
      * @return Map<String, Int> 获取序号-次数结果
      */
     fun getNumberWithCount() : Map<String, Int> {
         val fileName = sparkFileUrl+ "/" + getFileName()
-        return NumberWithCountService().run(fileName)
+        return NumberWithCountService(jsc).run(fileName)
     }
 
     /**
@@ -34,7 +44,7 @@ class MySpark {
      */
     fun getMerchantVisited(): Map<String, Int> {
         val fileName = sparkFileUrl+ "/" + getFileName()
-        return MerchantVisitedService().run(fileName)
+        return MerchantVisitedService(jsc).run(fileName)
     }
 
     /**
@@ -42,7 +52,7 @@ class MySpark {
      */
     fun getSearchWordCount(): Map<String, Int> {
         val fileName = sparkFileUrl+ "/" + getFileName()
-        return SearchWordCountService().run(fileName)
+        return SearchWordCountService(jsc).run(fileName)
     }
 
     /**

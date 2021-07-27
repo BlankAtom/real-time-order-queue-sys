@@ -15,13 +15,12 @@ import java.util.regex.Pattern
  * @date 2021/07/27/15:10
  */
 
-@Component
-class SearchWordCountService : Serializable {
+class SearchWordCountService(
+    var javaSparkContext: JavaSparkContext
+) : Serializable {
     companion object {
         val pattern: Pattern = Pattern.compile("\\s+")
     }
-    @Autowired
-    private lateinit var sc: JavaSparkContext
 
     /**
      * 次数序号RDD执行业务类的执行函数
@@ -30,7 +29,7 @@ class SearchWordCountService : Serializable {
      */
     fun run(filename: String) : Map<String, Int> {
         // 读取文件
-        val lines : JavaRDD<String> = sc.textFile(filename).cache()
+        val lines : JavaRDD<String> = javaSparkContext.textFile(filename).cache()
 
         // 根据第三位字符串（序号字符串），进行map
         val lineWords : JavaPairRDD<String, Int> = lines.mapToPair { Tuple2(pattern.split(it)[1], 1) }

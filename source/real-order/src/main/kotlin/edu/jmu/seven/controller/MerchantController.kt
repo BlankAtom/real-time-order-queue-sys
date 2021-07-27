@@ -7,6 +7,7 @@ import edu.jmu.seven.entity.Orders
 import edu.jmu.seven.mapper.MerchantMapper
 import edu.jmu.seven.mapper.OrdersMapper
 import edu.jmu.seven.service.MerchantService
+import edu.jmu.seven.socket.WebSocket
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -19,7 +20,7 @@ import java.time.LocalDateTime
  * @date 2021/07/17/10:28
  */
 @RestController
-@RequestMapping("/cus")
+@RequestMapping("/api/merchant")
 class MerchantController {
 
     @Autowired
@@ -27,6 +28,14 @@ class MerchantController {
     @Autowired
     private lateinit var ordersMapper: OrdersMapper
 
+
+
+    @RequestMapping("/call")
+    fun callCustomer(@RequestParam("m_id") mid: String, @RequestParam("c_id") cid: String) : String {
+        // 呼叫用户
+        WebSocket.sendMessageTo("123", cid)
+        return "123"
+    }
     /**
      * 展示所有商家
      */

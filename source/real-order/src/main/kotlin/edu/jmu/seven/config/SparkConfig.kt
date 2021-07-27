@@ -28,11 +28,15 @@ class SparkConfig {
          * isMaster的布尔值，一般用不到
          */
 //        const val isMaster = false
+
+        /**
+         * 创建javaSparkContext
+         */
+//        @Bean
+        fun javaSparkContext() : JavaSparkContext {
+            return JavaSparkContext.fromSparkContext(SparkContext(master, appName))
+        }
     }
 
-    @Bean
-    fun sparkContext() : JavaSparkContext {
-        val sc = SparkContext(master, appName)
-        return JavaSparkContext.fromSparkContext(sc)
-    }
+
 }
