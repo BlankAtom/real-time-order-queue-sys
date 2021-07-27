@@ -41,30 +41,32 @@ class MerchantController {
         return mmapper.selectById(m_id)
     }
 
+    /**
+     * 分页返回商家结果
+     * @param curPage 页码
+     * @param pageCount 每页的内容
+     * @param key m_name商家名字
+     */
     @RequestMapping("/merchantByPage")
     fun merchantByPage(
             @RequestParam("curPage") curPage: String,
             @RequestParam("pageCount") pageCount: String,
             @RequestParam("key") key: String
     ): List<Merchant> {
-        if (key == "") {
-            val curPageLong = curPage.toLong()
-            val pageCountLong = pageCount.toLong()
-            var mPage = Page<Merchant>(curPageLong, pageCountLong)
-            mPage = mmapper.selectPage(mPage, null)
-            val mList: List<Merchant> = mPage.records;
-            return mList
+        val curPageLong = curPage.toLong()
+        val pageCountLong = pageCount.toLong()
+        val mPage = Page<Merchant>(curPageLong, pageCountLong)
+        return if (key == "") {
+            mmapper.selectPage(mPage, null).records
         } else {
-            val curPageLong = curPage.toLong()
-            val pageCountLong = pageCount.toLong()
-            var mPage = Page<Merchant>(curPageLong, pageCountLong)
             val mWrapper: QueryWrapper<Merchant>? = QueryWrapper<Merchant>().like("m_name", key)
-            mPage = mmapper.selectPage(mPage, mWrapper)
-            val mList: List<Merchant> = mPage.records
-            return mList
+            mmapper.selectPage(mPage, mWrapper).records
         }
     }
 
+    /**
+     * 获取指定商家编号的商家
+     */
     @RequestMapping("/findMerchantByKey")
     fun findMerchantByKey(
             @RequestParam("key") key: String
@@ -73,26 +75,38 @@ class MerchantController {
         return mmapper.selectList(mWrapper)
     }
 
+    /**
+     *
+     */
     @RequestMapping("/lineUp")
     fun lineUp(
         @RequestParam("m_id") m_id: String,
         @RequestParam("c_id") c_id: String
     ): Int {
+        // 建立订单为打开状态，商家号为指定编号的搜索器
         val wrapper: QueryWrapper<Orders>? = QueryWrapper<Orders>().eq("m_id", m_id).eq("status","opened")
 
-        val orders : Orders = Orders(System.currentTimeMillis().toString(),
-            m_id,c_id,9.9, LocalDateTime.now(),LocalDateTime.now(),
+        val orders = Orders(System.currentTimeMillis().toString(),
+            m_id,c_id,9.9, LocalDateTime.now(), LocalDateTime.now(),
             0,"opened",1)
+
+        // 搜索全部的订单+搜索器结果的长度
         val count = ordersMapper.selectList(wrapper).size
+
+        // 插入这个订单
         ordersMapper.insert(orders)
         return count
     }
 
+    /**
+     * 获取m_id为传入参数的所有orders的总数
+     * @param m_id 商家编号
+     */
     @RequestMapping("/findNumber")
     fun findNumber(
         @RequestParam("m_id") m_id: String,
     ): Int {
-        val wrapper: QueryWrapper<Orders>? = QueryWrapper<Orders>().eq("m_id", m_id)
+        val wrapper = QueryWrapper<Orders>().eq("m_id", m_id)
         return ordersMapper.selectList(wrapper).size
     }
 

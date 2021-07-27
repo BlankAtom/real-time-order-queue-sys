@@ -38,6 +38,15 @@ dependencies {
 
 //    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
 //    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
+    // https://mvnrepository.com/artifact/org.apache.spark/spark-core
+    implementation("org.apache.spark:spark-core_2.12:3.1.2")
+// https://mvnrepository.com/artifact/org.apache.spark/spark-launcher
+    implementation("org.apache.spark:spark-launcher_2.12:3.1.2")
+// https://mvnrepository.com/artifact/org.apache.spark/spark-mllib
+    compileOnly("org.apache.spark:spark-mllib_2.12:3.1.2")
+// https://mvnrepository.com/artifact/org.apache.spark/spark-streaming
+    compileOnly("org.apache.spark:spark-streaming_2.12:3.1.2")
+
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-security")
