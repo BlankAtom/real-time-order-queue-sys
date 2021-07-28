@@ -153,8 +153,13 @@
                             this.$router.push("/hxq/queue/" + mId)
                         else
                         {
-                            alert("您已经在别家店铺的队列中了哟")
-                            this.$router.push("/hxq/myqueue")
+                            // alert("您已经在别家店铺的队列中了哟")
+                            this.$alert('您已经在别家店铺的队列中了哟,即将前往查看', '提示', {
+                                confirmButtonText: '确定',
+                                type: 'warning'
+                            }).then(() => {
+                                this.$router.push("/hxq/myqueue")
+                            });
                         }
                     }).catch((error) => {
                     console.log(error)
