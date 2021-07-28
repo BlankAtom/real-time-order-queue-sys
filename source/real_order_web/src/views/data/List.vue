@@ -9,7 +9,7 @@
             <el-form :inline="true" class="demo-form-inline">
               <el-form-item >
                 <el-col span="18">
-                <el-input v-model="searchId" placeholder="请输入查询订单ID" clearable @clear="clear"  prefix-icon="el-icon-search"></el-input>
+                <el-input v-model="searchId" placeholder="请输入查询订单ID" clearable @clear="clearCurPage"  prefix-icon="el-icon-search"></el-input>
                 </el-col>
               </el-form-item>
               <el-form-item>
@@ -23,7 +23,7 @@
                 </el-select>
               </el-form-item>
               <el-form-item>
-                <el-button type="primary" @click="searchAccount">查询</el-button>
+                <el-button type="primary" @click="clearCurPage">查询</el-button>
               </el-form-item>
             </el-form>
         </div>
@@ -114,58 +114,24 @@ export default {
     }
   },
   created() {
-    let params = {m_id: this.m_id,curPage: this.curPage,pageCount: 9}
-    //获取所有的数据信息
-    this.$axios
-        .post('/data/findAll',this.$qs.stringify(params))
-        .then((response)=>{
-          this.total = response.data.length
-        }).catch((error)=>{
-      console.log(error)
-    })
-    //获取第一页的数据
-    this.$axios
-        .post('/data/findPage',this.$qs.stringify(params))
-        .then((response)=>{
-          this.orders = response.data
-        }).catch((error)=>{
-          console.log(error)
-      })
-
+    this.clearCurPage()
   },
   methods: {
     /**
-     * 通过输入的ID模糊查找所有用户或者订单
+     * 刷新当页的数据
      */
-    searchAccount(){
-      console.log(this.value)
-      let params = {searchId: this.searchId,m_id: this.m_id,curPage:this.curPage,pageCount:9 ,choose:this.value}
-      //获取模糊查询所有订单数量
-      this.$axios
-          .post('/data/findAllById',this.$qs.stringify(params))
-          .then((response)=>{
-              this.total = response.data.length
-          }).catch((error)=>{
-            console.log(error)
-      })
-      //获取模糊查询一页的
-      this.$axios
-          .post('/data/findPageById',this.$qs.stringify(params))
-          .then((response)=>{
-            this.orders = response.data
-          }).catch((error)=>{
-        console.log(error)
-      })
-    },
-    /**
-     * 处理换页时的数据显示
-     * @param val 页数
-     */
-    handleCurrentChange(val){
-      this.curPage=val
+    clearCurPage(){
       let params = {m_id: this.m_id,curPage: this.curPage,pageCount: 9,searchId:this.searchId,choose: this.value}
-      //搜索框为空点击页码获取对应页码的订单
+      //没有查询值时
       if(this.searchId===''){
+        //获取所有数据
+        this.$axios
+            .post('/data/findAll',this.$qs.stringify(params))
+            .then((response)=>{
+              this.total = response.data.length
+            }).catch((error)=>{
+          console.log(error)
+        })
         this.$axios
             .post('/data/findPage',this.$qs.stringify(params))
             .then((response)=>{
@@ -175,6 +141,15 @@ export default {
           console.log(error)
         })
       }else{//有搜索时点击页码获取对应订单
+        //获取模糊查询所有订单数量
+        this.$axios
+            .post('/data/findAllById',this.$qs.stringify(params))
+            .then((response)=>{
+              this.total = response.data.length
+            }).catch((error)=>{
+          console.log(error)
+        })
+        //获取模糊查询当前页数的数据
         this.$axios
             .post('/data/findPageById',this.$qs.stringify(params))
             .then((response)=>{
@@ -185,12 +160,21 @@ export default {
       }
     },
     /**
+     * 处理换页时的数据显示
+     * @param val 页数
+     */
+    handleCurrentChange(val){
+      //改变当前页码值
+      this.curPage=val
+      this.clearCurPage()
+    },
+    /**
      * 删除按钮事件
      * @param index 行数
      * @param row 一行的数据
      */
     handleDelete(index, row) {
-      let params = {o_id: row.o_id}
+      let params = {o_id: row.o_id,m_id: this.m_id,curPage: this.curPage,pageCount: 9}
       this.$axios
           .post('/data/deleteOrderByo_id',this.$qs.stringify(params))
           .then((response)=>{
@@ -202,7 +186,7 @@ export default {
           .catch((err)=>{
             console.log(err)
           })
-      this.orders.splice(index,1)
+      this.clearCurPage()
     },
     /**
      * 付款方式格式转换
@@ -240,30 +224,7 @@ export default {
         return "订单还在继续"
       }
     },
-    /**
-     * 搜索框的clearable对应事件
-     * 重新获取后端数据
-     */
-    clear(){
-      this.curPage = 1
-      //获取所有的数据信息
-      let params = {m_id: this.m_id,curPage: this.curPage,pageCount: 9}
-      this.$axios
-          .post('/data/findAll',this.$qs.stringify(params))
-          .then((response)=>{
-            this.total = response.data.length
-          }).catch((error)=>{
-        console.log(error)
-      })
-      //获取第一页的数据
-      this.$axios
-          .post('/data/findPage',this.$qs.stringify(params))
-          .then((response)=>{
-            this.orders = response.data
-          }).catch((error)=>{
-        console.log(error)
-      })
-    }
+
   }
 }
 
