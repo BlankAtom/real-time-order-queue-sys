@@ -3,7 +3,6 @@ package edu.jmu.seven.controller
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import edu.jmu.seven.entity.Merchant
-import edu.jmu.seven.entity.Merchant_Order
 import edu.jmu.seven.entity.Orders
 import edu.jmu.seven.mapper.MerchantMapper
 import edu.jmu.seven.mapper.OrdersMapper
@@ -104,7 +103,7 @@ class MerchantController {
 
     /**
      * 获取m_id为传入参数的所有orders的总数
-     * @param m_id 商家编号
+     * @param c_id
      */
     @RequestMapping("/findNumber")
     fun findNumber(

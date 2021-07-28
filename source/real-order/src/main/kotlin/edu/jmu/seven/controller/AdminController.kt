@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page
 import edu.jmu.seven.entity.Account
 import edu.jmu.seven.mapper.AccountMapper
-import edu.jmu.seven.spark.MySpark
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.web.bind.annotation.RequestMapping
@@ -20,18 +19,7 @@ class AdminController {
     lateinit var accountMapper: AccountMapper
 
 
-    /**
-     * 显示大数据内容
-     */
-    @RequestMapping("/bigdata")
-    fun getLastDayBigData(@RequestParam("index") i: Int ) : Map<String, Int> {
-        val ms = MySpark()
-        return when(i) {
-            1 -> ms.getNumberWithCount()
-            2 -> ms.getMerchantVisited()
-            else -> ms.getSearchWordCount()
-        }
-    }
+
 
 
     /**

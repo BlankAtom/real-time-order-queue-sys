@@ -40,18 +40,6 @@ dependencies {
     implementation("com.baomidou:mybatis-plus-boot-starter:3.4.3.1")
 //    implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
 //    implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
-    implementation("org.apache.spark:spark-core_2.12:3.1.2"){
-        exclude("org.slf4j", "slf4j-log4j12")
-    }
-    implementation("org.apache.hadoop:hadoop-client:3.3.1"){
-        exclude("org.slf4j", "slf4j-log4j12")
-    }
-    implementation("org.apache.hadoop:hadoop-common:3.3.1") {
-        exclude("org.slf4j", "slf4j-log4j12")
-    }
-    compileOnly("org.apache.spark:spark-streaming_2.12:3.1.2"){
-        exclude("org.slf4j", "slf4j-log4j12")
-    }
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
