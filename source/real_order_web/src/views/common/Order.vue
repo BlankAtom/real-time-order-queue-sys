@@ -38,7 +38,7 @@
                   v-for="item in options"
                   :key="item.value"
                   :label="item.label"
-                  :value="item.value">
+                  :value="item.value" >
               </el-option>
             </el-select>
             <el-tag style="float: left;font-size: 30px">总价：{{ totalPrice }}元</el-tag>
@@ -147,6 +147,8 @@ export default {
           console.log("login err", err);
           ElMessage.error("读取失败" + err);
         });
+
+    this.value = this.options[0].value
   },
   data() {
     return {
