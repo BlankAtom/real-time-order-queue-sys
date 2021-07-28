@@ -26,16 +26,19 @@ import {ElMessage} from "element-plus";
 
 export default {
   setup(){
-    // this.$axios
-    //     .get("/api/admin/bigdata?index=1")
-    //     .then(res => {
-    //       this.tableData = res.data
-    //       // tabledata.wait_time =
-    //     })
-    //     .catch(err => {
-    //       console.log("login err", err);
-    //       ElMessage.error("读取失败" + err);
-    //     });
+    this.$axios
+        .get("http://localhost:58081/api/spark/bigdata?index=1")
+        .then(res => {
+            var data = new Map()
+            var red = res.data
+            for (let i = 0; i < red; i++) {
+                data.set(red[i], red[red[i]])
+            }
+        })
+        .catch(err => {
+          console.log("login err", err);
+          ElMessage.error("读取失败" + err);
+        });
   },
   data(){
     return{

@@ -168,7 +168,6 @@
   </el-dialog>
 </template>
 <script>
-import {ElMessage} from "element-plus";
 export default {
   data(){
     const phoneLength = /^1[3456789]\d{9}$/;
@@ -339,7 +338,7 @@ export default {
       let params = {m_name:this.searchName,curPage:this.curPage,pageCount:9}
       if(this.searchName==='') {
         this.$axios
-            .post('/cus/findAllMerchant')
+            .post('/merchant/findAllMerchant')
             .then((response) => {
               console.log(response.data.length)
               this.total = response.data.length
@@ -348,7 +347,7 @@ export default {
         })
         let params = {curPage: this.curPage, pageCount: 9}
         this.$axios
-            .post('/cus/findPageMerchant', this.$qs.stringify(params))
+            .post('/merchant/findPageMerchant', this.$qs.stringify(params))
             .then((response) => {
               this.merchants = response.data
             }).catch((error) => {
@@ -356,7 +355,7 @@ export default {
         })
       }else{
         this.$axios
-            .post('/cus/findAllBym_name',this.$qs.stringify(params))
+            .post('/merchant/findAllBym_name',this.$qs.stringify(params))
             .then((response)=>{
               this.total = response.data.length
               // this.merchants = response.data
@@ -364,7 +363,7 @@ export default {
           console.log(error)
         })
         this.$axios
-            .post('/cus/findPageBym_name',this.$qs.stringify(params))
+            .post('/merchant/findPageBym_name',this.$qs.stringify(params))
             .then((response)=>{
               // this.total = response.data.length
               this.merchants = response.data
@@ -388,7 +387,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$axios
-            .post('/cus/insert',this.$qs.stringify(this.newMerchant))
+            .post('/merchant/insert',this.$qs.stringify(this.newMerchant))
           .then((response)=>{
             console.log(response.data)
           })
@@ -409,7 +408,7 @@ export default {
      */
     update(formName){
       this.$axios
-          .post('/cus/updateMerchant',this.$qs.stringify(this.updateMerchant))
+          .post('/merchant/updateMerchant',this.$qs.stringify(this.updateMerchant))
           .then((response)=>{
               if(response.data===1){
                 ElMessage.success({
@@ -451,7 +450,7 @@ export default {
     deleteMerchant(index,row){
       let params = {m_id:row.m_id}
       this.$axios
-          .post('/cus/deleteMerchantBym_id',this.$qs.stringify(params))
+          .post('/merchant/deleteMerchantBym_id',this.$qs.stringify(params))
           .then((response)=>{
             ElMessage.success({
               message: '删除成功',
