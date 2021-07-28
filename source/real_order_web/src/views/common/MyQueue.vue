@@ -54,8 +54,13 @@
                     this.mName=response.data
                     console.log(response.data)
                     if (this.mName==="") {
-                        this.$router.push("/hxq")
-                        alert("您还没有选择商家哦，请进入首页选择商家并排队")
+                        this.$alert('您还没有选择商家哦，请进入首页选择商家并排队', '提示', {
+                            confirmButtonText: '确定',
+                            type: 'warning'
+                        }).then(() => {
+                            this.$router.push("/hxq")
+                        });
+                        // alert("您还没有选择商家哦，请进入首页选择商家并排队")
                     }
                 }).catch((error) => {
                 console.log(error)
@@ -75,8 +80,13 @@
             cancel(val) {
                 this.$axios.post('cus/cancel?c_id='+window.sessionStorage.getItem('cid'))
                     .then((response) => {
-                        alert("取消成功，即将回到首页")
-                        this.$router.push("/hxq")
+                        // alert("取消成功，即将回到首页")
+                        this.$alert('取消成功，即将回到首页', '提示', {
+                            confirmButtonText: '确定',
+                            type: 'success'
+                        }).then(() => {
+                            this.$router.push("/hxq")
+                        });
                     }).catch((error) => {
                     console.log(error)
                 })

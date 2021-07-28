@@ -93,8 +93,13 @@
                     }).catch((error) => {
                   console.log(error)
                 })
-                this.$router.push("/hxq/myqueue")
-                alert("排队成功")
+                this.$alert('排队成功', '提示', {
+                    confirmButtonText: '确定',
+                    type: 'success'
+                }).then(() => {
+                    this.$router.push("/hxq/myqueue")
+                });
+                // alert("排队成功")
             }
         }
     }
