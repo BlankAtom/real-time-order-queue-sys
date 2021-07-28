@@ -17,10 +17,10 @@
               prop="o_id"
               label="排队号">
           </el-table-column>
-          <el-table-column
-              prop="c_id"
-              label="用户ID">
-          </el-table-column>
+<!--          <el-table-column-->
+<!--              prop="c_id"-->
+<!--              label="用户ID">-->
+<!--          </el-table-column>-->
           <el-table-column
               prop="c_phone"
               label="电话">
@@ -68,7 +68,16 @@ export default {
           });
     },
     call(){
-      alert("叫号")
+      this.$axios
+          .get("/api/merchant/call?m_id="+useStore().state.users.username+"&phone="+this.tableData[0].c_id)
+          .then(res => {
+            this.tableData = res.data
+            // tabledata.wait_time =
+          })
+          .catch(err => {
+            console.log("login err", err);
+            ElMessage.error("读取失败" + err);
+          });
     },
     menu(){
       // this.$router.replace({name: 'Order'})+this.tableData[0].c_id

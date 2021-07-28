@@ -19,7 +19,7 @@ import kotlin.random.Random
 
 
 @RestController
-@RequestMapping("/dish")
+@RequestMapping("/api/dish")
 class DishController {
     @Autowired
     private lateinit var dishMapper : DishMapper

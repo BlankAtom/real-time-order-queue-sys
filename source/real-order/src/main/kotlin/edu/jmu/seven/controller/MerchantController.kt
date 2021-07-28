@@ -22,7 +22,7 @@ import java.time.LocalDateTime
  * @date 2021/07/17/10:28
  */
 @RestController
-@RequestMapping("/api/merchant")
+@RequestMapping("/api/cus")
 class MerchantController {
 
     @Autowired
