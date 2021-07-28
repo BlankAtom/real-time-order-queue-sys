@@ -94,7 +94,7 @@ const devMap = [
             {
                 path: "role",
                 name: "AdminRole",
-                meta: { title: "角色列表", icon: "el-icon-s-custom" },
+                meta: { title: "角色列表", icon: "el-icon-user" },
                 component: () => import("../views/admin/RoleList.vue")
             },
             {
@@ -102,6 +102,12 @@ const devMap = [
                 name: "AdminMerchant",
                 meta: { title: "商家列表", icon: "el-icon-s-custom" },
                 component: () => import("../views/admin/Merchant.vue")
+            },
+            {
+                path: "cuisine",
+                name: "AdminCuisine",
+                meta: { title: "菜系管理",icon: "el-icon-dish"},
+                component: ()=> import("../views/admin/Cuisine.vue")
             }
         ]
 
