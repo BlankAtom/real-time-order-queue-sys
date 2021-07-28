@@ -33,17 +33,17 @@ class MerchantController {
 
     @Autowired
     private lateinit var accountMapper: AccountMapper
+
     /**
      * 展示所有商家
      */
     @RequestMapping("/findAllMerchant")
     fun showMerchant(): List<Merchant> {
-        val merchants:List<Merchant> =mmapper.selectList(null)
-//        merchants.forEach{
+        //        merchants.forEach{
 //            val license = it.m_license.split('_')
 //            it.m_license=license[1]
 //            }
-        return merchants
+        return mmapper.selectList(null)
     }
 
     /**
