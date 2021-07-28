@@ -5,6 +5,7 @@ import edu.jmu.seven.entity.Account
 import edu.jmu.seven.entity.Customer
 import edu.jmu.seven.mapper.AccountMapper
 import edu.jmu.seven.mapper.CustomerMapper
+import edu.jmu.seven.mapper.MerchantMapper
 import edu.jmu.seven.utils.SHAUtil
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -45,6 +46,21 @@ class RealTimeOrderSystemApplicationTests {
 
         res = mapper.selectList(null)
         res.forEach { println(it.toString()) }
+    }
+
+
+    @Autowired
+    lateinit var merchantMapper: MerchantMapper
+    @Autowired
+    lateinit var accountMapper: AccountMapper
+    @Test
+    fun updateAccount() {
+        val lists = merchantMapper.selectList(null)
+        for (s in lists) {
+            if( accountMapper.selectByName(s.m_id) == null ) {
+                accountMapper.insert(Account(s.m_id, BCryptPasswordEncoder().encode(s.m_phone), 2))
+            }
+        }
     }
 
 }

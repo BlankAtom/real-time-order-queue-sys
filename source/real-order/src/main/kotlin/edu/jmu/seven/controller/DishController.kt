@@ -79,7 +79,7 @@ class DishController {
         }
 
         // 获得class运行路径
-        val path: String = ResourceUtils.getURL("classpath:").path
+        val path: String = getPath()
         // 打开静态上传图片路径
         val fileUploadDir = File(path, "static/images/upload")
         // 建立这个路径
@@ -106,7 +106,18 @@ class DishController {
         // 上传成功，返回一个可解密的加密码，用来方便上传信息全部信息时检索信息（或者使用时间戳+随机数的形式）
         return "{code=\"S001\", msg=\"上传成功\"}"
     }
-
+    private fun getPath(): String {
+        var path = this::class.java.protectionDomain.codeSource.location.path
+        if (System.getProperty("os.name").contains("dows")) {
+            path = path.substring(1, path.length)
+        }
+        if (path.contains("jar")) {
+            path = path.substring(0, path.lastIndexOf("."))
+            path = path.substring(0, path.lastIndexOf("/"))
+            return path.substring(path.indexOf("/"))
+        }
+        return path.replace("target/classes/", "")
+    }
 
     @RequestMapping("/updateDish")
    fun update(
