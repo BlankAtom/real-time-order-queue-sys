@@ -5,12 +5,6 @@ import edu.jmu.seven.entity.Account
 import edu.jmu.seven.entity.Customer
 import edu.jmu.seven.mapper.AccountMapper
 import edu.jmu.seven.mapper.CustomerMapper
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
-import edu.jmu.seven.entity.Account
-import edu.jmu.seven.entity.Customer
-import edu.jmu.seven.mapper.AccountMapper
-import edu.jmu.seven.mapper.CustomerMapper
-import edu.jmu.seven.mapper.OrderMapper
 import edu.jmu.seven.utils.SHAUtil
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
