@@ -58,8 +58,6 @@
 </template>
 
 <script>
-    import {getCurrentInstance} from "vue";
-
     export default {
         data() {
             return {
@@ -71,9 +69,7 @@
             }
         },
         created() {
-            const _this = this
-            const {proxy} = getCurrentInstance();
-            this.$axios.post('cus/showmerchant')
+            this.$axios.post('merchant/showmerchant')
                 .then((response) => {
                     this.total = response.data.length
                     console.log(this.testData)
@@ -81,7 +77,7 @@
                 console.log(error)
             })
             this.$axios
-                .post('/cus/merchantByPage?curPage=1&pageCount=8&key=')
+                .post('/merchant/merchantByPage?curPage=1&pageCount=8&key=')
                 .then((response) => {
                     this.testData = response.data
                 }).catch((error) => {
@@ -94,14 +90,14 @@
                     console.log("the key is " + this.searchKey)
                     //获取模糊查询所有订单数量
                     this.$axios
-                        .post('/cus/findMerchantByKey?key=' + this.searchKey)
+                        .post('/merchant/findMerchantByKey?key=' + this.searchKey)
                         .then((response) => {
                             this.total = response.data.length
                         }).catch((error) => {
                         console.log(error)
                     })
                     this.$axios
-                        .post('/cus/merchantByPage?curPage=1&pageCount=8&key=' + this.searchKey)
+                        .post('/merchant/merchantByPage?curPage=1&pageCount=8&key=' + this.searchKey)
                         .then((response) => {
                             this.testData = response.data
                         }).catch((error) => {
@@ -112,14 +108,14 @@
             clear() {
                 //获取所有的数据信息
                 this.$axios
-                    .post('cus/showmerchant')
+                    .post('merchant/showmerchant')
                     .then((response) => {
                         this.total = response.data.length
                     }).catch((error) => {
                     console.log(error)
                 })
                 this.$axios
-                    .post('/cus/merchantByPage?curPage=1&pageCount=8?key=')
+                    .post('/merchant/merchantByPage?curPage=1&pageCount=8?key=')
                     .then((response) => {
                         this.testData = response.data
                     }).catch((error) => {
@@ -128,7 +124,7 @@
             },
             handleCurrentChange(val) {
                 this.$axios
-                    .post('/cus/merchantByPage?curPage=' + val + '&pageCount=8&key=' + this.searchKey)
+                    .post('/merchant/merchantByPage?curPage=' + val + '&pageCount=8&key=' + this.searchKey)
                     .then((response) => {
                         console.log("val " + val)
                         this.testData = response.data
@@ -140,14 +136,13 @@
                 let thisRowData = this
                 thisRowData = val
                 let m_id = val.m_id
-                console.log("mid is " + m_id)
                 this.lineUp(m_id)
 
             },
             lineUp(mId) {
                 console.log(mId)
                 this.$axios
-                    .post('/cus/isQueuing?c_id=' + window.sessionStorage.getItem('cid'))
+                    .post('/merchant/isQueuing?c_id=' + window.sessionStorage.getItem('cid'))
                     .then((response) => {
                         if (response.data===0)
                             this.$router.push("/hxq/queue/" + mId)

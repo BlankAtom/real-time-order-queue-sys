@@ -5,12 +5,15 @@ import createPersistedState from "vuex-persistedstate";
 import SecureLS from "secure-ls";
 import {CLEAR_USER, SET_USER, SET_ROUTES, SET_TOKEN, SET_ROLE} from "./mutation-types";
 import "./role_types"
-import {ADMIN, CUSTOMER, MERCHANT} from "./role_types";
+
+
+
+
 const state = {
     // username
     users: null,
     // 路由导航内容
-    routers: [],
+    routers: null,
     // 登录token
     token: null ,
     // 用户角色, customer, admin, merchant字符串
@@ -53,45 +56,24 @@ const actions = {
     clearUser({ commit }) {
         commit(CLEAR_USER);
     },
-    setUser({ commit }, payload) {
-        let deepCopy = JSON.parse(JSON.stringify(devMap))
-        // switch (payload.role) {
-        //     case "admin":
-        //         deepCopy = JSON.parse(JSON.stringify(layoutMap));
-        //         break
-        //     case "customer":
-        //         deepCopy = JSON.parse(JSON.stringify(layoutMapCustomer));
-        //         break
-        //     case "merchant":
-        //         deepCopy = JSON.parse(JSON.stringify(layoutMapMerchant));
-        //         break
-        // }
+    setUser({ commit }, data) {
+        let deepCopy = JSON.parse(JSON.stringify(routerMap))
 
-        let accessedRouters = filterAsyncRouter(deepCopy, payload.role);
-        commit(SET_USER, payload);
+        let accessedRouters = filterAsyncRouter(deepCopy, data.auth);
+        commit(SET_USER, data);
         commit(SET_ROUTES, accessedRouters);
-        commit(SET_ROLE, payload.role)
-
-        console.log(payload, deepCopy, accessedRouters)
+        commit(SET_ROLE, data.auth)
     },
     setToken({ commit}, data ) {
         // 根据传入的角色分配路由数组
-        let {token, username, role} = data
-        let lmap = null
-        if( role === ADMIN ){
-            lmap = layoutMap
-        } else if (role === MERCHANT) {
-            lmap = layoutMapMerchant
-        } else {
-            lmap = layoutMapCustomer
-        }
+        let {token, uname, auth} = data
         // 解析路由数组
-        let accessedRouters = filterAsyncRouter(JSON.parse(JSON.stringify(lmap)), role)
+        let accessedRouters = filterAsyncRouter(JSON.parse(JSON.stringify(routerMap)), auth)
         // 调用set设置四个参数
-        commit(SET_TOKEN, token)
-        commit(SET_USER, username);
         commit(SET_ROUTES, accessedRouters);
-        commit(SET_ROLE, role)
+        commit(SET_USER, uname);
+        commit(SET_TOKEN, token)
+        commit(SET_ROLE, auth)
     }
 };
 
@@ -109,7 +91,7 @@ const myPersistedState = createPersistedState({
 });
 
 export default createStore({
-    state,
+    state: sessionStorage.getItem("state") ? JSON.parse(sessionStorage.getItem("state")) : state,
     getters,
     mutations,
     actions

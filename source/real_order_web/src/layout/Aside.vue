@@ -53,6 +53,8 @@ export default {
         const state = reactive({ isCollapse: false });
         const routers = computed(() => store.state.routers);
 
+        console.log("routers: ")
+        console.log(store.state.routers)
         const changeCollapse = () => {
             state.isCollapse = !state.isCollapse;
         };

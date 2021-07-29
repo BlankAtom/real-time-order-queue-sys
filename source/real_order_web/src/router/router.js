@@ -2,7 +2,7 @@ import Layout from "../layout/Index.vue";
 
 const routerMap = [
     {
-        path: "",
+        path: "customer",
         name: "Customer",
         meta: {
             title: "选择商家",
@@ -38,15 +38,15 @@ const routerMap = [
         component: () => import("../views/merchant/Calling.vue")
     },
     {
-        path: "order",
+        path: "merchant",
         name: "Order",
         meta: { title: "点单", icon: "el-icon-document", roles: ["merchant"]},
         component: () => import("../views/merchant/Order.vue")
     },
     {
         path: "dish",
-        name: "Player",
-        meta: { title: "查看菜品", icon: "el-icon-video-camera-solid" },
+        name: "Dish",
+        meta: { title: "查看菜品", icon: "el-icon-video-camera-solid", roles: ["merchant"] },
         component: () => import("../views/merchant/Dish.vue")
     },
     {
@@ -74,13 +74,13 @@ const routerMap = [
         component: () => import("../views/data/List.vue")
     },
     {
-        path: "role",
+        path: "admin",
         name: "AdminRole",
         meta: { title: "角色列表", icon: "el-icon-s-custom", roles: ["admin"] },
         component: () => import("../views/admin/RoleList.vue")
     },
-    {
-        path: "",
+    {   
+        path: "adminMerchant",
         name: "AdminMerchant",
         meta: { title: "商家列表", icon: "el-icon-s-custom", roles: ["admin"] },
         component: () => import("../views/admin/Merchant.vue")
@@ -90,7 +90,7 @@ const routerMap = [
 
 const routes = [
     { path: "/login", name: "Login", meta: { title: "登录" }, component: () => import("../views/login/Login.vue") },
-    { path: "/", name: "Layout", meta: {title: ""},component: Layout, children: [...routerMap] },
+    { path: "/", name: "Layout", meta: {title: "Router"},component: Layout, children: [...routerMap] },
 
 ];
 

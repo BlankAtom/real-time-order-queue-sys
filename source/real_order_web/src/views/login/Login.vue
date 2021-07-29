@@ -37,104 +37,75 @@
 
 <script>
 import { getCurrentInstance, reactive, ref } from "vue";
-import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import { encode } from "js-base64";
 import {ElMessage} from "element-plus";
-import axios from "../../utils/axios";
+import { encode } from "js-base64"
+import router from "../../router";
 
 export default {
     setup() {
-        const {proxy} = getCurrentInstance();
-        const router = useRouter();
-        const store = useStore();
-        const loginFormRef = ref();
+    },
+    data() {
+        return {
+            rules: {
+                name: [{required: true, message: "账号不能为空", trigger: "blur"}],
+                pwd: [
+                    {required: true, message: "密码不能为空", trigger: "blur"},
+                    {min: 5, max: 16, message: "密码长度为5-16位", trigger: "blur"}
+                ]
+            },
+            // router: useRouter(),
+            // store: useStore(),
+            // proxy: getCurrentInstance(),
+            loginFormState: {
+                name: "",
+                pwd: "",
+                loading: false
+            }
+        }
+    },
+    methods: {
+        handleLogin() {
+            window.sessionStorage.setItem('cid', this.loginFormState.name)
 
-        const loginFormState = reactive({
-            name: "",
-            pwd: "",
-            loading: false
-        });
+            this.loginFormState.loading = true;
 
-        const rules = {
-            name: [{required: true, message: "账号不能为空", trigger: "blur"}],
-            pwd: [
-                {required: true, message: "密码不能为空", trigger: "blur"},
-                {min: 5, max: 16, message: "密码长度为5-16位", trigger: "blur"}
-            ]
-        };
+            let params = {username: this.loginFormState.name, password: this.loginFormState.pwd};
+            // 调用登录api
+            this.$axios
+                .post("/user/login", params)
+                .then(res => {
+                    let {data, msg, success, code} = res.data;
+                    console.log(res.data)
+                    if (success === true) {
+                        this.$store.dispatch("setToken", data)
 
-        const handleLogin = () => {
-            loginFormRef.value.validate(valid => {
-                if (!valid) {
-                    return false;
-                }
-                window.sessionStorage.setItem('cid',loginFormState.name)
+                        sessionStorage.setItem("state", JSON.stringify(Object.assign({}, this.$store.state)))
+                        this.loginFormState.loading = false;
 
-                loginFormState.loading = true;
+                        // console.log()
+                        let next = "/" + data.auth
 
-                let params = {username: loginFormState.name, password: loginFormState.pwd};
-                let roleGet = loginFormState.name;
+                        console.log(next)
+                        ElMessage.success("登陆成功" + msg)
+                        // let ur = useRouter()
+                        // ur.replace(next)
+                        setTimeout(() => {
+                            router.replace({path: next})
+                        }, 1000)
+                    } else {
+                        ElMessage.error("登陆失败(then)" + msg + " Code:" + code)
+                    }
+                })
+                .catch(err => {
+                    ElMessage.error("登录失败" + err);
+                    this.loginFormState.loading = false;
+                });
 
-                proxy.$axios
-                    .post("http://localhost:8081/login", proxy.$qs.stringify(params))
-                    .then(res => {
-                        let {code, data, msg, success} = res.data;
-                        loginFormState.loading = false;
-                        if (success === true) {
-                            store.dispatch("setToken", data)
-
-                            let users
-                            //= {
-                            //     role: "user",
-                            //     username: loginFormState.name
-                            // }
-                            if (loginFormState.name === "customer") {
-                                users = {
-                                    role: loginFormState.name === "customer" ? "customer" : roleGet,
-                                    username: loginFormState.name
-                                }
-                            } else if (loginFormState.name === "admin") {
-                                users = {
-                                    role: loginFormState.name === "admin" ? "admin" : roleGet,
-                                    username: loginFormState.name
-                                }
-
-                            } else {
-                                users = {
-                                    role: loginFormState.name === "merchant" ? "merchant" : roleGet,
-                                    username: loginFormState.name
-                                }
-                            }
-                            // Object.assign(params, users);
-                            // sessionStorage.setItem("jwt", encode(JSON.stringify(params)));
-                            // store.dispatch("setUser", params);
-                            loginFormState.loading = false;
-                            // store.state.users
-                            // 这里的替换需要改为指定页面
-                            router.replace("/");
-                        } else {
-                            ElMessage.error("登陆失败" + msg)
-                        }
-
-                        console.log(res)
-                    })
-                    .catch(err => {
-                        console.log("login err", err);
-                        ElMessage.error("登录失败" + err);
-                    });
-
-
-                // setTimeout(() => {
-                //     // 这里主要是为了进行不验证登录，为了方便进行其他开发
-                //
-                //   }, 1000);
-
-            });
-        };
-
-        return {loginFormRef, loginFormState, rules, handleLogin};
-    }
+            router.replace("/merchant")
+            // this.router.push({path: "/merchant", replace: true})
+        },
+    },
 };
 </script>
 

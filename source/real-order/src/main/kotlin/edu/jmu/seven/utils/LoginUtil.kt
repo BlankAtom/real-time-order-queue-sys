@@ -18,7 +18,8 @@ class LoginUtil {
             // 用户名
             token.append(DigestUtils.md5Digest(uname.toByteArray()))
             // 加时间
-            token.append(SimpleDateFormat("yyyyMMddHHmmssSSSS").format(LocalDateTime.now()))
+            val tm = LocalDateTime.now()
+            token.append("${tm.year}${tm.monthValue}${tm.dayOfMonth}${tm.hour}${tm.minute}${tm.second}")
 
             // 三位随机数
             token.append(Random().nextInt(999 - 111 + 1) + 111)

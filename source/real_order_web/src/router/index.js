@@ -24,9 +24,8 @@ router.beforeEach((to, from, next) => {
 
     document.title = to.meta && to.meta.title ? to.meta.title + " - 管理应用" : "管理系统";
 
-    const jwt = sessionStorage.getItem("jwt") || "";
-    // console.log(to, from, next )
-    console.log(jwt)
+    const jwt = sessionStorage.getItem("state") || "";
+    
     if (to.path === "/login") {
         !!jwt ? next("/") : next();
     } else {

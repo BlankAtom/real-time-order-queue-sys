@@ -14,16 +14,11 @@ export default {
         const store = useStore();
 
         onMounted(() => {
-            let jwt = sessionStorage.getItem("jwt") || "";
-            if (jwt) {
-                let token = null;
-                try {
-                    token = JSON.parse(decode(jwt));
-                } catch (e) {
-                    console.log("%c The user's JWT is error", "color:red");
-                }
-                !!token && store.dispatch("setUser", token);
+            let state = sessionStorage.getItem("state") || ""
+            if( state) {
+                store.replaceState(Object.assign({}, store.state, JSON.parse(state)))
             }
+            console.log(state)
         });
     }
 };
