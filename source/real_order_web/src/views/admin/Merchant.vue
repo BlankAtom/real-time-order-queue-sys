@@ -21,11 +21,7 @@
     <el-table
         :data="merchants"
         style="width: 100%">
-<!--      <el-table-column-->
-<!--          label="用户名"-->
-<!--          prop=""-->
-<!--      >-->
-<!--      </el-table-column>-->
+
       <el-table-column
           label="用户名"
           prop="m_name">
@@ -41,7 +37,7 @@
       <el-table-column label="操作">
         <template #default="scope">
           <el-button size="mini" type="primary" @click="showUpdateDialog(scope.$index,scope.row)">修改信息</el-button>
-          <el-button size="mini" type="primary" @click="showUpdatePSW(scope.$index,scope.row)">修改密码</el-button>
+<!--          <el-button size="mini" type="primary" @click="showUpdatePSW(scope.$index,scope.row)">修改密码</el-button>-->
           <el-button size="mini" type="danger" @click="deleteMerchant(scope.$index,scope.row)">删除账号</el-button>
         </template>
       </el-table-column>
@@ -147,25 +143,24 @@
     </el-form>
   </el-dialog>
 <!--  //修改密码-->
-  <el-dialog
-      title="修改商家密码"
-      v-model="isShowUpdatePSWDialog"
-      width="30%"
-      :before-close="handleClose">
-    <el-form :model="newMerchant" :label-position="labelPosition" label-width="80px" status-icon :rules="rules" ref="newMerchant">
-      <el-form-item label="输入密码" prop="psw">
-        <el-input type="password" v-model="newMerchant.psw" placeholder="请输入大于6位的密码" autocomplete="off"></el-input>
-      </el-form-item>
-      <el-form-item label="确认密码" prop="psw2">
-        <el-input type="password" v-model="newMerchant.psw2" placeholder="请再次输入密码" autocomplete="on"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" @click="updatePSW('newMerchant')">提交</el-button>
-        <el-button @click="resetForm('newMerchant')">重置</el-button>
-      </el-form-item>
-    </el-form>
-
-  </el-dialog>
+<!--  <el-dialog-->
+<!--      title="修改商家密码"-->
+<!--      v-model="isShowUpdatePSWDialog"-->
+<!--      width="30%"-->
+<!--      :before-close="handleClose">-->
+<!--    <el-form :model="newMerchant" :label-position="labelPosition" label-width="80px" status-icon :rules="rules" ref="newMerchant">-->
+<!--      <el-form-item label="输入密码" prop="psw">-->
+<!--        <el-input type="password" v-model="newMerchant.psw" placeholder="请输入大于6位的密码" autocomplete="off"></el-input>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="确认密码" prop="psw2">-->
+<!--        <el-input type="password" v-model="newMerchant.psw2" placeholder="请再次输入密码" autocomplete="on"></el-input>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item>-->
+<!--        <el-button type="primary" @click="updatePSW('newMerchant')">提交</el-button>-->
+<!--        <el-button @click="resetForm('newMerchant')">重置</el-button>-->
+<!--      </el-form-item>-->
+<!--    </el-form>-->
+<!--  </el-dialog>-->
 </template>
 <script>
 export default {
@@ -365,7 +360,6 @@ export default {
         this.$axios
             .post('/merchant/findPageBym_name',this.$qs.stringify(params))
             .then((response)=>{
-              // this.total = response.data.length
               this.merchants = response.data
             }).catch((error)=>{
           console.log(error)
@@ -426,24 +420,35 @@ export default {
     /**
      * 修改商家密码
      */
-    updatePSW(formName){
-      this.updateAccount.psw = this.newMerchant.psw
-      this.$refs[formName].resetFields()
-      let params = {username:this.updateAccount.m_id,psw:this.updateAccount.psw}
-      console.log(params)
-      this.$axios
-          .post('/admin/updatePassword',this.$qs.stringify(params))
-          .then((response)=>{
-            ElMessage.success({
-              message: '修改成功',
-              type: 'success'
-            });
-          }).catch((error)=>{
-            console.log(error)
-      })
-      this.isShowUpdatePSWDialog = false
-      this.clearCurPage()
-    },
+    // updatePSW(formName){
+    //   this.updateAccount.psw = this.newMerchant.psw
+    //   this.$refs[formName].resetFields()
+    //   let params = {username:this.updateAccount.m_id,psw:this.updateAccount.psw}
+    //   this.$refs[formName].validate((valid) => {
+    //     if (valid) {
+    //       this.$axios
+    //           .post('/admin/updatePassword',this.$qs.stringify(params))
+    //           .then((response)=>{
+    //             ElMessage.success({
+    //               message: '修改成功',
+    //               type: 'success'
+    //             });
+    //           }).catch((error)=>{
+    //         console.log(error)
+    //       })
+    //       this.isShowUpdatePSWDialog = false
+    //       alert('submit!');
+    //     } else {
+    //       console.log('error submit!!');
+    //       return false;
+    //     }
+    //   });
+    //   this.clearCurPage()
+    //   // console.log(params)
+    //
+    //   this.isShowUpdatePSWDialog = false
+    //   this.clearCurPage()
+    // },
     /**
      * 删除该行的数据
      */

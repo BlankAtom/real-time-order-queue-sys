@@ -41,22 +41,7 @@
               size="mini"
               type="primary"
               @click="showDialog(scope.$index,scope.row)">修改密码</el-button>
-          <el-dialog
-              title="修改密码"
-              v-model="isShowDialog"
-              width="30%"
-              :before-close="handleClose">
-              <el-form :model="updatePsw">
-                <el-form-item label="输入密码">
-                  <el-input v-model="updatePsw.firstPsw" placeholder="请输入大于6位的密码"></el-input>
-                </el-form-item>
-                <el-form-item label="确认密码">
-                  <el-input v-model="updatePsw.secondPsw" placeholder="请输入大于6位的密码"></el-input>
-                </el-form-item>
-              </el-form>
-            <el-button type="primary" @click="commitPsw">确 定</el-button>
-            <el-button @click="cancel">取 消</el-button>
-          </el-dialog>
+
         </template>
       </el-table-column>
     </el-table>
@@ -71,208 +56,258 @@
       </el-pagination>
     </div>
   </el-card>
+  <el-dialog
+    title="修改密码"
+    v-model="isShowDialog"
+    width="30%"
+    :before-close="handleClose">
+    <el-form :model="updatePsw" status-icon :rules="rules" ref="updatePsw">
+      <el-form-item label="输入密码" prop="firstPsw">
+        <el-input type="password" v-model="updatePsw.firstPsw" placeholder="请输入大于6位的密码"></el-input>
+      </el-form-item>
+      <el-form-item label="确认密码" prop="secondPsw">
+        <el-input type="password"  v-model="updatePsw.secondPsw" placeholder="请输入大于6位的密码"></el-input>
+      </el-form-item>
+    </el-form>
+    <el-button type="primary" @click="commitPsw('updatePsw')">确 定</el-button>
+    <el-button @click="cancel">取 消</el-button>
+</el-dialog>
 </template>
+
 <script>
 import {ElMessage} from "element-plus";
 
 export default {
-    data() {
-        return {
-            updatePsw: {
-                username: '',
-                firstPsw: '',
-                secondPsw: ''
-            },
-            isShowDialog: false,
-            accounts: [],
-            total: 9,
-            searchId: '',
-            curPage: 1
+  data(){
+    const firstPswCheck = (rule,value,callback)=>{
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      }else if(value.length<=6){
+        callback(new Error('请输入至少7位密码'));
+      }else {
+        if (this.updatePsw.secondPsw !== '') {
+          this.$refs.updatePsw.validateField('secondPsw');
         }
-    },
-    created() {
-        this.clearCurPage()
-    },
-    methods: {
-        clearCurPage() {
-            let params = {
-                curPage: this.curPage,
-                pageCount: 9,
-                username: this.searchId
-            }
-            if (this.searchId === '') {
-                this.$axios
-                    .post('/admin/findAllAccount')
-                    .then((response) => {
-                        //获得所有页数显示的数据量
-                        this.total = response.data.length
-                    })
-                    .catch((error) => {
-                        console.log(error)
-                    })
-                //获取第一页的数据
-                this.$axios
-                    .post('/admin/findPageAccount', this.$qs.stringify(params))
-                    .then((response) => {
-                        this.accounts = response.data
-                    }).catch((error) => {
-                    console.log(error)
-                })
-            } else {
-                //获取模糊查询所有用户数量
-                this.$axios
-                    .post('/admin/findAllByUsername', this.$qs.stringify(params))
-                    .then(res => {
-                        this.total = response.data.length
-                    }).catch(err => {
-                    console.log(error)
-                })
-                //获取模糊查询第一页用户
-                this.$axios
-                    .post('/admin/findPageByUsername', this.$qs.stringify(params))
-                    .then((res) => {
-                        this.accounts = response.data
-                    }).catch((err) => {
-                    console.log(error)
-                })
-                console.log(this.searchId)
-            }
-        },
-        /**
-         * 处理换页时的数据显示
-         * @param val 页数
-         */
-        handleCurrentChange(val) {
-            this.curPage = val
-            this.clearCurPage()
-        },
-        /**
-         * 通过输入的ID模糊查找所有用户
-         */
-        searchAccount() {
-            let params = {username: this.searchId, curPage: this.curPage, pageCount: 9}
-            console.log(this.searchId)
-            //获取模糊查询所有用户数量
-            this.$axios
-                .post('/admin/findAllByUsername', this.$qs.stringify(params))
-                .then((response) => {
-                    this.total = response.data.length
-                }).catch((error) => {
-                console.log(error)
-            })
-            //获取模糊查询第一页用户
-            this.$axios
-                .post('/admin/findPageByUsername', this.$qs.stringify(params))
-                .then((response) => {
-                    this.accounts = response.data
-                }).catch((error) => {
-                console.log(error)
-            })
-            console.log(this.searchId)
-        },
-        /**
-         * 根据输入密码进行修改
-         */
-        commitPsw() {
-            let params = {username: this.updatePsw.username, psw: this.updatePsw.firstPsw}
-            if (this.updatePsw.firstPsw.length <= 6 || this.updatePsw.secondPsw.length <= 6) {
-                ElMessage.warning({
-                    message: '密码长度要大于6',
-                    type: 'warning'
-                });
-            } else if (this.updatePsw.firstPsw === this.updatePsw.secondPsw) {
-                this.$axios
-                    .post('/admin/updatePassword', this.$qs.stringify(params))
-                    .then((response) => {
-                        console.log(response)
-                        if (response.data === 1) {
-                            ElMessage.success({
-                                message: '修改成功',
-                                type: 'success'
-                            });
-                        }
-                    }).catch((error) => {
-                    console.log(error)
-                })
-            } else {
-                ElMessage.error({
-                    message: '输入两次密码不匹配',
-                    type: 'error'
-                });
-            }
-            this.isShowDialog = false
-        },
-        /**
-         * 弹窗关闭
-         */
-        handleClose(done) {
-            this.$confirm('确认关闭？')
-                .then(_ => {
-                    done();
-                })
-                .catch(_ => {
-                });
-        },
-        /**
-         * 弹窗显示
-         */
-        showDialog(index, row) {
-            this.updatePsw = {
-                username: row.username,
-                firstPsw: '',
-                secondPsw: ''
-            }
-            this.isShowDialog = true
-        },
-        /**
-         * 弹窗显示取消按钮
-         */
-        cancel() {
-            this.isShowDialog = false
-        },
-        /**
-         * 用户类型格式转换
-         * @param row 行
-         * @param column 列
-         * @param cellValue 值
-         * @returns {string} 返回对应值
-         */
-        typeFormatter: function (row, column, cellValue) {
-            if (cellValue === 1) {
-                return "顾客账号"
-            } else if (cellValue === 2) {
-                return "商家账号"
-            } else if (cellValue === 9) {
-                return "管理员账号"
-            }
-        },
-        /**
-         * 搜索框的clearable对应事件
-         * 重新获取后端数据
-         */
-        clear() {
-            //获取所有数据
-            // this.curPage = 1
-            this.$axios
-                .post('/admin/findAllAccount')
-                .then((response) => {
-                    //获得所有页数显示的数据量
-                    this.total = response.data.length
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
-            let params = {curPage: this.curPage, pageCount: 9}
-            //获取第一页的数据
-            this.$axios
-                .post('/admin/findPageAccount', this.$qs.stringify(params))
-                .then((response) => {
-                    this.accounts = response.data
-                }).catch((error) => {
-                console.log(error)
-            })
-        }
+        callback();
+      }
+    };
+    /**
+     * 第二次输入密码
+     * @param rule
+     * @param value
+     * @param callback
+     * @constructor
+     */
+    const secondPswCheck = (rule,value,callback)=>{
+      // console.log(this)
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      }else if(value.length<7){
+        callback(new Error('请输入至少7位密码'));
+      }else if (value !== this.updatePsw.firstPsw) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
     }
+    return {
+      updatePsw: {
+        username: '',
+        firstPsw:'',
+        secondPsw:''
+      },
+      isShowDialog: false,
+      accounts: [],
+      total:9,
+      searchId: '',
+      curPage: 1,
+      rules: {
+        firstPsw: [
+          {validator: firstPswCheck,trigger: 'blur'}
+        ],
+        secondPsw: [
+          {validator: secondPswCheck,trigger: 'blur'}
+        ]
+      }
+    }
+
+  },
+  created() {
+    this.clearCurPage()
+  },
+  methods: {
+    clearCurPage(){
+      let params = {curPage: this.curPage,pageCount:9,username:this.searchId}
+      if(this.searchId===''){
+        this.$axios
+            .post('/admin/findAllAccount')
+            .then((response)=>{
+              //获得所有页数显示的数据量
+              this.total = response.data.length
+            })
+            .catch((error)=>{
+              console.log(error)
+            })
+        //获取第一页的数据
+        this.$axios
+            .post('/admin/findPageAccount',this.$qs.stringify(params))
+            .then((response)=>{
+              this.accounts = response.data
+            }).catch((error)=>{
+          console.log(error)
+        })
+      }else{
+        //获取模糊查询所有用户数量
+        this.$axios
+            .post('/admin/findAllByUsername',this.$qs.stringify(params))
+            .then((response)=>{
+              this.total = response.data.length
+            }).catch((error)=>{
+          console.log(error)
+        })
+        //获取模糊查询第一页用户
+        this.$axios
+            .post('/admin/findPageByUsername',this.$qs.stringify(params))
+            .then((response)=>{
+              this.accounts = response.data
+            }).catch((error)=>{
+          console.log(error)
+        })
+        console.log(this.searchId)
+      }
+    },
+    /**
+     * 处理换页时的数据显示
+     * @param val 页数
+     */
+    handleCurrentChange(val){
+      this.curPage = val
+      this.clearCurPage()
+    },
+    /**
+     * 根据输入密码进行修改
+     */
+    commitPsw(formName){
+      let params = {username:this.updatePsw.username,psw: this.updatePsw.firstPsw}
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.$axios
+              .post('/admin/updatePassword',this.$qs.stringify(params))
+              .then((response)=>{
+                console.log(response)
+                if(response.data===1){
+                  ElMessage.success({
+                    message: '修改成功',
+                    type: 'success'
+                  });
+                }
+              }).catch((error)=>{
+            console.log(error)
+          })
+          this.isShowDialog = false
+          // alert('submit!');
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+      // if(this.updatePsw.firstPsw.length<=6||this.updatePsw.secondPsw.length<=6){
+      //   ElMessage.warning({
+      //     message: '密码长度要大于6',
+      //     type: 'warning'
+      //   });
+      // } else if(this.updatePsw.firstPsw===this.updatePsw.secondPsw){
+      //   this.$axios
+      //       .post('/admin/updatePassword',this.$qs.stringify(params))
+      //       .then((response)=>{
+      //         console.log(response)
+      //         if(response.data===1){
+      //           ElMessage.success({
+      //             message: '修改成功',
+      //             type: 'success'
+      //           });
+      //         }
+      //       }).catch((error)=>{
+      //     console.log(error)
+      //   })
+      // }else {
+      //   ElMessage.error({
+      //     message: '输入两次密码不匹配',
+      //     type: 'error'
+      //   });
+      // }
+      // this.isShowDialog= false
+    },
+    /**
+     * 弹窗关闭
+     */
+    handleClose(done) {
+      this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+    },
+    /**
+     * 弹窗显示
+     */
+    showDialog(index,row){
+      this.updatePsw = {
+        username: row.username,
+        firstPsw: '',
+        secondPsw: ''
+      }
+      this.isShowDialog = true
+    },
+    /**
+     * 弹窗显示取消按钮
+     */
+    cancel(){
+      this.isShowDialog= false
+    },
+    /**
+     * 用户类型格式转换
+     * @param row 行
+     * @param column 列
+     * @param cellValue 值
+     * @returns {string} 返回对应值
+     */
+    typeFormatter:function (row,column,cellValue){
+      if(cellValue===1){
+        return "顾客账号"
+      }else if (cellValue===2){
+        return "商家账号"
+      }else if (cellValue===9){
+        return "管理员账号"
+      }
+    },
+    /**
+     * 搜索框的clearable对应事件
+     * 重新获取后端数据
+     */
+    clear(){
+      //获取所有数据
+      // this.curPage = 1
+      this.$axios
+          .post('/admin/findAllAccount')
+          .then((response)=>{
+            //获得所有页数显示的数据量
+            this.total = response.data.length
+          })
+          .catch((error)=>{
+            console.log(error)
+          })
+      let params = {curPage: this.curPage,pageCount:9}
+      //获取第一页的数据
+      this.$axios
+          .post('/admin/findPageAccount',this.$qs.stringify(params))
+          .then((response)=>{
+            this.accounts = response.data
+          }).catch((error)=>{
+        console.log(error)
+      })
+    }
+  }
 }
 </script>
 
