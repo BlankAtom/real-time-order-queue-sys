@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import {devMap} from "../router/router";
+import { routerMap } from "../router/router";
 import { filterAsyncRouter } from "../utils/tool";
 import createPersistedState from "vuex-persistedstate";
 import SecureLS from "secure-ls";

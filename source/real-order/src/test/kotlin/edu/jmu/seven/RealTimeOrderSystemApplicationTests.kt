@@ -1,5 +1,6 @@
 package edu.jmu.seven
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper
 import edu.jmu.seven.entity.Account
 import edu.jmu.seven.entity.Customer
@@ -61,6 +62,11 @@ class RealTimeOrderSystemApplicationTests {
                 accountMapper.insert(Account(s.m_id, BCryptPasswordEncoder().encode(s.m_phone), 2))
             }
         }
+    }
+
+    @Test
+    fun updatePassword() {
+        accountMapper.insert(Account("test_admin", BCryptPasswordEncoder().encode("admins"), 9))
     }
 
 }

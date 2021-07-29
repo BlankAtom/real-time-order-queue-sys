@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/calling")
 public class CallingController {
 
     @Autowired
@@ -31,7 +31,7 @@ public class CallingController {
     @Autowired
     DishMapper dishMapper;
 
-    @GetMapping("/calling/findAll/{f}/{size}/{id}")
+    @GetMapping("/findAll/{f}/{size}/{id}")
     public List<Calling> findAll(@PathVariable("f") int f, @PathVariable("size") int size,@PathVariable("id") String id) {
 
         List<Calling> callings = new ArrayList<Calling>();
@@ -56,7 +56,7 @@ public class CallingController {
         return callings;
     }
 
-    @GetMapping("/calling/closeOrder/{id}")
+    @GetMapping("/closeOrder/{id}")
     public String closeOrder(@PathVariable("id") String id){
 //        System.out.println("1111");
         if(ordersMapper.updateStatusById(id)==1){
@@ -78,7 +78,7 @@ public class CallingController {
 //    }
 
 //    @GetMapping("/calling/findOrder/{f}/{size}/{id}")
-    @GetMapping("/calling/findOrder/{id}")
+    @GetMapping("/findOrder/{id}")
     public List<Order> findOrder(@PathVariable("id") String id){
         List<Order> orders = new ArrayList<>();
 //        Page<Dish> page = new Page<>(f,size);
@@ -98,7 +98,7 @@ public class CallingController {
 
     }
 
-    @GetMapping("/calling/updateOrder/{id}/{type}/{cost}")
+    @GetMapping("/updateOrder/{id}/{type}/{cost}")
     public String updateOrder(@PathVariable("id") String id,@PathVariable("cost") Double cost,@PathVariable("type") int type){
         if(ordersMapper.updateOrderById(cost,type,id,LocalDateTime.now())==1){
             return "success";

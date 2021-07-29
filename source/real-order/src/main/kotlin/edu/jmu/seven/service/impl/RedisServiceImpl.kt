@@ -15,7 +15,7 @@ import javax.annotation.Resource
 @Service
 class RedisServiceImpl : RedisService {
     companion object {
-        val SEVEN_DAY_SEC: Long = 7 * 24 * 60 * 60
+        const val SEVEN_DAY_SEC: Long = 7 * 24 * 60 * 60
     }
     @Resource
     private val redisTemplate: RedisTemplate<String, Any>? = null

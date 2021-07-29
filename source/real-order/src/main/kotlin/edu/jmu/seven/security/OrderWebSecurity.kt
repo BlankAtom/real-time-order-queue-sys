@@ -77,11 +77,12 @@ class OrderWebSecurity(
     }
 
     override fun configure(auth: AuthenticationManagerBuilder?) {
-        auth!!.userDetailsService(userService)
+        auth!!.userDetailsService(userService).passwordEncoder(passwordEncoder())
     }
+
+
     @Bean
     fun passwordEncoder() :BCryptPasswordEncoder{
         return BCryptPasswordEncoder()
     }
-
 }

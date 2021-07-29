@@ -1,18 +1,10 @@
 package edu.jmu.seven.service.impl
 
 import edu.jmu.seven.entity.Merchant
-import edu.jmu.seven.mapper.AccountMapper
 import edu.jmu.seven.mapper.MerchantMapper
-import edu.jmu.seven.service.LoginService
 import edu.jmu.seven.service.MerchantService
-import edu.jmu.seven.service.RedisService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
-import org.springframework.util.DigestUtils
-import org.springframework.web.bind.annotation.RequestMapping
-import java.text.SimpleDateFormat
-import java.time.LocalDateTime
-import java.util.*
 
 /**
  * <p></p>

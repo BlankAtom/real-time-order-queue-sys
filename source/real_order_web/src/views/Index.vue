@@ -12,7 +12,6 @@
 </template>
 
 <script>
-import Amap from "../components/Amap.vue";
 
 export default {
     components: { Amap },

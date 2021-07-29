@@ -76,55 +76,59 @@ export default {
                 let params = {username: loginFormState.name, password: loginFormState.pwd};
                 let roleGet = loginFormState.name;
 
-                // proxy.$axios
-                //     .post("/login", proxy.$qs.stringify(params))
-                //     .then(res => {
-                //         let {code, data, msg, success} = res.data;
-                //         if (success === true) {
-                //             store.dispatch("setToken", data)
-                //         } else {
-                //             ElMessage.error("登陆失败" + msg)
-                //         }
+                proxy.$axios
+                    .post("http://localhost:8081/login", proxy.$qs.stringify(params))
+                    .then(res => {
+                        let {code, data, msg, success} = res.data;
+                        loginFormState.loading = false;
+                        if (success === true) {
+                            store.dispatch("setToken", data)
+
+                            let users
+                            //= {
+                            //     role: "user",
+                            //     username: loginFormState.name
+                            // }
+                            if (loginFormState.name === "customer") {
+                                users = {
+                                    role: loginFormState.name === "customer" ? "customer" : roleGet,
+                                    username: loginFormState.name
+                                }
+                            } else if (loginFormState.name === "admin") {
+                                users = {
+                                    role: loginFormState.name === "admin" ? "admin" : roleGet,
+                                    username: loginFormState.name
+                                }
+
+                            } else {
+                                users = {
+                                    role: loginFormState.name === "merchant" ? "merchant" : roleGet,
+                                    username: loginFormState.name
+                                }
+                            }
+                            // Object.assign(params, users);
+                            // sessionStorage.setItem("jwt", encode(JSON.stringify(params)));
+                            // store.dispatch("setUser", params);
+                            loginFormState.loading = false;
+                            // store.state.users
+                            // 这里的替换需要改为指定页面
+                            router.replace("/");
+                        } else {
+                            ElMessage.error("登陆失败" + msg)
+                        }
+
+                        console.log(res)
+                    })
+                    .catch(err => {
+                        console.log("login err", err);
+                        ElMessage.error("登录失败" + err);
+                    });
+
+
+                // setTimeout(() => {
+                //     // 这里主要是为了进行不验证登录，为了方便进行其他开发
                 //
-                //         console.log(res)
-                //     })
-                //     .catch(err => {
-                //         console.log("login err", err);
-                //         ElMessage.error("登录失败" + err);
-                //     });
-
-
-                setTimeout(() => {
-                    // 这里主要是为了进行不验证登录，为了方便进行其他开发
-                    let users = {
-                        role: "user",
-                        username: loginFormState.name
-                    }
-                    // if (loginFormState.name === "customer") {
-                    //     users = {
-                    //         role: loginFormState.name === "customer" ? "customer" : roleGet,
-                    //         username: loginFormState.name
-                    //     }
-                    // } else if (loginFormState.name === "admin") {
-                    //     users = {
-                    //         role: loginFormState.name === "admin" ? "admin" : roleGet,
-                    //         username: loginFormState.name
-                    //     }
-                    //
-                    // } else {
-                    //     users = {
-                    //         role: loginFormState.name === "merchant" ? "merchant" : roleGet,
-                    //         username: loginFormState.name
-                    //     }
-                    // }
-                    Object.assign(params, users);
-                    sessionStorage.setItem("jwt", encode(JSON.stringify(params)));
-                    store.dispatch("setUser", params);
-                    loginFormState.loading = false;
-                    // store.state.users
-                    // 这里的替换需要改为指定页面
-                    router.replace("/hxq");
-                  }, 1000);
+                //   }, 1000);
 
             });
         };
