@@ -15,9 +15,7 @@
     </el-row>
 
     <el-table :data="tableData" :stripe="true" :border="true" width="100%">
-      <el-table-column label="菜id" prop="d_id"></el-table-column>
       <el-table-column label="菜名" prop="d_name"></el-table-column>
-      <el-table-column label="商家id" prop="m_id"></el-table-column>
       <el-table-column label="价格" prop="d_price"></el-table-column>
       <el-table-column label="图片" prop="d_pic">
 
@@ -26,9 +24,6 @@
       </template>
 
       </el-table-column>
-      <el-table-column label="注意事项" prop="d_note"></el-table-column>
-      <el-table-column label="销量" prop="d_sum"></el-table-column>
-      <el-table-column label="菜系" prop="cuision_code" :formatter="cuisionType"> </el-table-column>
       <el-table-column label="操作">
         <template #default="scope">
           <el-button type="primary" @click="modifyData(scope.$index, scope.row)">修改</el-button>

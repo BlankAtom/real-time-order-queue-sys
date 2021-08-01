@@ -18,7 +18,7 @@
                       :data="testData"
                       style="width: 100%">
                 <el-table-column
-                        min-width="30%"
+                        min-width="40%"
                         label="图片"
                         align="center"
                 >
@@ -69,7 +69,7 @@
             }
         },
         created() {
-            this.$axios.post('merchant/showmerchant')
+            this.$axios.post('merchant/findAllMerchant')
                 .then((response) => {
                     this.total = response.data.length
                     console.log(this.testData)
@@ -108,7 +108,7 @@
             clear() {
                 //获取所有的数据信息
                 this.$axios
-                    .post('merchant/showmerchant')
+                    .post('merchant/findAllMerchant')
                     .then((response) => {
                         this.total = response.data.length
                     }).catch((error) => {
@@ -145,7 +145,7 @@
                     .post('/merchant/isQueuing?c_id=' + window.sessionStorage.getItem('cid'))
                     .then((response) => {
                         if (response.data===0)
-                            this.$router.push("/hxq/queue/" + mId)
+                            this.$router.push("/queue/" + mId)
                         else
                         {
                             // alert("您已经在别家店铺的队列中了哟")
@@ -153,7 +153,7 @@
                                 confirmButtonText: '确定',
                                 type: 'warning'
                             }).then(() => {
-                                this.$router.push("/hxq/myqueue")
+                                this.$router.push("/myqueue")
                             });
                         }
                     }).catch((error) => {

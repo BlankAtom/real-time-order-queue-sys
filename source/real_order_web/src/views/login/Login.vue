@@ -95,6 +95,7 @@ export default {
                         }, 1000)
                     } else {
                         ElMessage.error("登陆失败(then)" + msg + " Code:" + code)
+                        this.loginFormState.loading = false;
                     }
                 })
                 .catch(err => {

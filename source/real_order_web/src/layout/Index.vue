@@ -1,19 +1,12 @@
 <template>
     <el-container class="layout">
-        <Aside />
+        <Aside v-if="isCustomer !== 'customer'"/>
         <el-container>
             <Header />
             <div class="app_wrap">
                 <el-main>
                     <router-view />
                 </el-main>
-                <!-- footer -->
-                <el-footer height="48px">
-                    Copyright &copy; 2021
-                    <el-link href="https://www.cnblogs.com/zxk5211" target="_blank">下落香樟树</el-link> ·
-                    <el-link href="https://juejin.cn/user/184373682901309" target="_blank">掘金社区</el-link> ·
-                    <el-link href="https://blog.csdn.net/SK_21" target="_blank">CSDN</el-link>
-                </el-footer>
                 <!-- backtop -->
                 <el-backtop target=".app_wrap"></el-backtop>
             </div>
@@ -24,10 +17,15 @@
 <script>
 import Aside from "./Aside.vue";
 import Header from "./Header.vue";
-
+import { useStore } from "vuex"
+import {computed} from "vue";
 export default {
     components: { Aside, Header },
-    setup() {}
+    setup() {
+        const store = useStore()
+        const isCustomer = computed(() => store.getters.getRole)
+        return { isCustomer }
+    },
 };
 </script>
 

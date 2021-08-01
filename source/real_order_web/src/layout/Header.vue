@@ -1,6 +1,13 @@
 <template>
     <el-header height="56px">
-        <div class="header_left">Element-Plus Create By Vite</div>
+        <div class="header_left">
+            <el-tooltip :content="isCustomer ? '商家页面':'' " v-if="isCustomer">
+                <i class="el-icon-back" @click="handleCustomer"></i>
+            </el-tooltip>
+            <el-tooltip  :content="isCustomer ? '队列信息':'' " v-if="isCustomer">
+                <i style="margin-left: 15px" class="el-icon-place" @click="handleQueue"></i>
+            </el-tooltip>
+        </div>
         <div class="header_right">
             <el-tooltip :content="isFullScreen ? '退出全屏' : '全屏'">
                 <i class="el-icon-full-screen" @click="handleFullScreen"></i>
@@ -53,6 +60,14 @@ export default {
             }
         };
 
+        const handleCustomer = () => {
+            router.push("/customer")
+        }
+
+        const handleQueue = () => {
+            router.push("/myqueue")
+        }
+
         const handleFullScreen = () => {
             if (screenfull.isEnabled) {
                 state.isFullScreen = !state.isFullScreen;
@@ -60,9 +75,14 @@ export default {
             }
         };
 
+        const isCustomer = computed(() => store.getters.getRole)
+
         return {
             userName,
+            isCustomer,
             handleCommand,
+            handleCustomer,
+            handleQueue,
             handleFullScreen,
             ...toRefs(state)
         };

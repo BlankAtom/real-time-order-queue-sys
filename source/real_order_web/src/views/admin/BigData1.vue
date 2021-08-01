@@ -25,27 +25,31 @@ import {useStore} from "vuex";
 import {ElMessage} from "element-plus";
 
 export default {
-  setup(){
-    this.$axios
-        .get("http://localhost:58081/api/spark/bigdata?index=1")
-        .then(res => {
-            var data = new Map()
-            var red = res.data
-            for (let i = 0; i < red; i++) {
-                data.set(red[i], red[red[i]])
-            }
-        })
-        .catch(err => {
-          console.log("login err", err);
-          ElMessage.error("读取失败" + err);
-        });
-  },
-  data(){
-    return{
-      tableData :null
+    setup() {
+
+    },
+    created() {
+        this.$axios
+            .get("http://localhost:58081/api/spark/bigdata?index=1")
+            .then(res => {
+                console.log(res)
+                var data = new Map()
+                var red = res.data
+                for (let i = 0; i < red; i++) {
+                    data.set(red[i], red[red[i]])
+                }
+            })
+            .catch(err => {
+                console.log("login err", err);
+                ElMessage.error("读取失败" + err);
+            });
+    },
+    data() {
+        return {
+            tableData: null
+        }
     }
-  }
-};
+}
 </script>
 <style lang="scss" scoped>
 </style>

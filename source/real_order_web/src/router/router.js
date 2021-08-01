@@ -32,13 +32,13 @@ const routerMap = [
         component: ()=>import("../views/custom/MyQueue.vue")
     },
     {
-        path: "",
+        path: "merchant",
         name: "MerchantMain",
         meta: { title: "叫号点单", icon: "el-icon-phone", roles: ["merchant"] },
         component: () => import("../views/merchant/Calling.vue")
     },
     {
-        path: "merchant",
+        path: "order",
         name: "Order",
         meta: { title: "点单", icon: "el-icon-document", roles: ["merchant"]},
         component: () => import("../views/merchant/Order.vue")

@@ -62,7 +62,7 @@
         created() {
             const {proxy} = getCurrentInstance();
             let m_id = this.m_id
-            proxy.$axios.post('cus/onemerchant?m_id=' + m_id)
+            proxy.$axios.post('merchant/onemerchant?m_id=' + m_id)
                 .then((response) => {
                     this.data = response.data
                     console.log("1111" + response.data)
@@ -78,9 +78,9 @@
         data() {
             return {
                 data: [],
-                mName: '俺是个店名',
+                mName: '',
                 text: '点击排队',
-                qNub: '99',
+                qNub: '0',
                 m_id: this.$route.params.mId,
                 flag: true
             }
@@ -88,7 +88,7 @@
         methods: {
             startQueue(val) {
                 /** 选择排队并跳转 **/
-                this.$axios.post('cus/lineUp?m_id=' + this.m_id+"&c_id="+window.sessionStorage.getItem('cid'))
+                this.$axios.post('merchant/lineUp?m_id=' + this.m_id+"&c_id="+window.sessionStorage.getItem('cid'))
                     .then((response) => {
                     }).catch((error) => {
                   console.log(error)
@@ -97,7 +97,7 @@
                     confirmButtonText: '确定',
                     type: 'success'
                 }).then(() => {
-                    this.$router.push("/hxq/myqueue")
+                    this.$router.push("/myqueue")
                 });
                 // alert("排队成功")
             }

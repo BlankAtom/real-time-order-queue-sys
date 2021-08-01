@@ -226,11 +226,12 @@ class MerchantController {
             @RequestParam("c_id") c_id: String
     ): Int {
         val m_owrapper: QueryWrapper<Orders>? = QueryWrapper<Orders>().eq("c_id", c_id).eq("status", "opened")
-        val m_o = ordersMapper.selectList(m_owrapper)
+        val m_o = ordersMapper.selectList(m_owrapper) ?: return 0
         val m_id = m_o[0].m_id
         val wrapper: QueryWrapper<Orders>? = QueryWrapper<Orders>().eq("m_id", m_id).eq("status", "opened").orderByAsc("o_start_time")
         var nub = 1
-        for (i in ordersMapper.selectList(wrapper)) {
+        val odm = ordersMapper.selectList(wrapper) ?: return 0
+        for (i in odm) {
             if (i.c_id == c_id)
                 return nub
             nub++

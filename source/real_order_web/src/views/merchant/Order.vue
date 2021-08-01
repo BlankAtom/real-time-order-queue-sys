@@ -138,7 +138,7 @@ export default {
     this.c_id = this.$route.params.c_id
     this.o_id = this.$route.params.o_id
     this.$axios
-        .get("/calling/findOrder/"+useStore().state.users.username)
+        .get("/calling/findOrder/"+useStore().state.users)
         .then(res => {
           _this.tableData = res.data
           // _this.total = res.data[0].total

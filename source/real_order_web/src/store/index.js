@@ -23,7 +23,10 @@ const state = {
 
 const getters = {
     getUserName(state) {
-        return !state.users ? "" : state.users.username;
+        return !state.users ? "" : state.users;
+    },
+    getRole(state) {
+        return !state.role ? "" : state.role
     }
 };
 
@@ -31,6 +34,8 @@ const mutations = {
     [CLEAR_USER](state) {
         state.users = null;
         state.routers = [];
+        state.role = null
+        state.token = null
     },
     [SET_USER](state, value) {
         state.users = value;

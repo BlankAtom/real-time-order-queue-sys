@@ -34,13 +34,13 @@
 
     export default {
         created() {
-            this.$axios.post('cus/findNumber?c_id='+window.sessionStorage.getItem('cid'))
+            this.$axios.post('merchant/findNumber?c_id='+window.sessionStorage.getItem('cid'))
                 .then((response) => {
                     this.text = response.data+"号"
                 }).catch((error) => {
                 console.log(error)
             })
-            this.$axios.post('cus/findMyPosition?c_id='+window.sessionStorage.getItem('cid'))
+            this.$axios.post('merchant/findMyPosition?c_id='+window.sessionStorage.getItem('cid'))
                 .then((response) => {
                     this.qNub = response.data
                 }).catch((error) => {
@@ -49,7 +49,7 @@
             const _this = this
             const {proxy} = getCurrentInstance();
             let m_id = this.m_id
-            proxy.$axios.post('cus/findMyQueue?c_id=' + window.sessionStorage.getItem('cid'))
+            proxy.$axios.post('merchant/findMyQueue?c_id=' + window.sessionStorage.getItem('cid'))
                 .then((response) => {
                     this.mName=response.data
                     console.log(response.data)
@@ -58,7 +58,7 @@
                             confirmButtonText: '确定',
                             type: 'warning'
                         }).then(() => {
-                            this.$router.push("/hxq")
+                            this.$router.push("/customer")
                         });
                         // alert("您还没有选择商家哦，请进入首页选择商家并排队")
                     }
@@ -78,14 +78,14 @@
         },
         methods: {
             cancel(val) {
-                this.$axios.post('cus/cancel?c_id='+window.sessionStorage.getItem('cid'))
+                this.$axios.post('merchant/cancel?c_id='+window.sessionStorage.getItem('cid'))
                     .then((response) => {
                         // alert("取消成功，即将回到首页")
                         this.$alert('取消成功，即将回到首页', '提示', {
                             confirmButtonText: '确定',
                             type: 'success'
                         }).then(() => {
-                            this.$router.push("/hxq")
+                            this.$router.push("/customer")
                         });
                     }).catch((error) => {
                     console.log(error)

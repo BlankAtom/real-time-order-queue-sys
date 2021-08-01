@@ -69,7 +69,7 @@ export default {
     },
     call(){
       this.$axios
-          .get("/api/merchant/call?m_id="+useStore().state.users.username+"&phone="+this.tableData[0].c_id)
+          .get("/api/merchant/call?m_id="+useStore().state.users+"&phone="+this.tableData[0].c_id)
           .then(res => {
             this.tableData = res.data
             // tabledata.wait_time =
@@ -94,7 +94,7 @@ export default {
       // const {proxy} = getCurrentInstance();
       const _this = this
       this.$axios
-          .get("/calling/findAll/"+currentPage+"/6/"+useStore().state.users.username)
+          .get("/calling/findAll/"+currentPage+"/6/"+useStore().state.users)
           .then(res => {
             _this.tableData = res.data
             // tabledata.wait_time =
@@ -110,7 +110,7 @@ export default {
     const store = useStore()
     // alert( store.state.users.username)
     this.$axios
-        .get("/calling/findAll/1/6/"+store.state.users.username)
+        .get("/calling/findAll/1/6/"+store.state.users)
         .then(res => {
           _this.tableData = res.data
           _this.total = res.data[0].total

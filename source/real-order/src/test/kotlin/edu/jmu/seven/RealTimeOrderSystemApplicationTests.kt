@@ -68,5 +68,12 @@ class RealTimeOrderSystemApplicationTests {
     fun updatePassword() {
         accountMapper.insert(Account("test_admin", BCryptPasswordEncoder().encode("admins"), 9))
     }
+    @Test
+    fun udpPwd() {
+        val a = accountMapper.selectByName("merchant_8995566")
+        a?.password = BCryptPasswordEncoder().encode("123456")
+        val qw = QueryWrapper<Account>().eq("username", "merchant_8995566")
+        accountMapper.update(a, qw)
+    }
 
 }
