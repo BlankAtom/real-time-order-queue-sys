@@ -78,18 +78,26 @@
         },
         methods: {
             cancel(val) {
-                this.$axios.post('merchant/cancel?c_id='+window.sessionStorage.getItem('cid'))
-                    .then((response) => {
-                        // alert("取消成功，即将回到首页")
-                        this.$alert('取消成功，即将回到首页', '提示', {
-                            confirmButtonText: '确定',
-                            type: 'success'
-                        }).then(() => {
-                            this.$router.push("/customer")
-                        });
-                    }).catch((error) => {
-                    console.log(error)
-                })
+                this.$confirm('您选择了取消排队, 是否继续?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    center: true,
+                    type: 'warning'
+                }).then(() => {
+                    this.$message({
+                        type: 'success',
+                        message: '取消成功!'
+                    },
+                        this.$axios.post('merchant/cancel?c_id='+window.sessionStorage.getItem('cid'))
+                            .then((response) => {
+                            }).catch((error) => {
+                            console.log(error)
+                        }),
+                        this.$router.push("/customer")
+                    );
+
+                }).catch(() => {
+                    })
             }
         }
     }
