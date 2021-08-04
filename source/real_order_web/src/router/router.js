@@ -64,7 +64,7 @@ const routerMap = [
     {
         path: "BigData3",
         name: "BigData3",
-        meta: { title: "大数据3", icon: "el-icon-document", roles: ["admin"]},
+        meta: { title: "昨日商家点击排行", icon: "el-icon-document", roles: ["admin"]},
         component: () => import("../views/admin/BigData3.vue")
     },
     {

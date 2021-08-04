@@ -7,12 +7,12 @@
             stripe
             style="width: 100%">
           <el-table-column
-              prop="key"
-              label="key">
+              prop="first"
+              label="Merchant ID">
           </el-table-column>
           <el-table-column
-              prop="value"
-              label="value">
+              prop="second"
+              label="Count">
           </el-table-column>
         </el-table>
       </el-main>
@@ -39,14 +39,10 @@ export default {
   },
     created() {
         this.$axios
-            .get("http://localhost:58081/api/spark/bigdata?index=3")
+            .get("http://localhost:8081/api/bigdata/merchant-count")
             .then(res => {
                 console.log(res)
-                var data = new Map()
-                var red = res.data
-                for (let i = 0; i < red; i++) {
-                    data.set(red[i], red[red[i]])
-                }
+                this.tableData = res.data
             })
             .catch(err => {
                 console.log("login err", err);

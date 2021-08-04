@@ -9,6 +9,8 @@ spring:
     password: 12345678
     url: jdbc:mariadb://159.75.90.116:3306/vocation
     driver-class-name: org.mariadb.jdbc.Driver
+    hikari:
+      validation-timeout: 1000
 
   security:
     user:

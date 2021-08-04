@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import kotlin.random.Random
 
 
 @SpringBootTest
@@ -74,6 +75,20 @@ class RealTimeOrderSystemApplicationTests {
         a?.password = BCryptPasswordEncoder().encode("123456")
         val qw = QueryWrapper<Account>().eq("username", "merchant_8995566")
         accountMapper.update(a, qw)
+    }
+
+    @Test
+    fun printTest() {
+        val ac = accountMapper.selectList(null)
+        val cc = cmapper.selectList(null)
+        val mc = merchantMapper.selectList(null)
+        for( c in cc ) {
+            val a = c.c_id
+            val b = mc[ Random.nextInt(0, mc.size-1) ].m_id
+            val e = Random.nextInt()
+            val d = Random.nextInt(1, 200)
+            println("$a $e $d $b")
+        }
     }
 
 }

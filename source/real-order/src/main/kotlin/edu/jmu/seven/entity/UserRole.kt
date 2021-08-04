@@ -1,5 +1,6 @@
 package edu.jmu.seven.entity
 
+import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
 import java.io.Serializable
 
@@ -11,6 +12,7 @@ import java.io.Serializable
 
 @TableName("vocation.permission")
 class UserRole(
+    @TableId
     val code: Int,
     val name: String
 ) : Serializable{
