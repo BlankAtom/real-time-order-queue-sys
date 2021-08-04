@@ -52,13 +52,13 @@ const routerMap = [
     {
         path: "BigData1",
         name: "BigData1",
-        meta: { title: "大数据1", icon: "el-icon-document", roles: ["admin"]},
+        meta: { title: "昨日搜索词排名", icon: "el-icon-document", roles: ["admin"]},
         component: () => import("../views/admin/BigData1.vue")
     },
     {
         path: "BigData2",
         name: "BigData2",
-        meta: { title: "大数据2", icon: "el-icon-document", roles: ["admin"]},
+        meta: { title: "昨日用户点击排名", icon: "el-icon-document", roles: ["admin"]},
         component: () => import("../views/admin/BigData2.vue")
     },
     {
@@ -84,6 +84,12 @@ const routerMap = [
         name: "AdminMerchant",
         meta: { title: "商家列表", icon: "el-icon-s-custom", roles: ["admin"] },
         component: () => import("../views/admin/Merchant.vue")
+    },
+    {
+        path: "cuisine",
+        name: "cuisine",
+        meta: { title: "菜系管理", icon: "el-icon-s-custom", roles: ["admin"] },
+        component: () => import("../views/admin/Cuisine.vue")
     }
 ]
 

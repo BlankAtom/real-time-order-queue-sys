@@ -95,6 +95,7 @@
 
 <script >
 import {ElMessage} from "element-plus";
+import {useStore} from "vuex";
 export default {
   data(){
     return {
@@ -121,7 +122,7 @@ export default {
      * 刷新当页的数据
      */
     clearCurPage(){
-      let params = {m_id: this.m_id,curPage: this.curPage,pageCount: 9,searchId:this.searchId,choose: this.value}
+      let params = {m_id: useStore().state.users,curPage: this.curPage,pageCount: 9,searchId:this.searchId,choose: this.value}
       //没有查询值时
       if(this.searchId===''){
         //获取所有数据
