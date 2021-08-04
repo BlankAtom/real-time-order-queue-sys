@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/admin")
-class AdminController {
+class AdminAccountController {
 
     @Autowired
     lateinit var accountMapper: AccountMapper

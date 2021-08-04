@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController
  */
 @RestController
 @RequestMapping("/cus")
-class MerchantController {
+class AdminMerchantController {
 
     @Autowired
     private lateinit var mmapper:MerchantMapper
