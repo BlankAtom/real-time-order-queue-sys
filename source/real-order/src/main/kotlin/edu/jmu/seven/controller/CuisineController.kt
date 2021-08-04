@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController
 
 
 @RestController
-@RequestMapping("/cuisine")
+@RequestMapping("/api/cuisine")
 class CuisineController {
     @Autowired
     private lateinit var cuisineMapper: CuisineMapper
