@@ -60,7 +60,7 @@ export default {
       this.$axios
           .get("/calling/closeOrder/"+this.tableData[0].o_id)
           .then(res => {
-            this.$router.go(0)
+              this.getQueue()
           })
           .catch(err => {
             console.log("login err", err);
@@ -71,7 +71,7 @@ export default {
       this.$axios
           .get("/merchant/call?m_id="+this.$store.state.users+"&phone="+this.tableData[0].c_id)
           .then(res => {
-            this.tableData = res.data
+            // this.tableData = res.data
             // tabledata.wait_time =
           })
           .catch(err => {
@@ -94,7 +94,7 @@ export default {
       // const {proxy} = getCurrentInstance();
       const _this = this
       this.$axios
-          .get("/calling/findAll/"+currentPage+"/6/"+useStore().state.users)
+          .get("/calling/findAll/"+currentPage+"/6/"+this.$store.state.users)
           .then(res => {
             _this.tableData = res.data
             // tabledata.wait_time =
@@ -103,29 +103,36 @@ export default {
             console.log("login err", err);
             ElMessage.error("读取失败" + err);
           });
-    }
+    },
+      getQueue() {
+
+          this.$axios
+              .get("/calling/findAll/1/6/"+ this.$store.state.users)
+              .then(res => {
+                  this.tableData = res.data
+                  this.total = res.data[0].total
+              })
+              .catch(err => {
+                  console.log("login err", err);
+                  ElMessage.error("读取失败" + err);
+              });
+      }
   },
   created() {
     const _this = this
     const store = useStore()
     // alert( store.state.users.username)
-    this.$axios
-        .get("/calling/findAll/1/6/"+store.state.users)
-        .then(res => {
-          _this.tableData = res.data
-          _this.total = res.data[0].total
-        })
-        .catch(err => {
-          console.log("login err", err);
-          ElMessage.error("读取失败" + err);
-        });
+      this.getQueue()
   },
   data() {
     return {
       p: 1,
       c: 6,
       total: null,
-      tableData: null
+      tableData: [{
+          m_id: "",
+          c_id: ""
+      }]
     }
   },
 };
