@@ -168,9 +168,9 @@ class MerchantController {
     }
 
     @RequestMapping("/call")
-    fun callCustomer(@RequestParam("m_id") mid: String, @RequestParam("c_id") cid: String) : String {
+    fun callCustomer(@RequestParam("m_id") mid: String, @RequestParam("phone") cid: String) : String {
         // 呼叫用户
-        WebSocketServer.sendMessageTo("123", cid)
+//        WebSocketServer.sendMessageTo("123", cid)
         return "123"
     }
 //    /**

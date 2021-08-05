@@ -69,7 +69,7 @@ export default {
     },
     call(){
       this.$axios
-          .get("/api/merchant/call?m_id="+useStore().state.users+"&phone="+this.tableData[0].c_id)
+          .get("/merchant/call?m_id="+this.$store.state.users+"&phone="+this.tableData[0].c_id)
           .then(res => {
             this.tableData = res.data
             // tabledata.wait_time =
