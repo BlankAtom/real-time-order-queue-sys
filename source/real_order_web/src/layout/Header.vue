@@ -75,7 +75,7 @@ export default {
             }
         };
 
-        const isCustomer = computed(() => store.getters.getRole)
+        const isCustomer = computed(() => store.getters.getRole === "customer")
 
         return {
             userName,
